@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -35,7 +36,7 @@ namespace OpenMacroBoard.SDK
 
             //Convert to StreamDeck compatible format
             var pbgra32 = new byte[width * height * 4];
-            renderer.CopyPixels(pbgra32, width * height * 4, 0);
+            renderer.CopyPixels(pbgra32, width * 4, 0);
 
             var bitmapData = ConvertPbgra32ToBgr24(pbgra32, width, height);
             return new KeyBitmap(width, height, bitmapData);
@@ -59,10 +60,11 @@ namespace OpenMacroBoard.SDK
                     var posSrc = pos * 4;
                     var posTar = pos * 3;
 
-                    data[pos + 0] = pbgra32[pos + 0];
-                    data[pos + 1] = pbgra32[pos + 1];
-                    data[pos + 2] = pbgra32[pos + 2];
-                    data[pos + 3] = pbgra32[pos + 3];
+                    double alpha = pbgra32[posSrc + 3] / 255.0;
+
+                    data[posTar + 0] = (byte)Math.Round(pbgra32[posSrc + 0] * alpha);
+                    data[posTar + 1] = (byte)Math.Round(pbgra32[posSrc + 1] * alpha);
+                    data[posTar + 2] = (byte)Math.Round(pbgra32[posSrc + 2] * alpha);
                 }
 
             return data;
