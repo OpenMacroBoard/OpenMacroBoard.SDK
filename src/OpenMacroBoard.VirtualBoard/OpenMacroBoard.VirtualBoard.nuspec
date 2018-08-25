@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package>
+	<metadata>
+		<id>openmacroboard.virtualboard</id>
+		<version>0.2.0</version>
+		<title>OpenMacroBoard.VirtualBoard</title>
+		<authors>Christian Wischenbart</authors>
+		<licenseUrl>https://github.com/OpenMacroBoard/OpenMacroBoard-Core/blob/master/LICENSE.md</licenseUrl>
+		<projectUrl>https://github.com/OpenMacroBoard/OpenMacroBoard-Core</projectUrl>
+		<iconUrl>https://raw.githubusercontent.com/OpenMacroBoard/StreamDeckSharp/master/doc/icon64.png</iconUrl>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description>A virtual macro board for development</description>
+		<tags>streamdeck elgato stream deck macro board virtual</tags>
+	</metadata>
+	<files>
+		<file src="bin\Release\OpenMacroBoard.VirtualBoard.xml" target="lib\net40\" />
+		<file src="bin\Release\OpenMacroBoard.VirtualBoard.dll" target="lib\net40\" />
+		<file src="bin\Release\OpenMacroBoard.VirtualBoard.pdb" target="lib\net40\" />
+	</files>
+	<dependencies>
+		<dependency id="openmacroboard.sdk" version="[0.2,0.3)" />
+	</dependencies>
+</package>

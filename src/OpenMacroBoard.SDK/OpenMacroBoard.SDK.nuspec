@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package>
+	<metadata>
+		<id>openmacroboard.sdk</id>
+		<version>0.2.0</version>
+		<title>OpenMacroBoard.SDK</title>
+		<authors>Christian Wischenbart</authors>
+		<licenseUrl>https://github.com/OpenMacroBoard/OpenMacroBoard-Core/blob/master/LICENSE.md</licenseUrl>
+		<projectUrl>https://github.com/OpenMacroBoard/OpenMacroBoard-Core</projectUrl>
+		<iconUrl>https://raw.githubusercontent.com/OpenMacroBoard/StreamDeckSharp/master/doc/icon64.png</iconUrl>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description>Abstraction for macro boards (with LCD keys)</description>
+		<tags>streamdeck elgato stream deck macro board</tags>
+	</metadata>
+	<files>
+		<file src="bin\Release\OpenMacroBoard.SDK.xml" target="lib\net40\" />
+		<file src="bin\Release\OpenMacroBoard.SDK.dll" target="lib\net40\" />
+		<file src="bin\Release\OpenMacroBoard.SDK.pdb" target="lib\net40\" />
+	</files>
+</package>
