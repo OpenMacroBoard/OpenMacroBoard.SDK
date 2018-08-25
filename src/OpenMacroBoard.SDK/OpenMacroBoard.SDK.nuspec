@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
 	<metadata>
-		<id>openmacroboard.sdk</id>
+		<id>OpenMacroBoard.SDK</id>
 		<version>0.2.0</version>
 		<title>OpenMacroBoard.SDK</title>
 		<authors>Christian Wischenbart</authors>

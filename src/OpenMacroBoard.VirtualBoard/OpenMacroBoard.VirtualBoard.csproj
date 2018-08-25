@@ -81,4 +81,9 @@
     <EmbeddedResource Include="glassKey.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if $(ConfigurationName) == Release (
+    nuget.exe pack "$(ProjectDir)OpenMacroBoard.VirtualBoard.nuspec" -OutputDirectory "$(ProjectDir)bin\Release"
+)</PostBuildEvent>
+  </PropertyGroup>
 </Project>

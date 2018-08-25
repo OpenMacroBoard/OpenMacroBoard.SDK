@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
 	<metadata>
-		<id>openmacroboard.virtualboard</id>
+		<id>OpenMacroBoard.VirtualBoard</id>
 		<version>0.2.0</version>
 		<title>OpenMacroBoard.VirtualBoard</title>
 		<authors>Christian Wischenbart</authors>
@@ -12,7 +12,7 @@
 		<description>A virtual macro board for development</description>
 		<tags>streamdeck elgato stream deck macro board virtual</tags>
 		<dependencies>
-			<dependency id="openmacroboard.sdk" version="[0.2,0.3)" />
+			<dependency id="OpenMacroBoard.SDK" version="[0.2,0.3)" />
 		</dependencies>
 	</metadata>
 	<files>

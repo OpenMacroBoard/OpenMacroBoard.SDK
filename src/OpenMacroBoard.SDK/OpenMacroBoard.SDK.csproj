@@ -65,4 +65,9 @@
     <Compile Include="StreamDeckFullScreenDrawingExtension.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if $(ConfigurationName) == Release (
+    nuget.exe pack "$(ProjectDir)OpenMacroBoard.SDK.nuspec" -OutputDirectory "$(ProjectDir)bin\Release"
+)</PostBuildEvent>
+  </PropertyGroup>
 </Project>
