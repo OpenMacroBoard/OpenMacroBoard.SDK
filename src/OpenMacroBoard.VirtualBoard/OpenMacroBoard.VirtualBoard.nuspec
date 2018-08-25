@@ -11,13 +11,13 @@
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<description>A virtual macro board for development</description>
 		<tags>streamdeck elgato stream deck macro board virtual</tags>
+		<dependencies>
+			<dependency id="openmacroboard.sdk" version="[0.2,0.3)" />
+		</dependencies>
 	</metadata>
 	<files>
 		<file src="bin\Release\OpenMacroBoard.VirtualBoard.xml" target="lib\net40\" />
 		<file src="bin\Release\OpenMacroBoard.VirtualBoard.dll" target="lib\net40\" />
 		<file src="bin\Release\OpenMacroBoard.VirtualBoard.pdb" target="lib\net40\" />
 	</files>
-	<dependencies>
-		<dependency id="openmacroboard.sdk" version="[0.2,0.3)" />
-	</dependencies>
 </package>
