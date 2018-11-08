@@ -80,6 +80,7 @@
   <ItemGroup>
     <Compile Include="KeyBitmapFactoryTests.cs" />
     <Compile Include="KeyBitmapTests.cs" />
+    <Compile Include="KeyEventArgsTests.cs" />
     <Compile Include="KeyPositionFactoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

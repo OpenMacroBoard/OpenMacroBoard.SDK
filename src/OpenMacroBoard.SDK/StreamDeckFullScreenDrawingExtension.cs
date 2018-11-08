@@ -93,7 +93,7 @@ namespace OpenMacroBoard.SDK
                 }
             }
 
-            return new KeyBitmap(keyPos.Width, keyPos.Height, keyImgData);
+            return new KeyBitmap(keyPos.Width, keyPos.Height, keyPos.Width * 3, PixelFormats.Bgr24);
         }
     }
 }

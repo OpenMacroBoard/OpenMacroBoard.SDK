@@ -15,27 +15,16 @@ namespace StreamDeckSharp.Tests
             byte green = 200;
             byte blue = 0;
 
-            var expectation = new KeyBitmap(1, 1, new byte[] { blue, green, red });
+            var expectation = KeyBitmap.Create.FromNoOverhangBgr24Array(1, 1, new byte[] { blue, green, red });
             var key = KeyBitmap.Create.FromRgb(red, green, blue);
 
             key.Should().Be(expectation);
         }
 
         [Fact]
-        public void RgbFactoryShouldCreateANullDataElementForBlack()
-        {
-            var expectation = new KeyBitmap(1, 1, null);
-            var wrongResult = new KeyBitmap(1, 1, new byte[] { 0, 0, 0 });
-
-            var key = KeyBitmap.Create.FromRgb(0, 0, 0);
-            key.Should().Be(expectation);
-            key.Should().NotBe(wrongResult);
-        }
-
-        [Fact]
         public void PixelFormatIsRgbLeftToRightAndTopToBottom()
         {
-            var expectation = new KeyBitmap(2, 2, new byte[2 * 2 * 3]
+            var expectation = KeyBitmap.Create.FromNoOverhangBgr24Array(2, 2, new byte[2 * 2 * 3]
             {
                 000, 001, 002,  010, 011, 012,
                 020, 021, 022,  030, 031, 032,

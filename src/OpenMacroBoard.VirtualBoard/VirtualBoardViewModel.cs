@@ -89,7 +89,7 @@ namespace OpenMacroBoard.VirtualBoard
             var srcData = (IKeyBitmapDataAccess)bitmapData;
             var data = srcData.CopyData();
 
-            var wb = new WriteableBitmap(bitmapData.Width, bitmapData.Height, 96, 96, PixelFormats.Bgr24, null);
+            var wb = new WriteableBitmap(bitmapData.Width, bitmapData.Height, 96, 96, System.Windows.Media.PixelFormats.Bgr24, null);
             if (data != null)
                 wb.WritePixels(new Int32Rect(0, 0, bitmapData.Width, bitmapData.Height), data, srcData.Stride, 0);
             wb.Freeze();

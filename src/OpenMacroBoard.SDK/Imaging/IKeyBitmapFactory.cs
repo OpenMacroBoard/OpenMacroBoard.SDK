@@ -1,4 +1,4 @@
-﻿namespace OpenMacroBoard.SDK
+﻿namespace OpenMacroBoard.SDK.Imaging
 {
     /// <summary>
     /// Interface for factory extensions

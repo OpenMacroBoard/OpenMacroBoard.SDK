@@ -22,7 +22,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DocumentationFile>bin\Debug\OpenMacroBoard.SDK.xml</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -40,6 +41,9 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\portable-net40+sl4+win8+wp8\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,22 +52,33 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Imaging\Bgr24.cs" />
+    <Compile Include="Imaging\Bgra32.cs" />
+    <Compile Include="Imaging\BitmapConvertions.cs" />
     <Compile Include="ConnectionEventArgs.cs" />
+    <Compile Include="Imaging\DefaultBitmapConvertionsExtensions.cs" />
     <Compile Include="IDeviceReferenceHandle.cs" />
-    <Compile Include="IKeyBitmapDataAccess.cs" />
-    <Compile Include="IKeyBitmapFactory.cs" />
+    <Compile Include="Imaging\IKeyBitmapFactory.cs" />
     <Compile Include="IKeyPositionCollection.cs" />
     <Compile Include="IMarcoBoard.cs" />
-    <Compile Include="KeyBitmap.cs" />
-    <Compile Include="KeyBitmapBasicExtensions.cs" />
-    <Compile Include="KeyBitmapDrawingExtensions.cs" />
-    <Compile Include="KeyBitmapFactoryExtensions.cs" />
+    <Compile Include="Imaging\IPixelFormat.cs" />
+    <Compile Include="Imaging\KeyBitmap.cs" />
+    <Compile Include="Imaging\KeyBitmapBasicExtensions.cs" />
+    <Compile Include="Imaging\KeyBitmapDrawingExtensions.cs" />
+    <Compile Include="Imaging\KeyBitmapFactoryExtensions.cs" />
     <Compile Include="KeyEventArgs.cs" />
     <Compile Include="KeyPositionCollection.cs" />
+    <Compile Include="Imaging\PixelFormatExtensions.cs" />
+    <Compile Include="Imaging\PixelFormats.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SetKeyExtensions.cs" />
     <Compile Include="StreamDeckFullScreenDrawingExtension.cs" />
+    <Compile Include="Imaging\StrideConverter.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName) == Release (
