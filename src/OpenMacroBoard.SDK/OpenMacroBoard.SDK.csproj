@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OpenMacroBoard.SDK</RootNamespace>
     <AssemblyName>OpenMacroBoard.SDK</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -23,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DocumentationFile>bin\Debug\OpenMacroBoard.SDK.xml</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,8 +35,15 @@
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DocumentationFile>bin\Release\OpenMacroBoard.SDK.xml</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DotImaging.GenericImage, Version=4.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotImaging.GenericImage.4.8.3\lib\net45\DotImaging.GenericImage.dll</HintPath>
+    </Reference>
+    <Reference Include="DotImaging.Primitives2D, Version=4.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotImaging.Primitives2D.4.8.3\lib\net45\DotImaging.Primitives2D.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -50,19 +59,16 @@
   <ItemGroup>
     <Compile Include="ConnectionEventArgs.cs" />
     <Compile Include="IDeviceReferenceHandle.cs" />
-    <Compile Include="IKeyBitmapDataAccess.cs" />
-    <Compile Include="IKeyBitmapFactory.cs" />
     <Compile Include="IKeyPositionCollection.cs" />
     <Compile Include="IMarcoBoard.cs" />
-    <Compile Include="KeyBitmap.cs" />
-    <Compile Include="KeyBitmapBasicExtensions.cs" />
-    <Compile Include="KeyBitmapDrawingExtensions.cs" />
-    <Compile Include="KeyBitmapFactoryExtensions.cs" />
     <Compile Include="KeyEventArgs.cs" />
     <Compile Include="KeyPositionCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SetKeyExtensions.cs" />
     <Compile Include="StreamDeckFullScreenDrawingExtension.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

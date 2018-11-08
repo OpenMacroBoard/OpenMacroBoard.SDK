@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using DotImaging;
 using OpenMacroBoard.SDK;
 
 namespace OpenMacroBoard.VirtualBoard
@@ -80,18 +81,20 @@ namespace OpenMacroBoard.VirtualBoard
         }
 
         /// <summary>
-        /// Sets a new <see cref="KeyBitmap"/> to a specific key.
+        /// Sets a new bitmap to a specific key.
         /// </summary>
         /// <param name="keyId"></param>
         /// <param name="bitmapData"></param>
-        public void SetKeyBitmap(int keyId, KeyBitmap bitmapData)
+        public void SetKeyBitmap(int keyId, Bgr<byte>[,] bitmapData)
         {
-            var srcData = (IKeyBitmapDataAccess)bitmapData;
-            var data = srcData.CopyData();
+            int width = bitmapData.Width();
+            var height = bitmapData.Height();
 
-            var wb = new WriteableBitmap(bitmapData.Width, bitmapData.Height, 96, 96, PixelFormats.Bgr24, null);
-            if (data != null)
-                wb.WritePixels(new Int32Rect(0, 0, bitmapData.Width, bitmapData.Height), data, srcData.Stride, 0);
+            var wb = new WriteableBitmap(width, height, 96, 96, PixelFormats.Bgr24, null);
+
+            if (bitmapData != null)
+                wb.WritePixels(new Int32Rect(0, 0, width, height), bitmapData, width * 3, 0);
+
             wb.Freeze();
 
             KeyImages[keyId] = wb;

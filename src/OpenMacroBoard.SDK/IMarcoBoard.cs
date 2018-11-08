@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DotImaging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -48,7 +49,7 @@ namespace OpenMacroBoard.SDK
         /// </summary>
         /// <param name="keyId">Specifies which key the image will be applied on</param>
         /// <param name="bitmapData">Bitmap. The key will be painted black if this value is null.</param>
-        void SetKeyBitmap(int keyId, KeyBitmap bitmapData);
+        void SetKeyBitmap(int keyId, Bgr<byte>[,] bitmapData);
 
         /// <summary>
         /// Shows the standby logo (Fullscreen)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DotImaging;
+using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
@@ -72,28 +73,9 @@ namespace OpenMacroBoard.SDK
             }
         }
 
-        static KeyBitmap GetKeyImageFromFull(Rectangle keyPos, byte[] fullImageData, Size fullImageSize)
+        static Bgr<byte>[,] GetKeyImageFromFull(Rectangle keyPos, byte[] fullImageData, Size fullImageSize)
         {
-            var keyImgData = new byte[keyPos.Width * keyPos.Height * 3];
-            var stride = 4 * ((fullImageSize.Width * 3 + 3) / 4);
-
-            for (int y = 0; y < keyPos.Height; y++)
-            {
-                //var numberOfPixelsInPrevRows = (keyPos.Top + y) * fullImageSize.Width + keyPos.Left;
-                for (int x = 0; x < keyPos.Width; x++)
-                {
-                    //var p = (numberOfPixelsInPrevRows + x) * 3;
-                    //var kPos = (y * keyPos.Width + x) * 3;
-                    var p = (keyPos.Top + y) * stride + (keyPos.Left + x) * 3;
-                    var kPos = (y * keyPos.Width + x) * 3;
-
-                    keyImgData[kPos + 0] = fullImageData[p + 0];
-                    keyImgData[kPos + 1] = fullImageData[p + 1];
-                    keyImgData[kPos + 2] = fullImageData[p + 2];
-                }
-            }
-
-            return new KeyBitmap(keyPos.Width, keyPos.Height, keyImgData);
+            throw new NotImplementedException();
         }
     }
 }
