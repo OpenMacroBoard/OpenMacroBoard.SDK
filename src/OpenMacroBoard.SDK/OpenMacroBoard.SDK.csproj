@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConnectionEventArgs.cs" />
+    <Compile Include="GridKeyPositionCollection.cs" />
     <Compile Include="IDeviceReferenceHandle.cs" />
     <Compile Include="IKeyBitmapDataAccess.cs" />
     <Compile Include="IKeyBitmapFactory.cs" />

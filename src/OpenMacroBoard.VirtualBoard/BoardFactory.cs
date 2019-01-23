@@ -15,7 +15,7 @@ namespace OpenMacroBoard.VirtualBoard
         /// </summary>
         /// <returns></returns>
         public static IMacroBoard SpawnVirtualBoard()
-            => SpawnVirtualBoard(new KeyPositionCollection(5, 3, 72, 25));
+            => SpawnVirtualBoard(new GridKeyPositionCollection(5, 3, 72, 25));
 
         /// <summary>
         /// Spawns a new virtual macro board with a given <paramref name="keyLayout"/>.
