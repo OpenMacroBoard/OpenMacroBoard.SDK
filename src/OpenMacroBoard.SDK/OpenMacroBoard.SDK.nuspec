@@ -2,7 +2,7 @@
 <package>
 	<metadata>
 		<id>OpenMacroBoard.SDK</id>
-		<version>0.2.1</version>
+		<version>0.2.2</version>
 		<title>OpenMacroBoard.SDK</title>
 		<authors>Christian Wischenbart</authors>
 		<licenseUrl>https://github.com/OpenMacroBoard/OpenMacroBoard-Core/blob/master/LICENSE.md</licenseUrl>
