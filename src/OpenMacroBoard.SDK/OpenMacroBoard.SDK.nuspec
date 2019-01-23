@@ -5,7 +5,7 @@
 		<version>0.2.2</version>
 		<title>OpenMacroBoard.SDK</title>
 		<authors>Christian Wischenbart</authors>
-		<licenseUrl>https://github.com/OpenMacroBoard/OpenMacroBoard-Core/blob/master/LICENSE.md</licenseUrl>
+		<license type="expression">MIT</license>
 		<projectUrl>https://github.com/OpenMacroBoard/OpenMacroBoard-Core</projectUrl>
 		<iconUrl>https://raw.githubusercontent.com/OpenMacroBoard/StreamDeckSharp/master/doc/icon64.png</iconUrl>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
