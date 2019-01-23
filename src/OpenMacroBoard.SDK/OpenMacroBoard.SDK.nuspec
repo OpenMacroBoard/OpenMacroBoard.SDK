@@ -2,7 +2,7 @@
 <package>
 	<metadata>
 		<id>OpenMacroBoard.SDK</id>
-		<version>0.2.2</version>
+		<version>0.3.0</version>
 		<title>OpenMacroBoard.SDK</title>
 		<authors>Christian Wischenbart</authors>
 		<license type="expression">MIT</license>
