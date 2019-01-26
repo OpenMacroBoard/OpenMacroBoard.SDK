@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 I'm trying to keep it up to date, but I'm a lazy bastard - when in doubt - check out the commit log ;-)
 
-## [0.3.0] - 2018-01-23
+## [0.3.0] - 2019-01-23
 ### Added
   - Add `GridKeyPositionCollection` (to simplify KeyCollections for rectangular layouts)
 ### Fixed
