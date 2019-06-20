@@ -32,6 +32,18 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\OpenMacroBoard.VirtualBoard.xml</DocumentationFile>
   </PropertyGroup>
+  <Choose>
+    <When Condition="Exists('..\..\..\OpenMacroBoard.SDK\src\OpenMacroBoard.SDK')">
+        <ItemGroup>
+            <ProjectReference Include="..\..\..\OpenMacroBoard.SDK\src\OpenMacroBoard.SDK\OpenMacroBoard.SDK.csproj" />
+        </ItemGroup>
+    </When>
+    <Otherwise>
+        <ItemGroup>
+            <PackageReference Include="OpenMacroBoard.SDK" Version="0.3.0" />
+        </ItemGroup>
+    </Otherwise>
+  </Choose>
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -60,12 +72,6 @@
     <Compile Include="VirtualBoardWindow.xaml.cs">
       <DependentUpon>VirtualBoardWindow.xaml</DependentUpon>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\OpenMacroBoard.SDK\OpenMacroBoard.SDK.csproj">
-      <Project>{4BDFC513-16B4-47ED-B230-ED06E7028455}</Project>
-      <Name>OpenMacroBoard.SDK</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="VirtualBoardControl.xaml">
