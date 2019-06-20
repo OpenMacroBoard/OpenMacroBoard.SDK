@@ -32,18 +32,6 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\OpenMacroBoard.VirtualBoard.xml</DocumentationFile>
   </PropertyGroup>
-  <Choose>
-    <When Condition="Exists('..\..\..\OpenMacroBoard.SDK\src\OpenMacroBoard.SDK')">
-      <ItemGroup>
-        <ProjectReference Include="..\..\..\OpenMacroBoard.SDK\src\OpenMacroBoard.SDK\OpenMacroBoard.SDK.csproj" />
-      </ItemGroup>
-    </When>
-    <Otherwise>
-      <ItemGroup>
-        <PackageReference Include="OpenMacroBoard.SDK" Version="0.3.0" />
-      </ItemGroup>
-    </Otherwise>
-  </Choose>
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -85,6 +73,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="glassKey.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OpenMacroBoard.SDK\OpenMacroBoard.SDK.csproj">
+      <Project>{4bdfc513-16b4-47ed-b230-ed06e7028455}</Project>
+      <Name>OpenMacroBoard.SDK</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
