@@ -13,13 +13,13 @@ namespace OpenMacroBoard.SDK
         /// <summary>
         /// Uses a WPF FrameworkElement to create a keyImage
         /// </summary>
-        /// <param name="builder"></param>
+        /// <param name="_"></param>
         /// <param name="width"></param>
         /// <param name="height"></param>
         /// <param name="e"></param>
         /// <returns></returns>
         public static KeyBitmap FromWpfElement(
-            this IKeyBitmapFactory builder,
+            this IKeyBitmapFactory _,
             int width,
             int height,
             FrameworkElement e

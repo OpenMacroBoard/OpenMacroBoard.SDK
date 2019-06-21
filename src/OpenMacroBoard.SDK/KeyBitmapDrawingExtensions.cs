@@ -61,10 +61,10 @@ namespace OpenMacroBoard.SDK
         /// <summary>
         /// Creates a <see cref="KeyBitmap"/> from a given <see cref="Bitmap"/>
         /// </summary>
-        /// <param name="builder"></param>
+        /// <param name="_"></param>
         /// <param name="bitmap"></param>
         /// <returns></returns>
-        public static KeyBitmap FromBitmap(this IKeyBitmapFactory builder, Bitmap bitmap)
+        public static KeyBitmap FromBitmap(this IKeyBitmapFactory _, Bitmap bitmap)
         {
             var w = bitmap.Width;
             var h = bitmap.Height;
