@@ -76,7 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenMacroBoard.SDK\OpenMacroBoard.SDK.csproj">
-      <Project>{4bdfc513-16b4-47ed-b230-ed06e7028455}</Project>
+      <Project>{e3f6346a-e7d9-4dcb-9f62-0e781dff2927}</Project>
       <Name>OpenMacroBoard.SDK</Name>
     </ProjectReference>
   </ItemGroup>
