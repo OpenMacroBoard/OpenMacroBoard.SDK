@@ -3,9 +3,9 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net40</TargetFrameworks>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <AssemblyVersion>0.3.0.0</AssemblyVersion>
-    <FileVersion>0.3.0.0</FileVersion>
-    <Version>0.3.0</Version>
+    <AssemblyVersion>0.4.0.0</AssemblyVersion>
+    <FileVersion>0.4.0.0</FileVersion>
+    <Version>0.4.0</Version>
     <Authors>Christian Wischenbart</Authors>
     <Company>OpenMacroBoard</Company>
     <Description>Abstraction for macro boards (with LCD keys)</Description>
@@ -21,7 +21,7 @@
   
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <PackageReference Include="System.Drawing.Common">
-      <Version>4.5.1</Version>
+      <Version>4.5.*</Version>
     </PackageReference>
   </ItemGroup>
 
