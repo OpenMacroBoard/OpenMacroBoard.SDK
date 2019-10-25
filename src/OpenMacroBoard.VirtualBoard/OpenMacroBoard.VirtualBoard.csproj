@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net40</TargetFramework>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Authors>Christian Wischenbart</Authors>
     <Company>OpenMacroBoard</Company>
     <Copyright>Copyright © OpenMacroBoard 2018 - 2019</Copyright>
@@ -13,6 +13,7 @@
     <PackageIconUrl>https://raw.githubusercontent.com/OpenMacroBoard/StreamDeckSharp/master/doc/icon64.png</PackageIconUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>streamdeck elgato stream deck macro board virtual</PackageTags>
+    <DocumentationFile>bin\OpenMacroBoard.VirtualBoard.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="VirtualBoardControl.xaml" />
