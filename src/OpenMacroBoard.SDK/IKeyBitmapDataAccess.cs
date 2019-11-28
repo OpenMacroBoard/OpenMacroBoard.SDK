@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace OpenMacroBoard.SDK
+﻿namespace OpenMacroBoard.SDK
 {
     /// <summary>
     /// An interface that allows you to access the underlying data of <see cref="KeyBitmap"/>s

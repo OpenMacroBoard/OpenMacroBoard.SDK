@@ -1,6 +1,4 @@
-﻿using OpenMacroBoard.SDK;
-
-namespace OpenMacroBoard.SDK
+﻿namespace OpenMacroBoard.SDK
 {
     /// <summary>
     /// A basic factory extension to create <see cref="KeyBitmap"/>s

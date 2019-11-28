@@ -1,7 +1,7 @@
-﻿using System;
+﻿using OpenMacroBoard.SDK;
+using System;
 using System.Threading;
 using System.Windows.Threading;
-using OpenMacroBoard.SDK;
 
 namespace OpenMacroBoard.VirtualBoard
 {

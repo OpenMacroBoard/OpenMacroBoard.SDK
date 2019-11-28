@@ -2,9 +2,6 @@
 using OpenMacroBoard.SDK;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace OpenMacroBoard.Tests
@@ -131,7 +128,7 @@ namespace OpenMacroBoard.Tests
                 (a,b) => a.Equals(b),
             };
 
-            foreach(var eq in equalityMethods)
+            foreach (var eq in equalityMethods)
             {
                 eq(key1, key3).Should().BeTrue();
                 eq(key3, key1).Should().BeTrue();

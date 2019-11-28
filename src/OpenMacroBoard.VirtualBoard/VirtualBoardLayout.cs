@@ -1,7 +1,7 @@
-﻿using System;
+﻿using OpenMacroBoard.SDK;
+using System;
 using System.Collections.Generic;
 using System.Windows;
-using OpenMacroBoard.SDK;
 
 namespace OpenMacroBoard.VirtualBoard
 {

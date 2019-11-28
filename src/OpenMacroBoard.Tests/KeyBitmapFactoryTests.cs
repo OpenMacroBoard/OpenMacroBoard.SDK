@@ -1,7 +1,7 @@
-﻿using System.Drawing;
-using System.Drawing.Imaging;
-using FluentAssertions;
+﻿using FluentAssertions;
 using OpenMacroBoard.SDK;
+using System.Drawing;
+using System.Drawing.Imaging;
 using Xunit;
 
 namespace StreamDeckSharp.Tests
