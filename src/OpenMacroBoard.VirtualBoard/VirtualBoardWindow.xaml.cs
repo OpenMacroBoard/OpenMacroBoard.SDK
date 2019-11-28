@@ -15,7 +15,7 @@ namespace OpenMacroBoard.VirtualBoard
         internal VirtualBoardWindow(VirtualBoardViewModel viewModel)
         {
             InitializeComponent();
-            this.DataContext = viewModel;
+            DataContext = viewModel;
         }
 
         /// <summary>
