@@ -13,7 +13,9 @@
 		<description>A virtual macro board for development</description>
 		<tags>streamdeck elgato stream deck macro board virtual</tags>
 		<dependencies>
-			<dependency id="OpenMacroBoard.SDK" version="[0.3,1.0)" />
+			<group targetFramework="net40">
+				<dependency id="OpenMacroBoard.SDK" version="[0.3,1.0)" />
+			</group>
 		</dependencies>
 	</metadata>
 	<files>
@@ -22,8 +24,4 @@
 		<file src="bin\$configuration$\net40\OpenMacroBoard.VirtualBoard.dll" target="lib\net40\" />
 		<file src="bin\$configuration$\net40\OpenMacroBoard.VirtualBoard.pdb" target="lib\net40\" />
 	</files>
-	<dependencies>
-		<group targetFramework="net40">
-		</group>
-	</dependencies>
 </package>
