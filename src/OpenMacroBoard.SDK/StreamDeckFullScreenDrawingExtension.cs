@@ -55,7 +55,7 @@ namespace OpenMacroBoard.SDK
             return newBm;
         }
 
-        static byte[] GetRgbArray(Bitmap b)
+        private static byte[] GetRgbArray(Bitmap b)
         {
             var rect = new Rectangle(0, 0, b.Width, b.Height);
             var lockData = b.LockBits(rect, ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
@@ -72,7 +72,7 @@ namespace OpenMacroBoard.SDK
             }
         }
 
-        static KeyBitmap GetKeyImageFromFull(Rectangle keyPos, byte[] fullImageData, Size fullImageSize)
+        private static KeyBitmap GetKeyImageFromFull(Rectangle keyPos, byte[] fullImageData, Size fullImageSize)
         {
             var keyImgData = new byte[keyPos.Width * keyPos.Height * 3];
             var stride = 4 * ((fullImageSize.Width * 3 + 3) / 4);
