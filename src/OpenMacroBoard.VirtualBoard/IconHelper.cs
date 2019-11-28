@@ -11,17 +11,17 @@ namespace OpenMacroBoard.VirtualBoard
     internal static class IconHelper
     {
         [DllImport("user32.dll")]
-        private static int GetWindowLong(IntPtr hwnd, int index);
+        private static extern int GetWindowLong(IntPtr hwnd, int index);
 
         [DllImport("user32.dll")]
-        private static int SetWindowLong(IntPtr hwnd, int index, int newStyle);
+        private static extern int SetWindowLong(IntPtr hwnd, int index, int newStyle);
 
         [DllImport("user32.dll")]
-        private static bool SetWindowPos(IntPtr hwnd, IntPtr hwndInsertAfter,
+        private static extern bool SetWindowPos(IntPtr hwnd, IntPtr hwndInsertAfter,
             int x, int y, int width, int height, uint flags);
 
         [DllImport("user32.dll")]
-        private static IntPtr SendMessage(IntPtr hwnd, uint msg,
+        private static extern IntPtr SendMessage(IntPtr hwnd, uint msg,
             IntPtr wParam, IntPtr lParam);
 
         private const int GWL_EXSTYLE = -20;
@@ -30,7 +30,6 @@ namespace OpenMacroBoard.VirtualBoard
         private const int SWP_NOMOVE = 0x0002;
         private const int SWP_NOZORDER = 0x0004;
         private const int SWP_FRAMECHANGED = 0x0020;
-        private const uint WM_SETICON = 0x0080;
 
         public static void RemoveIcon(Window window)
         {
