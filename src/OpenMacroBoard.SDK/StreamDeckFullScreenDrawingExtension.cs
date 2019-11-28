@@ -49,7 +49,7 @@ namespace OpenMacroBoard.SDK
                 var scaleHeight = (int)(b.Height * scale);
 
                 g.FillRectangle(black, new RectangleF(0, 0, newSize.Width, newSize.Height));
-                g.DrawImage(b, new Rectangle(((int)newSize.Width - scaleWidth) / 2, ((int)newSize.Height - scaleHeight) / 2, scaleWidth, scaleHeight));
+                g.DrawImage(b, new Rectangle((newSize.Width - scaleWidth) / 2, (newSize.Height - scaleHeight) / 2, scaleWidth, scaleHeight));
             }
 
             return newBm;
