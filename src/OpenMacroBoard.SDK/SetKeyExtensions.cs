@@ -13,7 +13,9 @@
         public static void SetKeyBitmap(this IMacroBoard board, KeyBitmap bitmap)
         {
             for (int i = 0; i < board.Keys.Count; i++)
+            {
                 board.SetKeyBitmap(i, bitmap);
+            }
         }
 
         /// <summary>

@@ -60,7 +60,9 @@ namespace OpenMacroBoard.VirtualBoard
                 waitForBoardWindow.WaitOne();
 
                 if (exceptionWasThrown != null)
+                {
                     throw exceptionWasThrown;
+                }
 
                 return boardViewModel;
             }

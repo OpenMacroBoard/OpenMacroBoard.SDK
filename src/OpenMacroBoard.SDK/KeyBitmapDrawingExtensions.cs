@@ -19,7 +19,9 @@ namespace OpenMacroBoard.SDK
         public static KeyBitmap FromStream(this IKeyBitmapFactory builder, Stream bitmapStream)
         {
             using (Bitmap bitmap = (Bitmap)Image.FromStream(bitmapStream))
+            {
                 return builder.FromBitmap(bitmap);
+            }
         }
 
         /// <summary>
@@ -31,7 +33,9 @@ namespace OpenMacroBoard.SDK
         public static KeyBitmap FromFile(this IKeyBitmapFactory builder, string bitmapFile)
         {
             using (Bitmap bitmap = (Bitmap)Image.FromFile(bitmapFile))
+            {
                 return builder.FromBitmap(bitmap);
+            }
         }
 
         /// <summary>
@@ -52,7 +56,9 @@ namespace OpenMacroBoard.SDK
             using (var bmp = CreateKeyBitmap(width, height))
             {
                 using (var g = System.Drawing.Graphics.FromImage(bmp))
+                {
                     graphicsAction(g);
+                }
 
                 return builder.FromBitmap(bmp);
             }
@@ -119,7 +125,9 @@ namespace OpenMacroBoard.SDK
             finally
             {
                 if (data != null)
+                {
                     bitmap.UnlockBits(data);
+                }
             }
         }
 

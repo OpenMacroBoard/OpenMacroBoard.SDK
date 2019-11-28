@@ -36,7 +36,9 @@ namespace OpenMacroBoard.SDK
         public IEnumerator<Rectangle> GetEnumerator()
         {
             for (int i = 0; i < keyPositions.Length; i++)
+            {
                 yield return keyPositions[i];
+            }
         }
 
         /// <summary>
@@ -66,10 +68,14 @@ namespace OpenMacroBoard.SDK
             foreach (var r in rectangles)
             {
                 if (r.Width <= 0 || r.Height <= 0)
+                {
                     throw new ArgumentException("Height and Width must be ≥ 1");
+                }
 
                 if (r.Left < 0 || r.Top < 0)
+                {
                     throw new ArgumentException("All key positions must be positive");
+                }
             }
         }
 

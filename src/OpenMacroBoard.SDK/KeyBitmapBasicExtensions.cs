@@ -17,7 +17,9 @@
         {
             //If everything is 0 (black) take a shortcut ;-)
             if (r == 0 && g == 0 && b == 0)
+            {
                 return KeyBitmap.Black;
+            }
 
             var buffer = new byte[3] { b, g, r };
             return new KeyBitmap(1, 1, buffer);

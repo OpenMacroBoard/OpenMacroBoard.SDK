@@ -50,7 +50,9 @@ namespace OpenMacroBoard.VirtualBoard
             UpdateModelProperty();
 
             if (model == null)
+            {
                 return;
+            }
 
             UpdateLayoutInfo();
             DrawBoard(dc);
@@ -65,13 +67,19 @@ namespace OpenMacroBoard.VirtualBoard
         {
             var newModel = DataContext as VirtualBoardViewModel;
             if (ReferenceEquals(newModel, model))
+            {
                 return;
+            }
 
             if (!(model is null))
+            {
                 model.PropertyChanged -= Model_PropertyChanged;
+            }
 
             if (!(newModel is null))
+            {
                 newModel.PropertyChanged += Model_PropertyChanged;
+            }
 
             model = newModel;
         }
@@ -119,10 +127,25 @@ namespace OpenMacroBoard.VirtualBoard
             {
                 var r = layout.KeyPositions[i];
 
-                if (point.X < r.Left) continue;
-                if (point.X > r.Right) continue;
-                if (point.Y < r.Top) continue;
-                if (point.Y > r.Bottom) continue;
+                if (point.X < r.Left)
+                {
+                    continue;
+                }
+
+                if (point.X > r.Right)
+                {
+                    continue;
+                }
+
+                if (point.Y < r.Top)
+                {
+                    continue;
+                }
+
+                if (point.Y > r.Bottom)
+                {
+                    continue;
+                }
 
                 return i;
             }
@@ -140,7 +163,9 @@ namespace OpenMacroBoard.VirtualBoard
             var p = GetKeyId(pos);
 
             if (p >= 0)
+            {
                 model.SendKeyState(p, true);
+            }
         }
 
         /// <summary>
@@ -153,7 +178,9 @@ namespace OpenMacroBoard.VirtualBoard
             var p = GetKeyId(pos);
 
             if (p >= 0)
+            {
                 model.SendKeyState(p, false);
+            }
         }
     }
 }

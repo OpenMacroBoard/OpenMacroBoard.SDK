@@ -64,10 +64,14 @@ namespace OpenMacroBoard.SDK
         public KeyBitmap(int width, int height, byte[] bitmapData)
         {
             if (width < 1)
+            {
                 throw new ArgumentOutOfRangeException(nameof(width));
+            }
 
             if (height < 1)
+            {
                 throw new ArgumentOutOfRangeException(nameof(height));
+            }
 
             Width = width;
             Height = height;
@@ -76,7 +80,9 @@ namespace OpenMacroBoard.SDK
             {
                 var expectedLength = width * height * 3;
                 if (bitmapData.Length != expectedLength)
+                {
                     throw new ArgumentException($"{nameof(bitmapData)}.Length does not match it's expected size ({nameof(width)} x {nameof(height)} x 3)", nameof(bitmapData));
+                }
 
                 stride = width * 3;
                 rawBitmapData = (byte[])bitmapData.Clone();
@@ -92,28 +98,44 @@ namespace OpenMacroBoard.SDK
         public static bool Equals(KeyBitmap a, KeyBitmap b)
         {
             if (ReferenceEquals(a, b))
+            {
                 return true;
+            }
 
             if (a is null)
+            {
                 return false;
+            }
 
             if (b is null)
+            {
                 return false;
+            }
 
             if (a.Width != b.Width)
+            {
                 return false;
+            }
 
             if (a.Height != b.Height)
+            {
                 return false;
+            }
 
             if (ReferenceEquals(a.rawBitmapData, b.rawBitmapData))
+            {
                 return true;
+            }
 
             if (a.rawBitmapData is null)
+            {
                 return false;
+            }
 
             if (b.rawBitmapData is null)
+            {
                 return false;
+            }
 
             return Enumerable.SequenceEqual(a.rawBitmapData, b.rawBitmapData);
         }
@@ -159,7 +181,10 @@ namespace OpenMacroBoard.SDK
         public override int GetHashCode()
         {
             if (!cachedHashCode.HasValue)
+            {
                 cachedHashCode = CalculateObjectHash();
+            }
+
             return cachedHashCode.Value;
         }
 
@@ -176,11 +201,15 @@ namespace OpenMacroBoard.SDK
                 hash = hash * primeFactor + Height;
 
                 if (rawBitmapData == null)
+                {
                     return hash;
+                }
 
                 var stepSize = 1;
                 if (rawBitmapData.Length > imageSampleSize)
+                {
                     stepSize = rawBitmapData.Length / imageSampleSize;
+                }
 
                 for (int i = 0; i < rawBitmapData.Length; i += stepSize)
                 {
