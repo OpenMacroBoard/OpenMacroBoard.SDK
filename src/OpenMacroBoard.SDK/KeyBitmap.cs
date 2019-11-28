@@ -211,7 +211,7 @@ namespace OpenMacroBoard.SDK
                     stepSize = rawBitmapData.Length / imageSampleSize;
                 }
 
-                for (int i = 0; i < rawBitmapData.Length; i += stepSize)
+                for (var i = 0; i < rawBitmapData.Length; i += stepSize)
                 {
                     hash *= 23;
                     hash += rawBitmapData[i];

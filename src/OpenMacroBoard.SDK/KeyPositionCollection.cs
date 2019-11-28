@@ -35,7 +35,7 @@ namespace OpenMacroBoard.SDK
         /// <returns></returns>
         public IEnumerator<Rectangle> GetEnumerator()
         {
-            for (int i = 0; i < keyPositions.Length; i++)
+            for (var i = 0; i < keyPositions.Length; i++)
             {
                 yield return keyPositions[i];
             }

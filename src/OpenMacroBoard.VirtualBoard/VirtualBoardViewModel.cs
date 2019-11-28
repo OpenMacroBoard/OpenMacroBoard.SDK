@@ -88,7 +88,7 @@ namespace OpenMacroBoard.VirtualBoard
         /// <param name="bitmapData"></param>
         public void SetKeyBitmap(int keyId, KeyBitmap bitmapData)
         {
-            var srcData = (IKeyBitmapDataAccess)bitmapData;
+            IKeyBitmapDataAccess srcData = bitmapData;
             var data = srcData.CopyData();
 
             var wb = new WriteableBitmap(bitmapData.Width, bitmapData.Height, 96, 96, PixelFormats.Bgr24, null);

@@ -74,9 +74,9 @@ namespace OpenMacroBoard.SDK
             var kWidth = width + dx;
             var kHeight = height + dy;
 
-            for (int y = 0; y < yCount; y++)
+            for (var y = 0; y < yCount; y++)
             {
-                for (int x = 0; x < xCount; x++)
+                for (var x = 0; x < xCount; x++)
                 {
                     yield return new Rectangle(kWidth * x, kHeight * y, width, height);
                 }

@@ -12,7 +12,7 @@
         /// <param name="bitmap"></param>
         public static void SetKeyBitmap(this IMacroBoard board, KeyBitmap bitmap)
         {
-            for (int i = 0; i < board.Keys.Count; i++)
+            for (var i = 0; i < board.Keys.Count; i++)
             {
                 board.SetKeyBitmap(i, bitmap);
             }

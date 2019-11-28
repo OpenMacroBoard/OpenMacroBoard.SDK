@@ -18,7 +18,7 @@ namespace OpenMacroBoard.SDK
         /// <returns></returns>
         public static KeyBitmap FromStream(this IKeyBitmapFactory builder, Stream bitmapStream)
         {
-            using (Bitmap bitmap = (Bitmap)Image.FromStream(bitmapStream))
+            using (var bitmap = (Bitmap)Image.FromStream(bitmapStream))
             {
                 return builder.FromBitmap(bitmap);
             }
@@ -32,7 +32,7 @@ namespace OpenMacroBoard.SDK
         /// <returns></returns>
         public static KeyBitmap FromFile(this IKeyBitmapFactory builder, string bitmapFile)
         {
-            using (Bitmap bitmap = (Bitmap)Image.FromFile(bitmapFile))
+            using (var bitmap = (Bitmap)Image.FromFile(bitmapFile))
             {
                 return builder.FromBitmap(bitmap);
             }
@@ -83,13 +83,13 @@ namespace OpenMacroBoard.SDK
 
                 unsafe
                 {
-                    byte* bdata = (byte*)data.Scan0;
+                    var bdata = (byte*)data.Scan0;
 
                     if (data.PixelFormat == PixelFormat.Format24bppRgb)
                     {
-                        for (int y = 0; y < h; y++)
+                        for (var y = 0; y < h; y++)
                         {
-                            for (int x = 0; x < w; x++)
+                            for (var x = 0; x < w; x++)
                             {
                                 var ps = data.Stride * y + x * 3;
                                 var pt = (w * y + x) * 3;
@@ -101,13 +101,13 @@ namespace OpenMacroBoard.SDK
                     }
                     else if (data.PixelFormat == PixelFormat.Format32bppArgb)
                     {
-                        for (int y = 0; y < h; y++)
+                        for (var y = 0; y < h; y++)
                         {
-                            for (int x = 0; x < w; x++)
+                            for (var x = 0; x < w; x++)
                             {
                                 var ps = data.Stride * y + x * 4;
                                 var pt = (w * y + x) * 3;
-                                double alpha = (double)bdata[ps + 3] / 255f;
+                                var alpha = (double)bdata[ps + 3] / 255f;
                                 managedBGR[pt + 0] = (byte)Math.Round(bdata[ps + 0] * alpha);
                                 managedBGR[pt + 1] = (byte)Math.Round(bdata[ps + 1] * alpha);
                                 managedBGR[pt + 2] = (byte)Math.Round(bdata[ps + 2] * alpha);

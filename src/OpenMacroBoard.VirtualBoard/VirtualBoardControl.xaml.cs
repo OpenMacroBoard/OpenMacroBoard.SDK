@@ -96,7 +96,7 @@ namespace OpenMacroBoard.VirtualBoard
         {
             dc.PushTransform(new ScaleTransform(0.9, 0.9, ActualWidth / 2, ActualHeight / 2));
 
-            int cnt = 0;
+            var cnt = 0;
             foreach (var ki in layout.KeyPositions)
             {
                 var transform = new TransformGroup();
@@ -123,7 +123,7 @@ namespace OpenMacroBoard.VirtualBoard
 
         private int GetKeyId(Point point)
         {
-            for (int i = 0; i < layout.KeyPositions.Count; i++)
+            for (var i = 0; i < layout.KeyPositions.Count; i++)
             {
                 var r = layout.KeyPositions[i];
 

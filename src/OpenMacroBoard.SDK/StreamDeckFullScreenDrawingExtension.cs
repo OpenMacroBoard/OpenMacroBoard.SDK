@@ -27,7 +27,7 @@ namespace OpenMacroBoard.SDK
                 imgData = GetRgbArray(resizedImage);
             }
 
-            for (int i = 0; i < board.Keys.Count; i++)
+            for (var i = 0; i < board.Keys.Count; i++)
             {
                 var img = GetKeyImageFromFull(board.Keys[i], imgData, board.Keys.Area.Size);
                 board.SetKeyBitmap(i, img);
@@ -37,7 +37,7 @@ namespace OpenMacroBoard.SDK
         private static Bitmap ResizeToFullStreamDeckImage(Bitmap b, Size newSize)
         {
             var newBm = new Bitmap(newSize.Width, newSize.Height, PixelFormat.Format24bppRgb);
-            double scale = Math.Max((double)newSize.Width / b.Width, (double)newSize.Height / b.Height);
+            var scale = Math.Max((double)newSize.Width / b.Width, (double)newSize.Height / b.Height);
 
             using (var g = Graphics.FromImage(newBm))
             {
@@ -77,10 +77,10 @@ namespace OpenMacroBoard.SDK
             var keyImgData = new byte[keyPos.Width * keyPos.Height * 3];
             var stride = 4 * ((fullImageSize.Width * 3 + 3) / 4);
 
-            for (int y = 0; y < keyPos.Height; y++)
+            for (var y = 0; y < keyPos.Height; y++)
             {
                 //var numberOfPixelsInPrevRows = (keyPos.Top + y) * fullImageSize.Width + keyPos.Left;
-                for (int x = 0; x < keyPos.Width; x++)
+                for (var x = 0; x < keyPos.Width; x++)
                 {
                     //var p = (numberOfPixelsInPrevRows + x) * 3;
                     //var kPos = (y * keyPos.Width + x) * 3;

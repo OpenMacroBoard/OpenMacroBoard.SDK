@@ -19,7 +19,7 @@ namespace OpenMacroBoard.VirtualBoard
 
             KeyPositions = new List<Rect>();
 
-            for (int i = 0; i < keys.Count; i++)
+            for (var i = 0; i < keys.Count; i++)
             {
                 KeyPositions.Add(new Rect(
                     offsetX + keys[i].Left * scale,

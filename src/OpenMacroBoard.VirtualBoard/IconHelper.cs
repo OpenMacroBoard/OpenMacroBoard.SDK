@@ -35,10 +35,10 @@ namespace OpenMacroBoard.VirtualBoard
         public static void RemoveIcon(Window window)
         {
             // Get this window's handle
-            IntPtr hwnd = new WindowInteropHelper(window).Handle;
+            var hwnd = new WindowInteropHelper(window).Handle;
 
             // Change the extended window style to not show a window icon
-            int extendedStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
+            var extendedStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
             SetWindowLong(hwnd, GWL_EXSTYLE, extendedStyle | WS_EX_DLGMODALFRAME);
 
             // Update the window's non-client area to reflect the changes
