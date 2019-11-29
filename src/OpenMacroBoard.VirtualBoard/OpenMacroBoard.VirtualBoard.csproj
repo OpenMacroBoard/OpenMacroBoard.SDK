@@ -16,8 +16,12 @@
     <DocumentationFile>bin\OpenMacroBoard.VirtualBoard.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="glassKey.png" />
     <None Remove="VirtualBoardControl.xaml" />
     <None Remove="VirtualBoardWindow.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="glassKey.png" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="VirtualBoardControl.xaml">
