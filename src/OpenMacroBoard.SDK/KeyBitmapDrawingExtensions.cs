@@ -53,9 +53,14 @@ namespace OpenMacroBoard.SDK
             Action<Graphics> graphicsAction
         )
         {
+            if (graphicsAction is null)
+            {
+                throw new ArgumentNullException(nameof(graphicsAction));
+            }
+
             using (var bmp = CreateKeyBitmap(width, height))
             {
-                using (var g = System.Drawing.Graphics.FromImage(bmp))
+                using (var g = Graphics.FromImage(bmp))
                 {
                     graphicsAction(g);
                 }
@@ -67,18 +72,23 @@ namespace OpenMacroBoard.SDK
         /// <summary>
         /// Creates a <see cref="KeyBitmap"/> from a given <see cref="Bitmap"/>
         /// </summary>
-        /// <param name="_"></param>
+        /// <param name="keyFactory"></param>
         /// <param name="bitmap"></param>
         /// <returns></returns>
-        public static KeyBitmap FromBitmap(this IKeyBitmapFactory _, Bitmap bitmap)
+        public static KeyBitmap FromBitmap(this IKeyBitmapFactory keyFactory, Bitmap bitmap)
         {
+            if (bitmap is null)
+            {
+                throw new ArgumentNullException(nameof(bitmap));
+            }
+
             var w = bitmap.Width;
             var h = bitmap.Height;
 
             BitmapData data = null;
             try
             {
-                data = bitmap.LockBits(new Rectangle(0, 0, w, h), System.Drawing.Imaging.ImageLockMode.ReadOnly, bitmap.PixelFormat);
+                data = bitmap.LockBits(new Rectangle(0, 0, w, h), ImageLockMode.ReadOnly, bitmap.PixelFormat);
                 var managedBGR = new byte[w * h * 3];
 
                 unsafe

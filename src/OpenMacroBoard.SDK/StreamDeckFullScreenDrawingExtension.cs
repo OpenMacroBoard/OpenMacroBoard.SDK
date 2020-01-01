@@ -20,6 +20,16 @@ namespace OpenMacroBoard.SDK
         /// <param name="b"></param>
         public static void DrawFullScreenBitmap(this IMacroBoard board, Bitmap b)
         {
+            if (board is null)
+            {
+                throw new ArgumentNullException(nameof(board));
+            }
+
+            if (b is null)
+            {
+                throw new ArgumentNullException(nameof(b));
+            }
+
             byte[] imgData = null;
 
             using (var resizedImage = ResizeToFullStreamDeckImage(b, board.Keys.Area.Size))

@@ -12,6 +12,11 @@
         /// <param name="bitmap"></param>
         public static void SetKeyBitmap(this IMacroBoard board, KeyBitmap bitmap)
         {
+            if (board is null)
+            {
+                throw new System.ArgumentNullException(nameof(board));
+            }
+
             for (var i = 0; i < board.Keys.Count; i++)
             {
                 board.SetKeyBitmap(i, bitmap);
@@ -25,6 +30,11 @@
         /// <param name="keyId"></param>
         public static void ClearKey(this IMacroBoard board, int keyId)
         {
+            if (board is null)
+            {
+                throw new System.ArgumentNullException(nameof(board));
+            }
+
             board.SetKeyBitmap(keyId, KeyBitmap.Black);
         }
 
