@@ -6,7 +6,7 @@
     <Company>OpenMacroBoard</Company>
     <Copyright>Copyright © OpenMacroBoard 2018 - 2019</Copyright>
     <Description>A virtual macro board for development</Description>
-    <Version>0.2.1</Version>
+    <Version>0.3.0</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/OpenMacroBoard/OpenMacroBoard.SDK</RepositoryUrl>
     <PackageProjectUrl>https://github.com/OpenMacroBoard/OpenMacroBoard.SDK</PackageProjectUrl>

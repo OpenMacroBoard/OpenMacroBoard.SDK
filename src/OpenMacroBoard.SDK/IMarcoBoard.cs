@@ -5,18 +5,8 @@ namespace OpenMacroBoard.SDK
     /// <summary>
     /// An interface that allows you to interact with (LCD) macro boards
     /// </summary>
-    public interface IMacroBoard : IDisposable
+    public interface IMacroBoard : IDisposable, IMacroKeyArea
     {
-        /// <summary>
-        /// Informations about the keys and their position
-        /// </summary>
-        IKeyPositionCollection Keys { get; }
-
-        /// <summary>
-        /// Is raised when a key is pressed
-        /// </summary>
-        event EventHandler<KeyEventArgs> KeyStateChanged;
-
         /// <summary>
         /// Gets a value indicating whether the MarcoBoard is connected.
         /// </summary>
@@ -39,13 +29,6 @@ namespace OpenMacroBoard.SDK
         /// This effect should be compensated outside this library
         /// </remarks>
         void SetBrightness(byte percent);
-
-        /// <summary>
-        /// Sets a background image for a given key
-        /// </summary>
-        /// <param name="keyId">Specifies which key the image will be applied on</param>
-        /// <param name="bitmapData">Bitmap. The key will be painted black if this value is null.</param>
-        void SetKeyBitmap(int keyId, KeyBitmap bitmapData);
 
         /// <summary>
         /// Shows the standby logo (Fullscreen)

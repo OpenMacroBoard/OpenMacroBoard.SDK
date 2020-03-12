@@ -28,6 +28,7 @@ namespace OpenMacroBoard.VirtualBoard
         /// </summary>
         public event EventHandler<ConnectionEventArgs> ConnectionStateChanged;
 
+        private readonly bool[] keyStateData;
         private readonly Dispatcher dispatcher;
 
         private bool isConnected = true;
@@ -42,6 +43,8 @@ namespace OpenMacroBoard.VirtualBoard
             KeyImages = new KeyImageCollection(Keys.Count);
 
             dispatcher = Dispatcher.CurrentDispatcher;
+            keyStateData = new bool[keyLayout.Count];
+            KeyStates = new KeyStateCollection(keyStateData);
         }
 
         /// <summary>
@@ -72,13 +75,14 @@ namespace OpenMacroBoard.VirtualBoard
             }
         }
 
+        public IKeyStateCollection KeyStates { get; }
+
         /// <summary>
         /// Sets the current brightness
         /// </summary>
         /// <param name="percent"></param>
         public void SetBrightness(byte percent)
         {
-
         }
 
         /// <summary>
@@ -108,7 +112,6 @@ namespace OpenMacroBoard.VirtualBoard
         /// </summary>
         public void ShowLogo()
         {
-
         }
 
         /// <summary>
@@ -116,11 +119,11 @@ namespace OpenMacroBoard.VirtualBoard
         /// </summary>
         public void Dispose()
         {
-
         }
 
         internal void SendKeyState(int keyId, bool down)
         {
+            keyStateData[keyId] = down;
             KeyStateChanged?.Invoke(this, new KeyEventArgs(keyId, down));
         }
 
