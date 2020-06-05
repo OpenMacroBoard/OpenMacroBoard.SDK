@@ -34,7 +34,7 @@ namespace OpenMacroBoard.SDK
         /// <remarks>
         /// The brightness on the device is controlled with PWM (https://en.wikipedia.org/wiki/Pulse-width_modulation).
         /// This results in a non-linear correlation between set percentage and perceived brightness.
-        /// 
+        ///
         /// In a nutshell: changing from 10 - 30 results in a bigger change than 80 - 100 (barely visible change)
         /// This effect should be compensated outside this library
         /// </remarks>
