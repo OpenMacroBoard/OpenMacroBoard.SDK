@@ -4,7 +4,7 @@
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <LangVersion>8.0</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Version>2.0.0</Version>
+    <Version>2.1.0</Version>
     <Authors>Christian Wischenbart</Authors>
     <Company>OpenMacroBoard</Company>
     <Description>Abstraction for macro boards (with LCD keys)</Description>
