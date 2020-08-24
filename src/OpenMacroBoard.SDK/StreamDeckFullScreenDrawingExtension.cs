@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
@@ -51,7 +51,8 @@ namespace OpenMacroBoard.SDK
 
             using (var g = Graphics.FromImage(newBm))
             {
-                g.InterpolationMode = InterpolationMode.High;
+                g.InterpolationMode = InterpolationMode.Bilinear;
+                g.CompositingMode = CompositingMode.SourceCopy;
                 g.CompositingQuality = CompositingQuality.HighQuality;
                 g.SmoothingMode = SmoothingMode.AntiAlias;
 
