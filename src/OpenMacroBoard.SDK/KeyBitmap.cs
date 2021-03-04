@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace OpenMacroBoard.SDK
 {
@@ -234,6 +237,45 @@ namespace OpenMacroBoard.SDK
         byte[] IKeyBitmapDataAccess.CopyData()
         {
             return (byte[])rawBitmapData?.Clone();
+        }
+
+        Bitmap IKeyBitmapDataAccess.GetBitmap()
+        {
+            if (rawBitmapData is null)
+            {
+                return null;
+            }
+
+            var sourceBmp = new Bitmap(Width, Height, PixelFormat.Format24bppRgb);
+            var bmpData = sourceBmp.LockBits(new Rectangle(0, 0, sourceBmp.Width, sourceBmp.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
+
+            try
+            {
+                var h = sourceBmp.Height;
+                var w = sourceBmp.Width;
+
+                var alignedData = new byte[bmpData.Stride * h];
+
+                for (var y = 0; y < h; y++)
+                {
+                    for (var x = 0; x < w; x++)
+                    {
+                        var ps = bmpData.Stride * y + x * 3;
+                        var pt = (w * y + x) * 3;
+                        alignedData[ps + 0] = rawBitmapData[pt + 0];
+                        alignedData[ps + 1] = rawBitmapData[pt + 1];
+                        alignedData[ps + 2] = rawBitmapData[pt + 2];
+                    }
+                }
+
+                Marshal.Copy(alignedData, 0, bmpData.Scan0, rawBitmapData.Length);
+            }
+            finally
+            {
+                sourceBmp.UnlockBits(bmpData);
+            }
+
+            return sourceBmp;
         }
     }
 }

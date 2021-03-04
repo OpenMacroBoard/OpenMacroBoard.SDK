@@ -1,4 +1,6 @@
-﻿namespace OpenMacroBoard.SDK
+﻿using System.Drawing;
+
+namespace OpenMacroBoard.SDK
 {
     /// <summary>
     /// An interface that allows you to access the underlying data of <see cref="KeyBitmap"/>s
@@ -42,5 +44,11 @@
         /// </summary>
         /// <returns>raw bgr24 bitmap array</returns>
         byte[] CopyData();
+
+        /// <summary>
+        /// Creates a new bitmap based on the internal raw pixeldata.
+        /// </summary>
+        /// <returns>Returns the generated bitmap.</returns>
+        Bitmap GetBitmap();
     }
 }
