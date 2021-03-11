@@ -17,7 +17,6 @@ namespace OpenMacroBoard.SDK
         /// <summary>
         /// Creates a new instance of <see cref="ButtonPressEffectAdapter"/> with default configuration.
         /// </summary>
-        /// <param name="macroBoard"></param>
         public ButtonPressEffectAdapter(IMacroBoard macroBoard)
             : this(macroBoard, null)
         {

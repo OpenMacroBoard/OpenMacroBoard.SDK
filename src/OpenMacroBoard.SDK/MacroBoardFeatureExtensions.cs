@@ -22,5 +22,24 @@ namespace OpenMacroBoard.SDK
 
             return new ButtonPressEffectAdapter(macroBoard, config);
         }
+
+        /// <summary>
+        /// Wraps an <see cref="IMacroBoard"/> with a disconnect replay adapter.
+        /// </summary>
+        /// <param name="macroBoard">The board that should be wrapped.</param>
+        /// <returns>Returns a new board that implements the replay feature.</returns>
+        /// <remarks>
+        /// This adapter makes sure, that if a device is disconnected that previously set properties like
+        /// images and brightness are replayed if the device is connected again.
+        /// </remarks>
+        public static IMacroBoard WithDisconnectReplay(this IMacroBoard macroBoard)
+        {
+            if (macroBoard is null)
+            {
+                throw new ArgumentNullException(nameof(macroBoard));
+            }
+
+            return new DisconnectReplayAdapter(macroBoard);
+        }
     }
 }
