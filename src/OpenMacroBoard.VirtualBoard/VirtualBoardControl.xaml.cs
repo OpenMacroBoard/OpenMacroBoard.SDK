@@ -94,8 +94,6 @@ namespace OpenMacroBoard.VirtualBoard
 
         private void DrawBoard(DrawingContext dc)
         {
-            dc.PushTransform(new ScaleTransform(0.9, 0.9, ActualWidth / 2, ActualHeight / 2));
-
             var cnt = 0;
             foreach (var ki in layout.KeyPositions)
             {
@@ -110,8 +108,6 @@ namespace OpenMacroBoard.VirtualBoard
 
                 dc.Pop();
             }
-
-            dc.Pop();
         }
 
         private void DrawButton(DrawingContext dc, int keyId)
@@ -153,34 +149,47 @@ namespace OpenMacroBoard.VirtualBoard
             return -1;
         }
 
-        /// <summary>
-        /// Processes mouse down events
-        /// </summary>
-        /// <param name="e"></param>
+        /// <inheritdoc/>
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            var pos = e.GetPosition(this);
+            var p = GetKeyId(pos);
+
+            for (var i = 0; i < layout.KeyPositions.Count; i++)
+            {
+                if (p != i)
+                {
+                    model.SendKeyState(i, false);
+                }
+            }
+        }
+
+        /// <inheritdoc/>
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
             var pos = e.GetPosition(this);
             var p = GetKeyId(pos);
 
-            if (p >= 0)
+            if (p < 0)
             {
-                model.SendKeyState(p, true);
+                return;
             }
+
+            model.SendKeyState(p, true);
         }
 
-        /// <summary>
-        /// Processes mouse up events
-        /// </summary>
-        /// <param name="e"></param>
+        /// <inheritdoc/>
         protected override void OnMouseUp(MouseButtonEventArgs e)
         {
             var pos = e.GetPosition(this);
             var p = GetKeyId(pos);
 
-            if (p >= 0)
+            if (p < 0)
             {
-                model.SendKeyState(p, false);
+                return;
             }
+
+            model.SendKeyState(p, false);
         }
     }
 }

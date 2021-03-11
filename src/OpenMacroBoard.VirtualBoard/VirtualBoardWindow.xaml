@@ -5,6 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OpenMacroBoard.VirtualBoard"
         mc:Ignorable="d"
+        Background="#141414"
         Title="Virtual Macro Board" Height="450" Width="800">
-    <local:VirtualBoardControl />
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="18*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="18*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <local:VirtualBoardControl Grid.Column="1" Grid.Row="1" />
+    </Grid>
 </Window>

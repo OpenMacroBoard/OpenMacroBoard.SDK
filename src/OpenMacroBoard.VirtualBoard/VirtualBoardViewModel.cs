@@ -1,5 +1,6 @@
 ﻿using OpenMacroBoard.SDK;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
@@ -29,6 +30,7 @@ namespace OpenMacroBoard.VirtualBoard
         public event EventHandler<ConnectionEventArgs> ConnectionStateChanged;
 
         private readonly Dispatcher dispatcher;
+        private readonly bool[] lastKeyStates;
 
         private bool isConnected = true;
 
@@ -40,6 +42,7 @@ namespace OpenMacroBoard.VirtualBoard
         {
             Keys = keyLayout ?? throw new ArgumentNullException(nameof(keyLayout));
             KeyImages = new KeyImageCollection(Keys.Count);
+            lastKeyStates = new bool[Keys.Count];
 
             dispatcher = Dispatcher.CurrentDispatcher;
         }
@@ -121,6 +124,13 @@ namespace OpenMacroBoard.VirtualBoard
 
         internal void SendKeyState(int keyId, bool down)
         {
+            if (lastKeyStates[keyId] == down)
+            {
+                // same state do not notify subscribers.
+                return;
+            }
+
+            lastKeyStates[keyId] = down;
             KeyStateChanged?.Invoke(this, new KeyEventArgs(keyId, down));
         }
 
