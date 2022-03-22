@@ -4,9 +4,9 @@ namespace OpenMacroBoard.SDK.Internals
 {
     internal sealed class KnownDeviceInternal : IKnownDevice
     {
-        public KnownDeviceInternal(IDeviceReference deviceReferenceHandle, bool connected)
+        public KnownDeviceInternal(IDeviceReference deviceReference, bool connected)
         {
-            DeviceReference = deviceReferenceHandle ?? throw new ArgumentNullException(nameof(deviceReferenceHandle));
+            DeviceReference = deviceReference ?? throw new ArgumentNullException(nameof(deviceReference));
             Connected = connected;
         }
 
