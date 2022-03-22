@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -28,15 +27,7 @@ namespace BeaconLib
             udp = new UdpClient();
             udp.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
             udp.Client.Bind(new IPEndPoint(bindIpAddress, DiscoveryPort));
-
-            try
-            {
-                udp.AllowNatTraversal(true);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Error switching on NAT traversal: " + ex.Message);
-            }
+            udp.EnableNatTraversal();
         }
 
         public string BeaconType { get; }

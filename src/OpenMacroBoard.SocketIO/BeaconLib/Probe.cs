@@ -37,16 +37,7 @@ namespace BeaconLib
             thread = new Thread(BackgroundLoop) { IsBackground = true };
 
             udp.Client.Bind(new IPEndPoint(bindIpAddress, 0));
-
-            try
-            {
-                udp.AllowNatTraversal(true);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Error switching on NAT traversal: " + ex.Message);
-            }
-
+            udp.EnableNatTraversal();
             udp.BeginReceive(ResponseReceived, null);
         }
 
