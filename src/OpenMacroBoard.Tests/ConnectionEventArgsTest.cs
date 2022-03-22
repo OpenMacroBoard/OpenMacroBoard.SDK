@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using OpenMacroBoard.SDK;
 using Xunit;
 

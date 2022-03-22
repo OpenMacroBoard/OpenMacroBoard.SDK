@@ -1,7 +1,7 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using OpenMacroBoard.SDK;
-using System.Drawing;
-using System.Drawing.Imaging;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 using Xunit;
 
 namespace StreamDeckSharp.Tests
@@ -15,7 +15,7 @@ namespace StreamDeckSharp.Tests
             byte green = 200;
             byte blue = 0;
 
-            var expectation = new KeyBitmap(1, 1, new byte[] { blue, green, red });
+            var expectation = KeyBitmap.FromBgr24Array(1, 1, new byte[] { blue, green, red });
             var key = KeyBitmap.Create.FromRgb(red, green, blue);
 
             key.Should().Be(expectation);
@@ -24,8 +24,8 @@ namespace StreamDeckSharp.Tests
         [Fact]
         public void RgbFactoryShouldCreateANullDataElementForBlack()
         {
-            var expectation = new KeyBitmap(1, 1, null);
-            var wrongResult = new KeyBitmap(1, 1, new byte[] { 0, 0, 0 });
+            var expectation = KeyBitmap.FromBgr24Array(1, 1, null);
+            var wrongResult = KeyBitmap.FromBgr24Array(1, 1, new byte[] { 0, 0, 0 });
 
             var key = KeyBitmap.Create.FromRgb(0, 0, 0);
             key.Should().Be(expectation);
@@ -35,24 +35,25 @@ namespace StreamDeckSharp.Tests
         [Fact]
         public void PixelFormatIsRgbLeftToRightAndTopToBottom()
         {
-            var expectation = new KeyBitmap(2, 2, new byte[2 * 2 * 3]
+            var expectation = KeyBitmap.FromBgr24Array(2, 2, new byte[2 * 2 * 3]
             {
                 000, 001, 002,  010, 011, 012,
                 020, 021, 022,  030, 031, 032,
             });
 
-            var topLeft = Color.FromArgb(2, 1, 0);
-            var topRight = Color.FromArgb(12, 11, 10);
-            var bottomLeft = Color.FromArgb(22, 21, 20);
-            var bottomRight = Color.FromArgb(32, 31, 30);
+            var topLeft = new Bgr24(2, 1, 0);
+            var topRight = new Bgr24(12, 11, 10);
+            var bottomLeft = new Bgr24(22, 21, 20);
+            var bottomRight = new Bgr24(32, 31, 30);
 
-            var img = new Bitmap(2, 2, PixelFormat.Format24bppRgb);
-            img.SetPixel(0, 0, topLeft);
-            img.SetPixel(1, 0, topRight);
-            img.SetPixel(0, 1, bottomLeft);
-            img.SetPixel(1, 1, bottomRight);
+            var img = new Image<Bgr24>(2, 2);
 
-            var key = KeyBitmap.Create.FromBitmap(img);
+            img[0, 0] = topLeft;
+            img[1, 0] = topRight;
+            img[0, 1] = bottomLeft;
+            img[1, 1] = bottomRight;
+
+            var key = KeyBitmap.Create.FromImageSharpImage(img);
             key.Should().Be(expectation);
         }
     }

@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 
 namespace OpenMacroBoard.SDK
 {
     /// <summary>
-    /// Wraps an <see cref="IMacroBoard"/> and allows for hooks implement features.
+    /// Wraps an <see cref="IMacroBoard"/> and allows for hooks to implement "middle-ware" features.
     /// </summary>
     public abstract class MacroBoardAdapter : IMacroBoard
     {
@@ -13,23 +13,23 @@ namespace OpenMacroBoard.SDK
         private bool disposed = false;
 
         /// <summary>
-        /// Creates a new instance of <see cref="MacroBoardAdapter"/>.
+        /// Initializes a new instance of the <see cref="MacroBoardAdapter"/> class.
         /// </summary>
         /// <remarks>
-        /// When this instance is disposed, the underlying board is disposed aswell.
+        /// When this instance is disposed, the underlying board is disposed as well.
         /// </remarks>
         /// <param name="macroBoard">The macroBoard that is wrapped.</param>
-        public MacroBoardAdapter(IMacroBoard macroBoard)
+        protected MacroBoardAdapter(IMacroBoard macroBoard)
             : this(macroBoard, false)
         {
         }
 
         /// <summary>
-        /// Creates a new instance of <see cref="MacroBoardAdapter"/>.
+        /// Initializes a new instance of the <see cref="MacroBoardAdapter"/> class.
         /// </summary>
         /// <param name="macroBoard">The macroBoard that is wrapped.</param>
         /// <param name="leaveOpen">When true, the underlying macroBoard will not be disposed with this instance.</param>
-        public MacroBoardAdapter(IMacroBoard macroBoard, bool leaveOpen)
+        protected MacroBoardAdapter(IMacroBoard macroBoard, bool leaveOpen)
         {
             this.macroBoard = macroBoard ?? throw new ArgumentNullException(nameof(macroBoard));
             this.leaveOpen = leaveOpen;
@@ -39,44 +39,24 @@ namespace OpenMacroBoard.SDK
         }
 
         /// <summary>
-        /// Virtual KeyStateChanged event handler.
-        /// </summary>
-        /// <param name="sender">The sender of the original event.</param>
-        /// <param name="e">The event arguments.</param>
-        protected virtual void OnKeyStateChanged(object sender, KeyEventArgs e)
-        {
-            KeyStateChanged?.Invoke(this, e);
-        }
-
-        /// <summary>
-        /// Virtual ConnectionStateChanged event handler.
-        /// </summary>
-        /// <param name="sender">The sender of the original event.</param>
-        /// <param name="e">The event arguments.</param>
-        protected void OnConnectionStateChanged(object sender, ConnectionEventArgs e)
-        {
-            ConnectionStateChanged?.Invoke(this, e);
-        }
-
-        /// <inheritdoc/>
-        public virtual IKeyPositionCollection Keys => macroBoard.Keys;
-
-        /// <inheritdoc/>
-        public virtual bool IsConnected => macroBoard.IsConnected;
-
-        /// <inheritdoc/>
-        public virtual event EventHandler<KeyEventArgs> KeyStateChanged;
-
-        /// <inheritdoc/>
-        public virtual event EventHandler<ConnectionEventArgs> ConnectionStateChanged;
-
-        /// <summary>
-        /// Finalizer.
+        /// Finalizes an instance of the <see cref="MacroBoardAdapter"/> class.
         /// </summary>
         ~MacroBoardAdapter()
         {
             Dispose(false);
         }
+
+        /// <inheritdoc/>
+        public event EventHandler<KeyEventArgs> KeyStateChanged;
+
+        /// <inheritdoc/>
+        public event EventHandler<ConnectionEventArgs> ConnectionStateChanged;
+
+        /// <inheritdoc/>
+        public virtual IKeyLayout Keys => macroBoard.Keys;
+
+        /// <inheritdoc/>
+        public virtual bool IsConnected => macroBoard.IsConnected;
 
         /// <inheritdoc/>
         public void Dispose()
@@ -103,6 +83,38 @@ namespace OpenMacroBoard.SDK
             macroBoard.ShowLogo();
         }
 
+        /// <inheritdoc/>
+        public string GetFirmwareVersion()
+        {
+            return macroBoard.GetFirmwareVersion();
+        }
+
+        /// <inheritdoc/>
+        public string GetSerialNumber()
+        {
+            return macroBoard.GetFirmwareVersion();
+        }
+
+        /// <summary>
+        /// Virtual KeyStateChanged event handler.
+        /// </summary>
+        /// <param name="sender">The sender of the original event.</param>
+        /// <param name="e">The event arguments.</param>
+        protected virtual void OnKeyStateChanged(object sender, KeyEventArgs e)
+        {
+            KeyStateChanged?.Invoke(this, e);
+        }
+
+        /// <summary>
+        /// Virtual ConnectionStateChanged event handler.
+        /// </summary>
+        /// <param name="sender">The sender of the original event.</param>
+        /// <param name="e">The event arguments.</param>
+        protected void OnConnectionStateChanged(object sender, ConnectionEventArgs e)
+        {
+            ConnectionStateChanged?.Invoke(this, e);
+        }
+
         /// <summary>
         /// Protected implementation of Dispose pattern.
         /// </summary>
@@ -114,12 +126,9 @@ namespace OpenMacroBoard.SDK
                 return;
             }
 
-            if (disposing)
+            if (disposing && !leaveOpen)
             {
-                if (!leaveOpen)
-                {
-                    macroBoard?.Dispose();
-                }
+                macroBoard?.Dispose();
             }
 
             disposed = true;

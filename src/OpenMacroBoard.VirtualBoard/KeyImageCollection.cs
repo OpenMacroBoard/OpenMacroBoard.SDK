@@ -1,4 +1,4 @@
-﻿using System.Windows.Media.Imaging;
+using System.Windows.Media.Imaging;
 
 namespace OpenMacroBoard.VirtualBoard
 {
@@ -11,13 +11,13 @@ namespace OpenMacroBoard.VirtualBoard
             keyImages = new BitmapSource[cnt];
         }
 
+        public int Count
+            => keyImages.Length;
+
         public BitmapSource this[int index]
         {
             get => keyImages[index];
             set => keyImages[index] = value;
         }
-
-        public int Count
-            => keyImages.Length;
     }
 }

@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
+using System;
+using System.Collections.Generic;
 
 namespace OpenMacroBoard.SDK
 {
@@ -6,24 +10,25 @@ namespace OpenMacroBoard.SDK
     /// Macro board adapter that implements a software button press effect.
     /// </summary>
     /// <remarks>
-    /// This vaguely mimics the perspective of a real button beeing pushed
+    /// This vaguely mimics the perspective of a real button being pushed
     /// and provides better feedback to the user that a button push was registered.
     /// </remarks>
     public class ButtonPressEffectAdapter : MacroBoardAdapter
     {
-        private readonly Dictionary<int, KeyBitmap> mostRecentKeyBitmaps = new Dictionary<int, KeyBitmap>();
-        private readonly Dictionary<int, bool> keyPressedState = new Dictionary<int, bool>();
+        private readonly Dictionary<int, KeyBitmap> mostRecentKeyBitmaps = new();
+        private readonly Dictionary<int, bool> keyPressedState = new();
 
         /// <summary>
-        /// Creates a new instance of <see cref="ButtonPressEffectAdapter"/> with default configuration.
+        /// Initializes a new instance of the <see cref="ButtonPressEffectAdapter"/> class.
         /// </summary>
+        /// <param name="macroBoard">The <see cref="IMacroBoard"/> this effect should be applied to.</param>
         public ButtonPressEffectAdapter(IMacroBoard macroBoard)
             : this(macroBoard, null)
         {
         }
 
         /// <summary>
-        /// Creates a new instance of <see cref="ButtonPressEffectAdapter"/> with a given configuration.
+        /// Initializes a new instance of the <see cref="ButtonPressEffectAdapter"/> class.
         /// </summary>
         /// <param name="macroBoard">The board that is wrapped with the button press effect.</param>
         /// <param name="config">The configuration that should be used. If null the default configuration will be used.</param>
@@ -35,7 +40,7 @@ namespace OpenMacroBoard.SDK
         }
 
         /// <summary>
-        /// The configuration that controls the behaviour of the button press effect feature.
+        /// The configuration that controls the behavior of the button press effect feature.
         /// </summary>
         public ButtonPressEffectConfig Config { get; }
 
@@ -85,25 +90,41 @@ namespace OpenMacroBoard.SDK
         private KeyBitmap ResizeBitmap(KeyBitmap keyBitmap)
         {
             var bitmapDataAccess = (IKeyBitmapDataAccess)keyBitmap;
-            using var image = bitmapDataAccess.GetBitmap();
 
-            return KeyBitmap.Create.FromGraphics(keyBitmap.Width, keyBitmap.Height, g =>
+            if (bitmapDataAccess.IsEmpty)
             {
-                var scale = (float)Config.Scale;
+                return KeyBitmap.Black;
+            }
 
-                g.Clear(Config.BackgroundColor);
+            var targetWidth = (int)Math.Round(Config.Scale * keyBitmap.Width);
+            var targetHeight = (int)Math.Round(Config.Scale * keyBitmap.Height);
 
-                var translateX = keyBitmap.Width * (1 - scale) * (float)Config.OriginX;
-                var translateY = keyBitmap.Height * (1 - scale) * (float)Config.OriginY;
+            var smallerImage = Image.LoadPixelData<Bgr24>(
+                bitmapDataAccess.GetData(),
+                keyBitmap.Width,
+                keyBitmap.Height
+            );
 
-                g.TranslateTransform(translateX, translateY);
-                g.ScaleTransform(scale, scale);
+            smallerImage.Mutate(x => x.Resize(targetWidth, targetHeight));
 
-                if (image != null)
-                {
-                    g.DrawImage(image, 0f, 0f);
-                }
+            var offsetLeft = (int)Math.Round((keyBitmap.Width - targetWidth) * Config.OriginX);
+            var offsetTop = (int)Math.Round((keyBitmap.Height - targetHeight) * Config.OriginY);
+
+            var color = Color.FromRgb(
+                Config.BackgroundColor.R,
+                Config.BackgroundColor.G,
+                Config.BackgroundColor.B
+            );
+
+            var newImage = new Image<Bgr24>(keyBitmap.Width, keyBitmap.Height);
+
+            newImage.Mutate(x =>
+            {
+                x.BackgroundColor(color);
+                x.DrawImage(smallerImage, new Point(offsetLeft, offsetTop), 1);
             });
+
+            return KeyBitmap.Create.FromImageSharpImage(newImage);
         }
     }
 }

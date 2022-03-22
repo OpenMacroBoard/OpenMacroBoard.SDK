@@ -1,6 +1,5 @@
-﻿using OpenMacroBoard.SDK;
+using OpenMacroBoard.SDK;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
@@ -12,25 +11,10 @@ namespace OpenMacroBoard.VirtualBoard
     /// <summary>
     /// A view model for a virtual macro board
     /// </summary>
-    internal class VirtualBoardViewModel : INotifyPropertyChanged, IMacroBoard
+    internal sealed class VirtualBoardViewModel : INotifyPropertyChanged, IMacroBoard
     {
-        /// <summary>
-        /// Is fired of one of the properties with binding support is changed.
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
-        /// Is fired if the state of a key changes.
-        /// </summary>
-        public event EventHandler<KeyEventArgs> KeyStateChanged;
-
-        /// <summary>
-        /// Is fired if the connection state changes.
-        /// </summary>
-        public event EventHandler<ConnectionEventArgs> ConnectionStateChanged;
-
         private readonly Dispatcher dispatcher;
-        private readonly bool[] lastKeyStates;
+        private readonly bool[] currentKeyState;
 
         private bool isConnected = true;
 
@@ -38,28 +22,31 @@ namespace OpenMacroBoard.VirtualBoard
         /// Constructs a new view model for a virtual macro board.
         /// </summary>
         /// <param name="keyLayout"></param>
-        public VirtualBoardViewModel(IKeyPositionCollection keyLayout)
+        public VirtualBoardViewModel(GridKeyLayout keyLayout)
         {
             Keys = keyLayout ?? throw new ArgumentNullException(nameof(keyLayout));
             KeyImages = new KeyImageCollection(Keys.Count);
-            lastKeyStates = new bool[Keys.Count];
+            currentKeyState = new bool[Keys.Count];
 
             dispatcher = Dispatcher.CurrentDispatcher;
         }
 
-        /// <summary>
-        /// The key layout for this macro board
-        /// </summary>
-        public IKeyPositionCollection Keys { get; }
+        /// <inheritdoc/>
+        public event PropertyChangedEventHandler? PropertyChanged;
 
-        /// <summary>
-        /// The images currently set to this macro board
-        /// </summary>
+        /// <inheritdoc/>
+        public event EventHandler<KeyEventArgs>? KeyStateChanged;
+
+        /// <inheritdoc/>
+        public event EventHandler<ConnectionEventArgs>? ConnectionStateChanged;
+
+        /// <inheritdoc/>
+        public IKeyLayout Keys { get; }
+
+        /// <inheritdoc/>
         public KeyImageCollection KeyImages { get; }
 
-        /// <summary>
-        /// Gets a value that indicated whether the board is connected or not.
-        /// </summary>
+        /// <inheritdoc/>
         public bool IsConnected
         {
             get => isConnected;
@@ -75,29 +62,25 @@ namespace OpenMacroBoard.VirtualBoard
             }
         }
 
-        /// <summary>
-        /// Sets the current brightness
-        /// </summary>
-        /// <param name="percent"></param>
+        /// <inheritdoc/>
         public void SetBrightness(byte percent)
         {
-
+            // The virtual board doesn't support brightness (yet), so we do nothing.
         }
 
-        /// <summary>
-        /// Sets a new <see cref="KeyBitmap"/> to a specific key.
-        /// </summary>
-        /// <param name="keyId"></param>
-        /// <param name="bitmapData"></param>
+        /// <inheritdoc/>
         public void SetKeyBitmap(int keyId, KeyBitmap bitmapData)
         {
             IKeyBitmapDataAccess srcData = bitmapData;
-            var data = srcData.CopyData();
 
             var wb = new WriteableBitmap(bitmapData.Width, bitmapData.Height, 96, 96, PixelFormats.Bgr24, null);
-            if (data != null)
+
+            if (!srcData.IsEmpty)
             {
-                wb.WritePixels(new Int32Rect(0, 0, bitmapData.Width, bitmapData.Height), data, srcData.Stride, 0);
+                var data = srcData.GetData().ToArray();
+                var sourceStride = bitmapData.Width * 3;
+
+                wb.WritePixels(new Int32Rect(0, 0, bitmapData.Width, bitmapData.Height), data, sourceStride, 0);
             }
 
             wb.Freeze();
@@ -106,40 +89,50 @@ namespace OpenMacroBoard.VirtualBoard
             RaiseKeyImagesChanges();
         }
 
-        /// <summary>
-        /// Shows the standby logo
-        /// </summary>
+        /// <inheritdoc/>
         public void ShowLogo()
         {
-
+            // The virtual board doesn't support showing a logo (yet), so we do nothing.
         }
 
-        /// <summary>
-        /// Disposes the <see cref="VirtualBoardViewModel"/>.
-        /// </summary>
+        /// <inheritdoc/>
         public void Dispose()
         {
+            // Nothing to dispose
+        }
 
+        /// <inheritdoc/>
+        public string GetFirmwareVersion()
+        {
+            return string.Empty;
+        }
+
+        /// <inheritdoc/>
+        public string GetSerialNumber()
+        {
+            return string.Empty;
+        }
+
+        internal bool GetKeyState(int keyId)
+        {
+            return currentKeyState[keyId];
         }
 
         internal void SendKeyState(int keyId, bool down)
         {
-            if (lastKeyStates[keyId] == down)
+            if (currentKeyState[keyId] == down)
             {
                 // same state do not notify subscribers.
                 return;
             }
 
-            lastKeyStates[keyId] = down;
+            currentKeyState[keyId] = down;
             KeyStateChanged?.Invoke(this, new KeyEventArgs(keyId, down));
         }
 
         private void RaiseKeyImagesChanges()
         {
-            dispatcher.Invoke(new Action(() =>
-            {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(KeyImages)));
-            }));
+            dispatcher.BeginInvoke(new Action(() => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(KeyImages)))));
         }
     }
 }

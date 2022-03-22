@@ -1,4 +1,4 @@
-﻿namespace OpenMacroBoard.SDK
+namespace OpenMacroBoard.SDK
 {
     /// <summary>
     /// Interface for factory extensions
@@ -10,6 +10,5 @@
     /// </remarks>
     public interface IKeyBitmapFactory
     {
-
     }
 }

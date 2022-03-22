@@ -1,22 +1,23 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 
 namespace OpenMacroBoard.VirtualBoard
 {
     /// <summary>
-    /// A control used to draw a virtual LCD marco board
+    /// A control used to draw a virtual LCD macro board.
     /// </summary>
     public partial class VirtualBoardControl : Control
     {
-        private VirtualBoardViewModel model;
-        private VirtualBoardLayout layout;
         private readonly BitmapImage glassImage;
         private readonly Brush backgroundColor;
+
+        private VirtualBoardViewModel? model;
 
         /// <summary>
         /// Create a <see cref="VirtualBoardControl"/> instance.
@@ -35,138 +36,68 @@ namespace OpenMacroBoard.VirtualBoard
                 glassImage.EndInit();
             }
 
-            byte gray = 20;
+            const byte gray = 20;
             backgroundColor = new SolidColorBrush(Color.FromArgb(255, gray, gray, gray));
         }
 
         /// <summary>
         /// Renders the LCD macro board
         /// </summary>
-        /// <param name="dc"></param>
-        protected override void OnRender(DrawingContext dc)
+        /// <param name="drawingContext"></param>
+        protected override void OnRender(DrawingContext drawingContext)
         {
-            dc.DrawRectangle(backgroundColor, null, new Rect(0, 0, ActualWidth, ActualHeight));
-
+            drawingContext.DrawRectangle(backgroundColor, null, new Rect(0, 0, ActualWidth, ActualHeight));
             UpdateModelProperty();
-
-            if (model == null)
-            {
-                return;
-            }
-
-            UpdateLayoutInfo();
-            DrawBoard(dc);
-        }
-
-        private void UpdateLayoutInfo()
-        {
-            layout = new VirtualBoardLayout(model.Keys, ActualWidth, ActualHeight);
-        }
-
-        private void UpdateModelProperty()
-        {
-            var newModel = DataContext as VirtualBoardViewModel;
-            if (ReferenceEquals(newModel, model))
-            {
-                return;
-            }
-
-            if (!(model is null))
-            {
-                model.PropertyChanged -= Model_PropertyChanged;
-            }
-
-            if (!(newModel is null))
-            {
-                newModel.PropertyChanged += Model_PropertyChanged;
-            }
-
-            model = newModel;
-        }
-
-        private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(VirtualBoardViewModel.KeyImages))
-            {
-                InvalidateVisual();
-            }
-        }
-
-        private void DrawBoard(DrawingContext dc)
-        {
-            var cnt = 0;
-            foreach (var ki in layout.KeyPositions)
-            {
-                var transform = new TransformGroup();
-                transform.Children.Add(new ScaleTransform(ki.Width, ki.Height, 0, 0));
-                transform.Children.Add(new TranslateTransform(ki.Left, ki.Top));
-
-                dc.PushTransform(transform);
-
-                DrawButton(dc, cnt);
-                cnt++;
-
-                dc.Pop();
-            }
-        }
-
-        private void DrawButton(DrawingContext dc, int keyId)
-        {
-            dc.DrawImage(model.KeyImages[keyId], new Rect(0, 0, 1, 1));
-            const double offset = 0.071;
-            dc.DrawImage(glassImage, new Rect(-offset, -offset, 1 + 2 * offset, 1 + 2 * offset));
-        }
-
-        private int GetKeyId(Point point)
-        {
-            for (var i = 0; i < layout.KeyPositions.Count; i++)
-            {
-                var r = layout.KeyPositions[i];
-
-                if (point.X < r.Left)
-                {
-                    continue;
-                }
-
-                if (point.X > r.Right)
-                {
-                    continue;
-                }
-
-                if (point.Y < r.Top)
-                {
-                    continue;
-                }
-
-                if (point.Y > r.Bottom)
-                {
-                    continue;
-                }
-
-                return i;
-            }
-
-            return -1;
+            DrawBoard(drawingContext);
         }
 
         /// <inheritdoc/>
         protected override void OnMouseMove(MouseEventArgs e)
         {
-            var pos = e.GetPosition(this);
-            var p = GetKeyId(pos);
-
-            for (var i = 0; i < layout.KeyPositions.Count; i++)
+            if (model == null)
             {
-                if (p != i)
+                return;
+            }
+
+            var isDown = e.LeftButton == MouseButtonState.Pressed;
+            var position = e.GetPosition(this);
+            var positionKeyId = GetKeyId(position);
+
+            bool UpdateKeyState(int keyId, bool targetState)
+            {
+                var keyState = model!.GetKeyState(keyId);
+
+                if (keyState == targetState)
                 {
-                    model.SendKeyState(i, false);
+                    return false;
                 }
+
+                model.SendKeyState(keyId, targetState);
+                return true;
+            }
+
+            bool needVisualUpdate = false;
+
+            for (var keyId = 0; keyId < model.Keys.Count; keyId++)
+            {
+                var targetState = positionKeyId == keyId && isDown;
+                needVisualUpdate |= UpdateKeyState(keyId, targetState);
+            }
+
+            if (needVisualUpdate)
+            {
+                InvalidateVisual();
             }
         }
 
         /// <inheritdoc/>
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
+            if (model == null)
+            {
+                return;
+            }
+
             var pos = e.GetPosition(this);
             var p = GetKeyId(pos);
 
@@ -176,11 +107,17 @@ namespace OpenMacroBoard.VirtualBoard
             }
 
             model.SendKeyState(p, true);
+            InvalidateVisual();
         }
 
         /// <inheritdoc/>
         protected override void OnMouseUp(MouseButtonEventArgs e)
         {
+            if (model == null)
+            {
+                return;
+            }
+
             var pos = e.GetPosition(this);
             var p = GetKeyId(pos);
 
@@ -190,6 +127,121 @@ namespace OpenMacroBoard.VirtualBoard
             }
 
             model.SendKeyState(p, false);
+            InvalidateVisual();
+        }
+
+        private void UpdateModelProperty()
+        {
+            var newModel = DataContext as VirtualBoardViewModel;
+
+            if (ReferenceEquals(newModel, model))
+            {
+                return;
+            }
+
+            if (model is not null)
+            {
+                // Get rid of old model
+                model.PropertyChanged -= Model_PropertyChanged;
+                model = null;
+            }
+
+            if (newModel is not null)
+            {
+                newModel.PropertyChanged += Model_PropertyChanged;
+                model = newModel;
+
+                Width = newModel.Keys.Area.Width + newModel.Keys.GapSize * 2;
+                Height = newModel.Keys.Area.Height + newModel.Keys.GapSize * 2;
+            }
+        }
+
+        private void Model_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(VirtualBoardViewModel.KeyImages))
+            {
+                InvalidateVisual();
+            }
+        }
+
+        private void DrawBoard(DrawingContext dc)
+        {
+            if (model == null)
+            {
+                return;
+            }
+
+            for (var keyId = 0; keyId < model.Keys.Count; keyId++)
+            {
+                var keyRect = model.Keys[keyId];
+                var pressed = model.GetKeyState(keyId);
+
+                double scaleFactor = 1.125;
+                double glassScaleFactor = pressed ? 1.1 : scaleFactor;
+
+                var imgTargetRect = new Rect(
+                    keyRect.X + model.Keys.GapSize,
+                    keyRect.Y + model.Keys.GapSize,
+                    keyRect.Width,
+                    keyRect.Height
+                );
+
+                var glassSize = new Size(
+                    imgTargetRect.Width * glassScaleFactor,
+                    imgTargetRect.Height * glassScaleFactor
+                );
+
+                var glassOffset = new Point(
+                    imgTargetRect.X - (glassSize.Width - imgTargetRect.Width) / 2,
+                    imgTargetRect.Y - (glassSize.Height - imgTargetRect.Height) / 2
+                );
+
+                var glassImageRect = new Rect(glassOffset, glassSize);
+
+                // draw image
+                var geo = new RectangleGeometry(imgTargetRect, 10, 10);
+                dc.PushClip(geo);
+                dc.DrawImage(model!.KeyImages[keyId], imgTargetRect);
+                dc.Pop();
+
+                // draw "glass" button overlay
+                dc.DrawImage(glassImage, glassImageRect);
+            }
+        }
+
+        private int GetKeyId(Point point)
+        {
+            var px = point.X - model!.Keys.GapSize;
+            var py = point.Y - model!.Keys.GapSize;
+
+            for (var i = 0; i < model!.Keys.Count; i++)
+            {
+                var r = model!.Keys[i];
+
+                if (px < r.Left)
+                {
+                    continue;
+                }
+
+                if (px > r.Right)
+                {
+                    continue;
+                }
+
+                if (py < r.Top)
+                {
+                    continue;
+                }
+
+                if (py > r.Bottom)
+                {
+                    continue;
+                }
+
+                return i;
+            }
+
+            return -1;
         }
     }
 }

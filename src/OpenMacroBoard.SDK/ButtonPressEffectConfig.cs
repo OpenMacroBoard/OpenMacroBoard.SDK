@@ -1,10 +1,11 @@
-﻿using System.Drawing;
+using System.Diagnostics.CodeAnalysis;
 
 namespace OpenMacroBoard.SDK
 {
     /// <summary>
     /// Configuration for <see cref="ButtonPressEffectAdapter"/>
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class ButtonPressEffectConfig
     {
         /// <summary>
@@ -29,6 +30,6 @@ namespace OpenMacroBoard.SDK
         /// <summary>
         /// The background color that is used when the button is shrunk.
         /// </summary>
-        public Color BackgroundColor { get; set; } = Color.Black;
+        public OmbColor BackgroundColor { get; set; } = OmbColor.Black;
     }
 }

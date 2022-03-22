@@ -1,23 +1,37 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace OpenMacroBoard.SDK
 {
     /// <summary>
-    /// A <see cref="IMacroBoard"/> adapter that replays brightness and keybitmaps if a device is disconnected.
+    /// A <see cref="IMacroBoard"/> adapter that replays brightness and key bitmaps if a device is disconnected.
     /// </summary>
     public class DisconnectReplayAdapter : MacroBoardAdapter
     {
-        private readonly Dictionary<int, KeyBitmap> mostRecentKeyBitmaps = new Dictionary<int, KeyBitmap>();
+        private readonly Dictionary<int, KeyBitmap> mostRecentKeyBitmaps = new();
         private byte? mostRecentBrightness = null;
 
         /// <summary>
-        /// Creates a new instance of <see cref="DisconnectReplayAdapter"/>.
+        /// Initializes a new instance of the <see cref="DisconnectReplayAdapter"/> class.
         /// </summary>
         /// <param name="macroBoard"></param>
         public DisconnectReplayAdapter(IMacroBoard macroBoard)
             : base(macroBoard)
         {
             ConnectionStateChanged += DisconnectReplayAdapter_ConnectionStateChanged;
+        }
+
+        /// <inheritdoc/>
+        public override void SetBrightness(byte percent)
+        {
+            mostRecentBrightness = percent;
+            base.SetBrightness(percent);
+        }
+
+        /// <inheritdoc/>
+        public override void SetKeyBitmap(int keyId, KeyBitmap bitmapData)
+        {
+            mostRecentKeyBitmaps[keyId] = bitmapData;
+            base.SetKeyBitmap(keyId, bitmapData);
         }
 
         private void DisconnectReplayAdapter_ConnectionStateChanged(object sender, ConnectionEventArgs e)
@@ -36,20 +50,6 @@ namespace OpenMacroBoard.SDK
                     base.SetKeyBitmap(bmp.Key, bmp.Value);
                 }
             }
-        }
-
-        /// <inheritdoc/>
-        public override void SetBrightness(byte percent)
-        {
-            mostRecentBrightness = percent;
-            base.SetBrightness(percent);
-        }
-
-        /// <inheritdoc/>
-        public override void SetKeyBitmap(int keyId, KeyBitmap bitmapData)
-        {
-            mostRecentKeyBitmaps[keyId] = bitmapData;
-            base.SetKeyBitmap(keyId, bitmapData);
         }
     }
 }

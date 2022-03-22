@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace OpenMacroBoard.SDK
 {
@@ -8,17 +8,7 @@ namespace OpenMacroBoard.SDK
     public class KeyEventArgs : EventArgs
     {
         /// <summary>
-        /// The index of the key that was pressed or released.
-        /// </summary>
-        public int Key { get; }
-
-        /// <summary>
-        /// A flag that determines if the key was pressed or released.
-        /// </summary>
-        public bool IsDown { get; }
-
-        /// <summary>
-        /// Constructs a new <see cref="KeyEventArgs"/> object.
+        /// Initializes a new instance of the <see cref="KeyEventArgs"/> class.
         /// </summary>
         /// <param name="key">The index of the key that was pressed or released.</param>
         /// <param name="isDown">A flag that determines if the key was pressed or released.</param>
@@ -27,5 +17,15 @@ namespace OpenMacroBoard.SDK
             Key = key;
             IsDown = isDown;
         }
+
+        /// <summary>
+        /// The index of the key that was pressed or released.
+        /// </summary>
+        public int Key { get; }
+
+        /// <summary>
+        /// A flag that determines if the key was pressed or released.
+        /// </summary>
+        public bool IsDown { get; }
     }
 }

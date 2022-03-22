@@ -1,16 +1,28 @@
-﻿using System;
-using System.Drawing;
-using System.Drawing.Imaging;
+using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Runtime.InteropServices;
 
 namespace OpenMacroBoard.SDK
 {
     /// <summary>
     /// Represents a bitmap that can be used as key images
     /// </summary>
-    public sealed partial class KeyBitmap : IEquatable<KeyBitmap>, IKeyBitmapDataAccess
+    public sealed class KeyBitmap : IEquatable<KeyBitmap>, IKeyBitmapDataAccess
     {
+        /// <summary>
+        /// Byte order is B-G-R, and pixels are stored left-to-right and top-to-bottom
+        /// </summary>
+        private readonly byte[] rawBitmapData;
+
+        private int? cachedHashCode = null;
+
+        internal KeyBitmap(int width, int height, byte[] bitmapData)
+        {
+            Width = width;
+            Height = height;
+            rawBitmapData = bitmapData ?? throw new ArgumentNullException(nameof(bitmapData));
+        }
+
         /// <summary>
         /// This property can be used to create new KeyBitmaps
         /// </summary>
@@ -18,7 +30,7 @@ namespace OpenMacroBoard.SDK
         /// This property just serves as an anchor point for extension methods
         /// to create new <see cref="KeyBitmap"/> objects
         /// </remarks>
-        public static IKeyBitmapFactory Create { get; } = null;
+        public static IKeyBitmapFactory Create { get; }
 
         /// <summary>
         /// Solid black bitmap
@@ -26,7 +38,7 @@ namespace OpenMacroBoard.SDK
         /// <remarks>
         /// If you need a black bitmap (for example to clear keys) use this property for better performance (in theory ^^)
         /// </remarks>
-        public static KeyBitmap Black { get; } = new KeyBitmap(1, 1, null);
+        public static KeyBitmap Black { get; } = new(1, 1, Array.Empty<byte>());
 
         /// <summary>
         /// Gets the width of the bitmap.
@@ -38,21 +50,24 @@ namespace OpenMacroBoard.SDK
         /// </summary>
         public int Height { get; }
 
-        int IKeyBitmapDataAccess.Stride
-            => stride;
+        bool IKeyBitmapDataAccess.IsEmpty
+            => rawBitmapData.Length == 0;
 
-        int IKeyBitmapDataAccess.DataLength
-            => rawBitmapData.Length;
+        /// <summary>
+        /// The == operator
+        /// </summary>
+        public static bool operator ==(KeyBitmap a, KeyBitmap b)
+        {
+            return Equals(a, b);
+        }
 
-        bool IKeyBitmapDataAccess.IsNull
-            => rawBitmapData == null;
-
-        /// <remarks>
-        /// Byte order is B-G-R, and pixels are stored left-to-right and top-to-bottom
-        /// </remarks>
-        private readonly byte[] rawBitmapData;
-        private readonly int stride;
-        private int? cachedHashCode = null;
+        /// <summary>
+        /// The != operator
+        /// </summary>
+        public static bool operator !=(KeyBitmap a, KeyBitmap b)
+        {
+            return !Equals(a, b);
+        }
 
         /// <summary>
         /// Creates a new <see cref="KeyBitmap"/> object.
@@ -62,9 +77,16 @@ namespace OpenMacroBoard.SDK
         /// <param name="bitmapData">raw bitmap data (Bgr24)</param>
         /// <remarks>
         /// Make sure you don't use or change the <paramref name="bitmapData"/> after constructing the object.
-        /// This array is not copied for performance reasons and used by different threads.
+        /// This array might not be copied for performance reasons and will be used by different threads.
         /// </remarks>
-        public KeyBitmap(int width, int height, byte[] bitmapData)
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Either <paramref name="width"/> or <paramref name="height"/> are smaller than one.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Provided <paramref name="width"/> and <paramref name="height"/> doesn't match the
+        /// expected array length of <see cref="rawBitmapData"/>.
+        /// </exception>
+        public static KeyBitmap FromBgr24Array(int width, int height, byte[] bitmapData)
         {
             if (width < 1)
             {
@@ -76,20 +98,19 @@ namespace OpenMacroBoard.SDK
                 throw new ArgumentOutOfRangeException(nameof(height));
             }
 
-            Width = width;
-            Height = height;
-
-            if (bitmapData != null)
+            if (bitmapData is null)
             {
-                var expectedLength = width * height * 3;
-                if (bitmapData.Length != expectedLength)
-                {
-                    throw new ArgumentException($"{nameof(bitmapData)}.Length does not match it's expected size ({nameof(width)} x {nameof(height)} x 3)", nameof(bitmapData));
-                }
-
-                stride = width * 3;
-                rawBitmapData = (byte[])bitmapData.Clone();
+                return new KeyBitmap(width, height, Array.Empty<byte>());
             }
+
+            var expectedLength = width * height * 3;
+
+            if (bitmapData.Length != expectedLength)
+            {
+                throw new ArgumentException($"{nameof(bitmapData)}.Length does not match it's expected size ({nameof(width)} x {nameof(height)} x 3)", nameof(bitmapData));
+            }
+
+            return new KeyBitmap(width, height, (byte[])bitmapData.Clone());
         }
 
         /// <summary>
@@ -140,26 +161,8 @@ namespace OpenMacroBoard.SDK
                 return false;
             }
 
-            return Enumerable.SequenceEqual(a.rawBitmapData, b.rawBitmapData);
+            return a.rawBitmapData.SequenceEqual(b.rawBitmapData);
         }
-
-        /// <summary>
-        /// The == operator
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
-        public static bool operator ==(KeyBitmap a, KeyBitmap b)
-            => Equals(a, b);
-
-        /// <summary>
-        /// The != operator
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
-        public static bool operator !=(KeyBitmap a, KeyBitmap b)
-            => !Equals(a, b);
 
         /// <summary>
         /// Compares the content of this <see cref="KeyBitmap"/> to another KeyBitmap
@@ -167,7 +170,9 @@ namespace OpenMacroBoard.SDK
         /// <param name="other">The other <see cref="KeyBitmap"/></param>
         /// <returns>True if both bitmaps are equals and false otherwise.</returns>
         public bool Equals(KeyBitmap other)
-            => Equals(this, other);
+        {
+            return Equals(this, other);
+        }
 
         /// <summary>
         /// Compares the content of this <see cref="KeyBitmap"/> to another object
@@ -175,20 +180,24 @@ namespace OpenMacroBoard.SDK
         /// <param name="obj">The other object</param>
         /// <returns>Return true if the other object is a <see cref="KeyBitmap"/> and equal to this one. Returns false otherwise.</returns>
         public override bool Equals(object obj)
-            => Equals(this, obj as KeyBitmap);
+        {
+            return Equals(this, obj as KeyBitmap);
+        }
 
         /// <summary>
         /// Get the hash code for this object.
         /// </summary>
         /// <returns>The hash code</returns>
+        [SuppressMessage("Minor Bug", "S2328:\"GetHashCode\" should not reference mutable fields", Justification = "False positive because the value is cached.")]
         public override int GetHashCode()
         {
-            if (!cachedHashCode.HasValue)
-            {
-                cachedHashCode = CalculateObjectHash();
-            }
+            return cachedHashCode ??= CalculateObjectHash();
+        }
 
-            return cachedHashCode.Value;
+        /// <inheritdoc />
+        ReadOnlySpan<byte> IKeyBitmapDataAccess.GetData()
+        {
+            return new ReadOnlySpan<byte>(rawBitmapData);
         }
 
         private int CalculateObjectHash()
@@ -203,7 +212,7 @@ namespace OpenMacroBoard.SDK
                 hash = hash * primeFactor + Width;
                 hash = hash * primeFactor + Height;
 
-                if (rawBitmapData == null)
+                if (rawBitmapData.Length == 0)
                 {
                     return hash;
                 }
@@ -222,60 +231,6 @@ namespace OpenMacroBoard.SDK
 
                 return hash;
             }
-        }
-
-        void IKeyBitmapDataAccess.CopyData(byte[] targetArray, int targetIndex, int startIndex, int length)
-        {
-            Array.Copy(rawBitmapData, startIndex, targetArray, targetIndex, length);
-        }
-
-        void IKeyBitmapDataAccess.CopyData(byte[] targetArray, int targetIndex)
-        {
-            Array.Copy(rawBitmapData, 0, targetArray, targetIndex, rawBitmapData.Length);
-        }
-
-        byte[] IKeyBitmapDataAccess.CopyData()
-        {
-            return (byte[])rawBitmapData?.Clone();
-        }
-
-        Bitmap IKeyBitmapDataAccess.GetBitmap()
-        {
-            if (rawBitmapData is null)
-            {
-                return null;
-            }
-
-            var sourceBmp = new Bitmap(Width, Height, PixelFormat.Format24bppRgb);
-            var bmpData = sourceBmp.LockBits(new Rectangle(0, 0, sourceBmp.Width, sourceBmp.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
-
-            try
-            {
-                var h = sourceBmp.Height;
-                var w = sourceBmp.Width;
-
-                var alignedData = new byte[bmpData.Stride * h];
-
-                for (var y = 0; y < h; y++)
-                {
-                    for (var x = 0; x < w; x++)
-                    {
-                        var ps = bmpData.Stride * y + x * 3;
-                        var pt = (w * y + x) * 3;
-                        alignedData[ps + 0] = rawBitmapData[pt + 0];
-                        alignedData[ps + 1] = rawBitmapData[pt + 1];
-                        alignedData[ps + 2] = rawBitmapData[pt + 2];
-                    }
-                }
-
-                Marshal.Copy(alignedData, 0, bmpData.Scan0, rawBitmapData.Length);
-            }
-            finally
-            {
-                sourceBmp.UnlockBits(bmpData);
-            }
-
-            return sourceBmp;
         }
     }
 }

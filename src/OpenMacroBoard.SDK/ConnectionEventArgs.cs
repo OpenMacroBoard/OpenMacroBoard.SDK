@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace OpenMacroBoard.SDK
 {
@@ -8,17 +8,17 @@ namespace OpenMacroBoard.SDK
     public class ConnectionEventArgs : EventArgs
     {
         /// <summary>
-        /// The new connection state.
-        /// </summary>
-        public bool NewConnectionState { get; }
-
-        /// <summary>
-        /// Instantiates a new <see cref="ConnectionEventArgs"/> object.
+        /// Initializes a new instance of the <see cref="ConnectionEventArgs"/> class.
         /// </summary>
         /// <param name="newConnectionState"></param>
         public ConnectionEventArgs(bool newConnectionState)
         {
             NewConnectionState = newConnectionState;
         }
+
+        /// <summary>
+        /// The new connection state.
+        /// </summary>
+        public bool NewConnectionState { get; }
     }
 }
