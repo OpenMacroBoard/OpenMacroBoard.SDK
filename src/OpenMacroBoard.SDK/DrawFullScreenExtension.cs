@@ -14,10 +14,16 @@ namespace OpenMacroBoard.SDK
         /// <summary>
         /// Draw a given image as fullscreen (spanning over all keys)
         /// </summary>
-        /// <param name="board"></param>
-        /// <param name="image"></param>
+        /// <param name="board">The board the image should be drawn to.</param>
+        /// <param name="image">The image that should be drawn.</param>
+        /// <param name="resizeMode">The resize mode that should be used to fit the image.</param>
         /// <exception cref="ArgumentNullException">The provided board or bitmap is null.</exception>
-        public static void DrawFullScreenBitmap(this IMacroBoard board, Image image)
+        public static void DrawFullScreenBitmap
+        (
+            this IMacroBoard board,
+            Image image,
+            ResizeMode resizeMode = ResizeMode.BoxPad
+        )
         {
             if (board is null)
             {
@@ -31,7 +37,7 @@ namespace OpenMacroBoard.SDK
 
             byte[] imgData = null;
 
-            using (var ctx = ResizeToFullStreamDeckImage(image, board.Keys.Area.Size))
+            using (var ctx = ResizeToFullStreamDeckImage(image, board.Keys.Area.Size, resizeMode))
             {
                 imgData = ctx.Item.ToBgr24PixelArray();
             }
@@ -43,7 +49,12 @@ namespace OpenMacroBoard.SDK
             }
         }
 
-        private static ConditionalDisposable<Image<Bgr24>> ResizeToFullStreamDeckImage(Image image, OmbSize newSize)
+        private static ConditionalDisposable<Image<Bgr24>> ResizeToFullStreamDeckImage
+        (
+            Image image,
+            OmbSize newSize,
+            ResizeMode resizeMode
+        )
         {
             return ConstrainedContext.For(
                 image,
@@ -67,7 +78,7 @@ namespace OpenMacroBoard.SDK
 
                     var resizeOptions = new ResizeOptions()
                     {
-                        Mode = ResizeMode.Crop,
+                        Mode = resizeMode,
                         Size = new(newSize.Width, newSize.Height),
                         Sampler = KnownResamplers.Welch,
                     };
@@ -83,7 +94,12 @@ namespace OpenMacroBoard.SDK
             );
         }
 
-        private static KeyBitmap GetKeyImageFromFull(OmbRectangle keyPos, byte[] fullImageData, OmbSize fullImageSize)
+        private static KeyBitmap GetKeyImageFromFull
+        (
+            OmbRectangle keyPos,
+            byte[] fullImageData,
+            OmbSize fullImageSize
+        )
         {
             var keyImgData = new byte[keyPos.Width * keyPos.Height * 3];
             var stride = 3 * fullImageSize.Width;

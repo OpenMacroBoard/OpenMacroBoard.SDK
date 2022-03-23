@@ -29,6 +29,7 @@ namespace OpenMacroBoard.VirtualBoard
             currentKeyState = new bool[Keys.Count];
 
             dispatcher = Dispatcher.CurrentDispatcher;
+            ShowLogo();
         }
 
         /// <inheritdoc/>

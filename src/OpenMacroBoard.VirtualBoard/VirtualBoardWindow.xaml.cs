@@ -78,7 +78,7 @@ namespace OpenMacroBoard.VirtualBoard
             }
 
             Title = titleBarText;
-            server = new(macroBoardViewModel, deviceName, bindAddress, port);
+            server = new(new DecoratedVirtualBoard(macroBoardViewModel), deviceName, bindAddress, port);
 
             Closed += VirtualBoardWindow_Closed;
         }
