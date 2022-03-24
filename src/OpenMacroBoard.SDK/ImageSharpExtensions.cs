@@ -12,27 +12,6 @@ namespace OpenMacroBoard.SDK
     public static class ImageSharpExtensions
     {
         /// <summary>
-        /// Copies pixel data from a Bgr24 image to a given span.
-        /// </summary>
-        public static void ToBgr24PixelArray(this Image<Bgr24> image, Span<byte> targetPixelData)
-        {
-            for (int y = 0; y < image.Height; y++)
-            {
-                var pixelRowSpan = image.GetPixelRowSpan(y);
-                var yOffset = y * image.Width;
-
-                for (int x = 0; x < image.Width; x++)
-                {
-                    var index = (yOffset + x) * 3;
-
-                    targetPixelData[index] = pixelRowSpan[x].B;
-                    targetPixelData[index + 1] = pixelRowSpan[x].G;
-                    targetPixelData[index + 2] = pixelRowSpan[x].R;
-                }
-            }
-        }
-
-        /// <summary>
         /// Converts an Bgr24 image to a byte array containing raw pixel data.
         /// </summary>
         public static byte[] ToBgr24PixelArray(this Image<Bgr24> image)
@@ -40,7 +19,7 @@ namespace OpenMacroBoard.SDK
             using var ctx = image.WithBgr24();
 
             var data = new byte[image.Width * image.Height * 3];
-            ctx.Item.ToBgr24PixelArray(data);
+            ctx.Item.CopyPixelDataTo(data);
             return data;
         }
 
@@ -50,7 +29,7 @@ namespace OpenMacroBoard.SDK
         public static void ToBgr24PixelArray(this Image image, Span<byte> targetPixelData)
         {
             using var ctx = image.WithBgr24();
-            ctx.Item.ToBgr24PixelArray(targetPixelData);
+            ctx.Item.CopyPixelDataTo(targetPixelData);
         }
 
         /// <summary>

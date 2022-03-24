@@ -7,6 +7,8 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>OmbIcon.ico</ApplicationIcon>
+    <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+    <DebugType>none</DebugType>
   </PropertyGroup>
 
   <ItemGroup>

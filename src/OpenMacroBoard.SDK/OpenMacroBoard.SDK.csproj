@@ -18,7 +18,7 @@
   <Import Project="..\..\..\analyzers.targets" />
 
   <ItemGroup>
-    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.4" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="2.1.0" />
     <None Include="icon.png" Pack="true" PackagePath=""/>
   </ItemGroup>
 
