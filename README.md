@@ -19,7 +19,11 @@ I'd like to write an open source alternative for the elgato stream deck software
 # Is device _XYZ_ supported?
 At the moment there are only three `IMacroBoard` providers
 1. Stream Deck (via `StreamDeckSharp`)
-2. Stream Deck Mini (via `StreamDeckSharp`)
-3. Virtual software board (via `OpenMacroBoard.VirtualBoard`)
+    1. Stream Deck (original/classic)
+    2. Stream Deck Rev 2
+    3. Stream Deck MK2
+    4. Stream Deck Mini
+    5. Stream Deck XL
+4. Virtual Macro Board (via `OpenMacroBoard.SocketIO` and VirtualBoard.exe)
 
 I'd love to add more. You can implement it by yourself if you are a developer by referencing `OpenMacroBoard.SDK` and write a method that returns an `IMacroBoard`. If want me to implement it, you can donate hardware (or the money so I can buy that specific hardware you want implemented) - just create a ticket and we talk about it ;-)
