@@ -11,8 +11,8 @@ namespace OpenMacroBoard.Tests
         [Fact]
         public void NegativeOrZeroWidthCausesConstructorToThrow()
         {
-            Action act_zero = () => _ = KeyBitmap.FromBgr24Array(0, 1, null);
-            Action act_negative = () => _ = KeyBitmap.FromBgr24Array(-1, 1, null);
+            Action act_zero = () => _ = KeyBitmap.Create.FromBgr24Array(0, 1, null);
+            Action act_negative = () => _ = KeyBitmap.Create.FromBgr24Array(-1, 1, null);
 
             act_zero.Should()
                 .Throw<ArgumentOutOfRangeException>()
@@ -26,8 +26,8 @@ namespace OpenMacroBoard.Tests
         [Fact]
         public void NegativeOrZeroHeightCausesConstructorToThrow()
         {
-            Action act_zero = () => _ = KeyBitmap.FromBgr24Array(1, 0, null);
-            Action act_negative = () => _ = KeyBitmap.FromBgr24Array(1, -1, null);
+            Action act_zero = () => _ = KeyBitmap.Create.FromBgr24Array(1, 0, null);
+            Action act_negative = () => _ = KeyBitmap.Create.FromBgr24Array(1, -1, null);
 
             act_zero.Should()
                 .Throw<ArgumentOutOfRangeException>()
@@ -41,8 +41,8 @@ namespace OpenMacroBoard.Tests
         [Fact]
         public void ImageDataArrayLengthMissmatchThrowsException()
         {
-            Action act_correctParams = () => _ = KeyBitmap.FromBgr24Array(2, 2, new byte[12]);
-            Action act_incorrectParams = () => _ = KeyBitmap.FromBgr24Array(3, 3, new byte[5]);
+            Action act_correctParams = () => _ = KeyBitmap.Create.FromBgr24Array(2, 2, new byte[12]);
+            Action act_incorrectParams = () => _ = KeyBitmap.Create.FromBgr24Array(3, 3, new byte[5]);
 
             act_correctParams.Should().NotThrow();
             act_incorrectParams.Should().Throw<ArgumentException>();
@@ -51,9 +51,9 @@ namespace OpenMacroBoard.Tests
         [Fact]
         public void EqualsReturnsFalseIfWidthIsDifferent()
         {
-            var key1 = KeyBitmap.FromBgr24Array(4, 4, null);
-            var key2 = KeyBitmap.FromBgr24Array(3, 4, null);
-            var key3 = KeyBitmap.FromBgr24Array(4, 4, null);
+            var key1 = KeyBitmap.Create.Empty(4, 4);
+            var key2 = KeyBitmap.Create.Empty(3, 4);
+            var key3 = KeyBitmap.Create.Empty(4, 4);
 
             key1.Should().NotBe(key2);
             key1.Should().NotBeSameAs(key2);
@@ -67,9 +67,9 @@ namespace OpenMacroBoard.Tests
         [Fact]
         public void EqualsReturnsFalseIfHeightIsDifferent()
         {
-            var key1 = KeyBitmap.FromBgr24Array(4, 4, null);
-            var key2 = KeyBitmap.FromBgr24Array(4, 3, null);
-            var key3 = KeyBitmap.FromBgr24Array(4, 4, null);
+            var key1 = KeyBitmap.Create.Empty(4, 4);
+            var key2 = KeyBitmap.Create.Empty(4, 3);
+            var key3 = KeyBitmap.Create.Empty(4, 4);
 
             key1.Should().NotBe(key2);
             key1.Should().NotBeSameAs(key2);
@@ -83,7 +83,7 @@ namespace OpenMacroBoard.Tests
         [Fact]
         public void EqualsReturnsFalseIfOnlyOneElementIsNull()
         {
-            var key = KeyBitmap.FromBgr24Array(4, 4, null);
+            var key = KeyBitmap.Create.Empty(4, 4);
 
             KeyBitmap.Equals(null, null).Should().BeTrue();
             KeyBitmap.Equals(null, key).Should().BeFalse();
@@ -94,8 +94,8 @@ namespace OpenMacroBoard.Tests
         [Fact]
         public void EqualsReturnsFalseIfDataDoesNotMatch()
         {
-            var key1 = KeyBitmap.FromBgr24Array(1, 1, null);
-            var key2 = KeyBitmap.FromBgr24Array(1, 1, new byte[3]);
+            var key1 = KeyBitmap.Create.Empty(1, 1);
+            var key2 = KeyBitmap.Create.FromBgr24Array(1, 1, new byte[3]);
 
             key1.Should().NotBe(key2);
             key2.Should().NotBe(key1);
@@ -104,10 +104,10 @@ namespace OpenMacroBoard.Tests
         [Fact]
         public void KeyBitmapsWithDifferentBgrValuesAreNotEqual()
         {
-            var key1 = KeyBitmap.FromBgr24Array(1, 1, new byte[3]);
+            var key1 = KeyBitmap.Create.FromBgr24Array(1, 1, new byte[3]);
 
             var key2Data = new byte[3] { 1, 2, 3 };
-            var key2 = KeyBitmap.FromBgr24Array(1, 1, key2Data);
+            var key2 = KeyBitmap.Create.FromBgr24Array(1, 1, key2Data);
 
             key1.Should().NotBe(key2);
             key2.Should().NotBe(key1);
@@ -118,9 +118,9 @@ namespace OpenMacroBoard.Tests
         {
             var key2Data = new byte[3] { 1, 2, 3 };
 
-            var key1 = KeyBitmap.FromBgr24Array(1, 1, new byte[3]);
-            var key2 = KeyBitmap.FromBgr24Array(1, 1, key2Data);
-            var key3 = KeyBitmap.FromBgr24Array(1, 1, new byte[3]);
+            var key1 = KeyBitmap.Create.FromBgr24Array(1, 1, new byte[3]);
+            var key2 = KeyBitmap.Create.FromBgr24Array(1, 1, key2Data);
+            var key3 = KeyBitmap.Create.FromBgr24Array(1, 1, new byte[3]);
 
             var equalityMethods = new List<Func<KeyBitmap, KeyBitmap, bool>>()
             {
@@ -144,10 +144,10 @@ namespace OpenMacroBoard.Tests
         {
             var key2Data = new byte[3] { 1, 2, 3 };
 
-            var key1 = KeyBitmap.FromBgr24Array(1, 1, new byte[3]);
-            var key2 = KeyBitmap.FromBgr24Array(1, 1, key2Data);
-            var key3 = KeyBitmap.FromBgr24Array(1, 1, null);
-            var key4 = KeyBitmap.FromBgr24Array(100, 100, new byte[100 * 100 * 3]);
+            var key1 = KeyBitmap.Create.FromBgr24Array(1, 1, new byte[3]);
+            var key2 = KeyBitmap.Create.FromBgr24Array(1, 1, key2Data);
+            var key3 = KeyBitmap.Create.Empty(1, 1);
+            var key4 = KeyBitmap.Create.FromBgr24Array(100, 100, new byte[100 * 100 * 3]);
 
             var hash1 = key1.GetHashCode();
             var hash2 = key2.GetHashCode();

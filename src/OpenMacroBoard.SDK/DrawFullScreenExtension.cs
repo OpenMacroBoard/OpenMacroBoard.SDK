@@ -117,7 +117,7 @@ namespace OpenMacroBoard.SDK
                 }
             }
 
-            return KeyBitmap.FromBgr24Array(keyPos.Width, keyPos.Height, keyImgData);
+            return KeyBitmap.Create.FromBgr24Array(keyPos.Width, keyPos.Height, keyImgData);
         }
     }
 }

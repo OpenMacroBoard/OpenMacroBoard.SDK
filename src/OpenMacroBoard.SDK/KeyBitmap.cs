@@ -70,50 +70,6 @@ namespace OpenMacroBoard.SDK
         }
 
         /// <summary>
-        /// Creates a new <see cref="KeyBitmap"/> object.
-        /// </summary>
-        /// <param name="width">width of the bitmap</param>
-        /// <param name="height">height of the bitmap</param>
-        /// <param name="bitmapData">raw bitmap data (Bgr24)</param>
-        /// <remarks>
-        /// Make sure you don't use or change the <paramref name="bitmapData"/> after constructing the object.
-        /// This array might not be copied for performance reasons and will be used by different threads.
-        /// </remarks>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// Either <paramref name="width"/> or <paramref name="height"/> are smaller than one.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// Provided <paramref name="width"/> and <paramref name="height"/> doesn't match the
-        /// expected array length of <see cref="rawBitmapData"/>.
-        /// </exception>
-        public static KeyBitmap FromBgr24Array(int width, int height, byte[] bitmapData)
-        {
-            if (width < 1)
-            {
-                throw new ArgumentOutOfRangeException(nameof(width));
-            }
-
-            if (height < 1)
-            {
-                throw new ArgumentOutOfRangeException(nameof(height));
-            }
-
-            if (bitmapData is null)
-            {
-                return new KeyBitmap(width, height, Array.Empty<byte>());
-            }
-
-            var expectedLength = width * height * 3;
-
-            if (bitmapData.Length != expectedLength)
-            {
-                throw new ArgumentException($"{nameof(bitmapData)}.Length does not match it's expected size ({nameof(width)} x {nameof(height)} x 3)", nameof(bitmapData));
-            }
-
-            return new KeyBitmap(width, height, (byte[])bitmapData.Clone());
-        }
-
-        /// <summary>
         /// Compares the content of two given <see cref="KeyBitmap"/>s
         /// </summary>
         /// <param name="a">KeyBitmap a</param>

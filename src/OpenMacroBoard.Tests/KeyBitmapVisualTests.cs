@@ -136,5 +136,115 @@ namespace OpenMacroBoard.Tests
 
             await Verifier.WithFileName("2.Reconnected").VerifyAsync(underlyingBoard);
         }
+
+        [Fact]
+        public async Task BitmapKeyChannelsWorkAsExpectedForBgr24()
+        {
+            Verifier.Initialize();
+            Verifier.UseFileNameAsDirectory();
+
+            using var board = new FakeMacroBoard(DeviceGridKeyPositionDataProvider.Medium);
+
+            var width = 72;
+            var height = 72;
+            var channels = 3;
+            var pixelCount = width * height;
+            var pixelDataLength = pixelCount * channels;
+
+            var bKeyArray = new byte[pixelDataLength];
+            var gKeyArray = new byte[pixelDataLength];
+            var rKeyArray = new byte[pixelDataLength];
+
+            for (int i = 0; i < pixelDataLength; i += channels)
+            {
+                bKeyArray[i + 0] = 255;
+                gKeyArray[i + 1] = 255;
+                rKeyArray[i + 2] = 255;
+            }
+
+            var bKey = KeyBitmap.Create.FromBgr24Array(width, height, bKeyArray);
+            var gKey = KeyBitmap.Create.FromBgr24Array(width, height, gKeyArray);
+            var rKey = KeyBitmap.Create.FromBgr24Array(width, height, rKeyArray);
+
+            board.SetBrightness(100);
+
+            int cnt = 0;
+
+            async Task TestKey(KeyBitmap key, string state)
+            {
+                board.SetKeyBitmap(7, key);
+                var fileName = $"{cnt}.State_24_{state}";
+                await Verifier.WithFileName(fileName).VerifyAsync(board);
+
+                cnt++;
+            }
+
+            await TestKey(bKey, "B");
+            await TestKey(gKey, "G");
+            await TestKey(rKey, "R");
+        }
+
+        [Fact]
+        public async Task BitmapKeyChannelsWorkAsExpectedFor32bitExtentsions()
+        {
+            Verifier.Initialize();
+            Verifier.UseFileNameAsDirectory();
+
+            using var board = new FakeMacroBoard(DeviceGridKeyPositionDataProvider.Medium);
+
+            var width = 72;
+            var height = 72;
+            var channels = 4;
+            var pixelCount = width * height;
+            var pixelDataLength = pixelCount * channels;
+
+            var bgra32BKeyArray = new byte[pixelDataLength];
+            var bgra32GKeyArray = new byte[pixelDataLength];
+            var bgra32RKeyArray = new byte[pixelDataLength];
+
+            var rgba32RKeyArray = new byte[pixelDataLength];
+            var rgba32GKeyArray = new byte[pixelDataLength];
+            var rgba32BKeyArray = new byte[pixelDataLength];
+
+            for (int i = 0; i < pixelDataLength; i += channels)
+            {
+                bgra32BKeyArray[i + 0] = 255;
+                bgra32GKeyArray[i + 1] = 255;
+                bgra32RKeyArray[i + 2] = 255;
+
+                rgba32RKeyArray[i + 0] = 255;
+                rgba32GKeyArray[i + 1] = 255;
+                rgba32BKeyArray[i + 2] = 255;
+            }
+
+            var b1Key = KeyBitmap.Create.FromBgra32Array(width, height, bgra32BKeyArray);
+            var g1Key = KeyBitmap.Create.FromBgra32Array(width, height, bgra32GKeyArray);
+            var r1Key = KeyBitmap.Create.FromBgra32Array(width, height, bgra32RKeyArray);
+
+            var b2Key = KeyBitmap.Create.FromRgba32Array(width, height, rgba32BKeyArray);
+            var g2Key = KeyBitmap.Create.FromRgba32Array(width, height, rgba32GKeyArray);
+            var r2Key = KeyBitmap.Create.FromRgba32Array(width, height, rgba32RKeyArray);
+
+            board.SetBrightness(100);
+
+            int cnt = 0;
+
+            async Task TestKey(KeyBitmap key, string state)
+            {
+                board.SetKeyBitmap(7, key);
+                var fileName = $"{cnt}.State_32_{state}";
+                await Verifier.WithFileName(fileName).VerifyAsync(board);
+
+                cnt++;
+            }
+
+            await TestKey(b1Key, "B1");
+            await TestKey(g1Key, "G1");
+            await TestKey(r1Key, "R1");
+
+            await TestKey(b2Key, "B2");
+            await TestKey(g2Key, "G2");
+            await TestKey(r2Key, "R2");
+        }
     }
 }

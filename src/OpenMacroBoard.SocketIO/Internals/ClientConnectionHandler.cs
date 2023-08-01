@@ -134,7 +134,7 @@ namespace OpenMacroBoard.SocketIO.Internals
 
                         if (data.Length > 0)
                         {
-                            keyBitmap = KeyBitmap.FromBgr24Array(width, height, data);
+                            keyBitmap = KeyBitmap.Create.FromBgr24Array(width, height, data);
                         }
 
                         board.SetKeyBitmap(keyId, keyBitmap);
