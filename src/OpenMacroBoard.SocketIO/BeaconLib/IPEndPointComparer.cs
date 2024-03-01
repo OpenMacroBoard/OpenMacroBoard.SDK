@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Net;
 
+#pragma warning disable AV1505 // Namespace should match with assembly name
+
 namespace BeaconLib
 {
     internal class IPEndPointComparer : IComparer<IPEndPoint>

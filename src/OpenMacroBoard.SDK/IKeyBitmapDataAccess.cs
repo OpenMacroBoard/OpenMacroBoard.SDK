@@ -3,7 +3,7 @@ using System;
 namespace OpenMacroBoard.SDK
 {
     /// <summary>
-    /// An interface that allows you to access the underlying data of <see cref="KeyBitmap"/>s
+    /// An interface that allows you to access the underlying data of <see cref="KeyBitmap"/>s.
     /// </summary>
     public interface IKeyBitmapDataAccess
     {

@@ -6,10 +6,10 @@ namespace OpenMacroBoard.SDK
     /// A conditional disposable wrapper.
     /// </summary>
     /// <remarks>
-    /// This class is used in situations where the wrapped element is either borrowed (in which case
+    /// <para>This class is used in situations where the wrapped element is either borrowed (in which case
     /// it shouldn't be disposed) or owned (in which case it should be disposed) and abstracts that
     /// away from the consumer. The consumer has to make sure to call dispose once they are finished
-    /// and this wrapped decides whether the wrapped element is in fact disposed or not.
+    /// and this wrapped decides whether the wrapped element is in fact disposed or not.</para>
     /// </remarks>
     /// <typeparam name="T">Disposable type.</typeparam>
     public sealed class ConditionalDisposable<T> : IDisposable

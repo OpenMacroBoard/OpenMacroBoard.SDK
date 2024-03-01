@@ -10,8 +10,8 @@ namespace OpenMacroBoard.SDK
     /// Macro board adapter that implements a software button press effect.
     /// </summary>
     /// <remarks>
-    /// This vaguely mimics the perspective of a real button being pushed
-    /// and provides better feedback to the user that a button push was registered.
+    /// <para>This vaguely mimics the perspective of a real button being pushed
+    /// and provides better feedback to the user that a button push was registered.</para>
     /// </remarks>
     public class ButtonPressEffectAdapter : MacroBoardAdapter
     {

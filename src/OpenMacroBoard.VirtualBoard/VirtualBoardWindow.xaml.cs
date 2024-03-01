@@ -6,6 +6,9 @@ using System;
 using System.Net;
 using System.Windows;
 
+#pragma warning disable IDE0079 // Remove unnecessary suppression
+#pragma warning disable CA1001  // Types that own disposable fields should be disposable
+
 namespace OpenMacroBoard.VirtualBoard
 {
     /// <summary>
@@ -41,7 +44,9 @@ namespace OpenMacroBoard.VirtualBoard
                     settings = x;
                 });
 
+#pragma warning disable S2589 // Boolean expressions should not be gratuitous
             if (!parsedSettings)
+#pragma warning restore S2589
             {
                 var text = HelpText.AutoBuild(res, int.MaxValue);
                 var body = text.ToString().Replace("\r\n\r\n", "\r\n");

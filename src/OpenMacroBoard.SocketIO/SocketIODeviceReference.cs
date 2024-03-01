@@ -16,9 +16,9 @@ namespace OpenMacroBoard.SocketIO
         /// Initializes a new instance of the <see cref="SocketIODeviceReference"/> class.
         /// </summary>
         /// <remarks>
-        /// Even though you can create an instance of this class yourself there are probably not a lot
+        /// <para>Even though you can create an instance of this class yourself there are probably not a lot
         /// of use cases where you have to. Instead use <see cref="DeviceContext"/> and the
-        /// <see cref="SocketIOBoardListener"/> to listen for SocketIO devices.
+        /// <see cref="SocketIOBoardListener"/> to listen for SocketIO devices.</para>
         /// </remarks>
         /// <param name="deviceName">The user friendly name for the referenced device.</param>
         /// <param name="ipEndPoint">The IP endpoint where the referenced device is listening.</param>

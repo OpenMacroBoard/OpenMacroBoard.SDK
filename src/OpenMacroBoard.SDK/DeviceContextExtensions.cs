@@ -85,7 +85,9 @@ namespace OpenMacroBoard.SDK
                 subscription.Dispose();
             }
 
+#pragma warning disable S2583 // Conditionally executed code should be reachable
             if (foundDevice is null)
+#pragma warning restore S2583
             {
                 // We don't document that exception because it shouldn't happen,
                 // and we don't expect the consumer to handle this exception type.

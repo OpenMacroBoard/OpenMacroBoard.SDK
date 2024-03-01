@@ -13,11 +13,10 @@ namespace OpenMacroBoard.SDK
         /// <summary>
         /// Initializes a new instance of the <see cref="DisconnectReplayAdapter"/> class.
         /// </summary>
-        /// <param name="macroBoard"></param>
         public DisconnectReplayAdapter(IMacroBoard macroBoard)
             : base(macroBoard)
         {
-            ConnectionStateChanged += DisconnectReplayAdapter_ConnectionStateChanged;
+            ConnectionStateChanged += ReplayEventsForConnectionStateChange;
         }
 
         /// <inheritdoc/>
@@ -34,13 +33,13 @@ namespace OpenMacroBoard.SDK
             base.SetKeyBitmap(keyId, bitmapData);
         }
 
-        private void DisconnectReplayAdapter_ConnectionStateChanged(object sender, ConnectionEventArgs e)
+        private void ReplayEventsForConnectionStateChange(object sender, ConnectionEventArgs e)
         {
             if (e.NewConnectionState)
             {
                 // devices connected again: replay last known values
 
-                if (mostRecentBrightness.HasValue)
+                if (mostRecentBrightness is not null)
                 {
                     base.SetBrightness(mostRecentBrightness.Value);
                 }

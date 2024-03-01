@@ -5,13 +5,18 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
+#pragma warning disable AV1505 // Namespace should match with assembly name
+#pragma warning disable AV1710 // Member name includes the name of its containing type
+
 namespace BeaconLib
 {
     /// <summary>
     /// Instances of this class can be auto-discovered on the local network through UDP broadcasts
     /// </summary>
     /// <remarks>
+    /// <para>
     /// The advertisement consists of the beacon's application type and a short beacon-specific string.
+    /// </para>
     /// </remarks>
     internal sealed class Beacon : IDisposable
     {

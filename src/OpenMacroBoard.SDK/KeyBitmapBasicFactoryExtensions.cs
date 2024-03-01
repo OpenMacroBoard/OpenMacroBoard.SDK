@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 namespace OpenMacroBoard.SDK
 {
     /// <summary>
-    /// A basic factory extension to create <see cref="KeyBitmap"/>s
+    /// Collection of factory extension methods for <see cref="KeyBitmap"/>s.
     /// </summary>
+    /// <remarks>
+    /// <para>You typically don't want to invoke the static methods directly, but instead use them
+    /// as extension methods by calling <see cref="KeyBitmap.Create"/>.XYZ();</para>
+    /// </remarks>
     public static class KeyBitmapBasicFactoryExtensions
     {
         /// <summary>

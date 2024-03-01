@@ -31,7 +31,6 @@ namespace OpenMacroBoard.SDK
         /// <summary>
         /// Subscribes an observer that will be notified when a device state changes.
         /// </summary>
-        /// <param name="observer"></param>
         /// <returns>Returns a disposable subscription.</returns>
         public IDisposable Subscribe(IObserver<DeviceStateReport> observer)
         {

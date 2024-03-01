@@ -4,9 +4,9 @@ namespace OpenMacroBoard.SDK
     /// Interface for factory extensions
     /// </summary>
     /// <remarks>
-    /// This interface is intentionally empty
+    /// <para>This interface is intentionally empty
     /// It is used to implement factory extensions
-    /// <see cref="KeyBitmap.Create"/>
+    /// <see cref="KeyBitmap.Create"/></para>
     /// </remarks>
     public interface IKeyBitmapFactory
     {

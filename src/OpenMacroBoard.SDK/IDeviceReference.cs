@@ -9,9 +9,9 @@ namespace OpenMacroBoard.SDK
         /// A user friendly display name.
         /// </summary>
         /// <remarks>
-        /// The device name is not part of the equality for a device reference handle. This means, that
+        /// <para>The device name is not part of the equality for a device reference handle. This means, that
         /// there can be two <see cref="IDeviceReference"/>s with different names which are still
-        /// considered to be equal, because they refer to the same device.
+        /// considered to be equal, because they refer to the same device.</para>
         /// </remarks>
         string DeviceName { get; set; }
 

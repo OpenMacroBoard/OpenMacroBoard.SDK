@@ -16,7 +16,7 @@ namespace OpenMacroBoard.SDK
         /// Initializes a new instance of the <see cref="MacroBoardAdapter"/> class.
         /// </summary>
         /// <remarks>
-        /// When this instance is disposed, the underlying board is disposed as well.
+        /// <para>When this instance is disposed, the underlying board is disposed as well.</para>
         /// </remarks>
         /// <param name="macroBoard">The macroBoard that is wrapped.</param>
         protected MacroBoardAdapter(IMacroBoard macroBoard)
@@ -110,7 +110,7 @@ namespace OpenMacroBoard.SDK
         /// </summary>
         /// <param name="sender">The sender of the original event.</param>
         /// <param name="e">The event arguments.</param>
-        protected void OnConnectionStateChanged(object sender, ConnectionEventArgs e)
+        protected virtual void OnConnectionStateChanged(object sender, ConnectionEventArgs e)
         {
             ConnectionStateChanged?.Invoke(this, e);
         }

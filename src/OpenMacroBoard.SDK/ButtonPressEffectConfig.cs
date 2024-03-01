@@ -12,8 +12,8 @@ namespace OpenMacroBoard.SDK
         /// Gets or sets a factor that determines how much the images gets smaller or even bigger when pressed.
         /// </summary>
         /// <remarks>
-        /// It's basically a scale factor, if you want the image to be half the size use 0.5. One means no change
-        /// and values larger than one make the image bigger when pressed.
+        /// <para>It's basically a scale factor, if you want the image to be half the size use 0.5. One means no change
+        /// and values larger than one make the image bigger when pressed.</para>
         /// </remarks>
         public double Scale { get; set; } = 0.8;
 

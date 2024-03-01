@@ -30,8 +30,8 @@ namespace OpenMacroBoard.SDK
         /// <param name="macroBoard">The board that should be wrapped.</param>
         /// <returns>Returns a new board that implements the replay feature.</returns>
         /// <remarks>
-        /// This adapter makes sure, that if a device is disconnected that previously set properties like
-        /// images and brightness are replayed if the device is connected again.
+        /// <para>This adapter makes sure, that if a device is disconnected that previously set properties like
+        /// images and brightness are replayed if the device is connected again.</para>
         /// </remarks>
         /// <exception cref="ArgumentNullException">The provided board is null.</exception>
         public static IMacroBoard WithDisconnectReplay(this IMacroBoard macroBoard)

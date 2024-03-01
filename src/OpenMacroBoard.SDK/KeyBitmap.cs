@@ -27,8 +27,8 @@ namespace OpenMacroBoard.SDK
         /// This property can be used to create new KeyBitmaps
         /// </summary>
         /// <remarks>
-        /// This property just serves as an anchor point for extension methods
-        /// to create new <see cref="KeyBitmap"/> objects
+        /// <para>This property just serves as an anchor point for extension methods
+        /// to create new <see cref="KeyBitmap"/> objects</para>
         /// </remarks>
         public static IKeyBitmapFactory Create { get; }
 
@@ -36,7 +36,7 @@ namespace OpenMacroBoard.SDK
         /// Solid black bitmap
         /// </summary>
         /// <remarks>
-        /// If you need a black bitmap (for example to clear keys) use this property for better performance (in theory ^^)
+        /// <para>If you need a black bitmap (for example to clear keys) use this property for better performance (in theory ^^)</para>
         /// </remarks>
         public static KeyBitmap Black { get; } = new(1, 1, Array.Empty<byte>());
 

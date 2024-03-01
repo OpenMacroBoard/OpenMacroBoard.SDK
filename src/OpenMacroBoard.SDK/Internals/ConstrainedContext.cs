@@ -8,10 +8,10 @@ namespace OpenMacroBoard.SDK.Internals
         /// Creates a context which might depend on the provided item or a clone of that item.
         /// </summary>
         /// <remarks>
-        /// This is useful in situation where you only want to do an expensive operation
+        /// <para>This is useful in situation where you only want to do an expensive operation
         /// for <see cref="IDisposable"/> types when needed. The <see cref="ConditionalDisposable{T}"/>
         /// makes sure that elements that depend on the parent (borrow, no copy) will not be disposed
-        /// but cloned (owned copies) will be disposed.
+        /// but cloned (owned copies) will be disposed.</para>
         /// </remarks>
         /// <typeparam name="TInput">Input type.</typeparam>
         /// <typeparam name="TOutput">Output type.</typeparam>

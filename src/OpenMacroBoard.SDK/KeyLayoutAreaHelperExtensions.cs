@@ -1,11 +1,11 @@
-using System;
+﻿using System;
 
 namespace OpenMacroBoard.SDK.Helper
 {
     /// <summary>
     /// Extensions from <see cref="IKeyLayout"/>s.
     /// </summary>
-    public static class KeyLayoutAreaHelperExtension
+    public static class KeyLayoutAreaHelperExtensions
     {
         /// <summary>
         /// Calculates a <see cref="OmbRectangle"/> which spans all keys from a given <see cref="IKeyLayout"/>.

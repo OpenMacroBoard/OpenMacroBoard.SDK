@@ -4,13 +4,15 @@
     <TargetFrameworks>netstandard2.0;net462;net6.0</TargetFrameworks>
     <LangVersion>9.0</LangVersion>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <!-- nuget stuff -->
   <PropertyGroup>
     <Version>5.0.0</Version>
-    <Title>OpenMacroBoard.SDK</Title>
-    <Description>Abstraction for macro boards (with LCD keys)</Description>
+    <Title>OpenMacroBoard.SDK.KeyBitmap.GDI+</Title>
+    <Description>KeyBitmap factory extension methods for GDI+ (Windows only).</Description>
     <RepositoryUrl>https://github.com/OpenMacroBoard/OpenMacroBoard.SDK</RepositoryUrl>
   </PropertyGroup>
 
@@ -18,16 +20,12 @@
   <Import Project="..\..\..\analyzers.targets" />
 
   <ItemGroup>
-    <PackageReference Include="SixLabors.ImageSharp" Version="2.1.6" />
-    <None Include="icon.png" Pack="true" PackagePath="" />
+    <ProjectReference Include="..\OpenMacroBoard.SDK\OpenMacroBoard.SDK.csproj" />
+    <Content Include="..\..\nuget-icon.png" Pack="true" Link="icon.png" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' != 'net6.0'">
-    <PackageReference Include="System.Memory" Version="4.5.5" />
+  <ItemGroup Condition="'$(TargetFramework)' != 'net462'">
+    <PackageReference Include="System.Drawing.Common" Version="8.0.2" />
   </ItemGroup>
-
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net6.0'">
-    <DefineConstants>$(DefineConstants);SUPPORTS_HASHCODE</DefineConstants>
-  </PropertyGroup>
 
 </Project>

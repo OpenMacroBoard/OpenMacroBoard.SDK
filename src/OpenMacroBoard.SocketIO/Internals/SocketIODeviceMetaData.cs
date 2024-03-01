@@ -17,7 +17,7 @@ namespace OpenMacroBoard.SocketIO.Internals
         /// The version of this meta structure.
         /// </summary>
         /// <remarks>
-        /// The value is currently not checked, but that might change in the future.
+        /// <para>The value is currently not checked, but that might change in the future.</para>
         /// </remarks>
         [JsonProperty("v")]
         public int MetaVersion { get; set; }

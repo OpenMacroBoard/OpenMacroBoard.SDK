@@ -9,7 +9,7 @@ namespace OpenMacroBoard.SDK
     /// <summary>
     /// Extension method to generate fullscreen images on <see cref="IMacroBoard"/>s.
     /// </summary>
-    public static class DrawFullScreenExtension
+    public static class DrawFullScreenExtensions
     {
         /// <summary>
         /// Draw a given image as fullscreen (spanning over all keys)
@@ -72,7 +72,7 @@ namespace OpenMacroBoard.SDK
 
                     return bgr24;
                 },
-                x =>
+                _ =>
                 {
                     var scaled = new Image<Bgr24>(image.Width, image.Height);
 

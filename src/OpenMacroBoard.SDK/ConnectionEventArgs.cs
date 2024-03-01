@@ -10,7 +10,6 @@ namespace OpenMacroBoard.SDK
         /// <summary>
         /// Initializes a new instance of the <see cref="ConnectionEventArgs"/> class.
         /// </summary>
-        /// <param name="newConnectionState"></param>
         public ConnectionEventArgs(bool newConnectionState)
         {
             NewConnectionState = newConnectionState;

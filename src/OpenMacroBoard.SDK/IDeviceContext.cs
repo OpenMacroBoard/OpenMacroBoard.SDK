@@ -7,9 +7,9 @@ namespace OpenMacroBoard.SDK
     /// Represents a context that tracks devices and their connection state using device listeners.
     /// </summary>
     /// <remarks>
-    /// This is basically the entry point to opening a <see cref="IMacroBoard"/>. Once constructed
+    /// <para>This is basically the entry point to opening a <see cref="IMacroBoard"/>. Once constructed
     /// you can add device listeners for various providers and the context will collect all devices
-    /// (even from different providers) in one place.
+    /// (even from different providers) in one place.</para>
     /// </remarks>
     public interface IDeviceContext : IDisposable
     {
@@ -18,9 +18,9 @@ namespace OpenMacroBoard.SDK
         /// new devices or connection state changes.
         /// </summary>
         /// <remarks>
-        /// Once subscribed, reports are generated to reflect the current state of known devices and
+        /// <para>Once subscribed, reports are generated to reflect the current state of known devices and
         /// their connection state. This does not mean that all original reports are replayed, but only
-        /// the most recent events, that are needed to rebuild the currently known state for all known devices.
+        /// the most recent events, that are needed to rebuild the currently known state for all known devices.</para>
         /// </remarks>
         IObservable<DeviceStateReport> DeviceStateReports { get; }
 
@@ -28,7 +28,7 @@ namespace OpenMacroBoard.SDK
         /// A list of known devices.
         /// </summary>
         /// <remarks>
-        /// The order of the list is consistent and new devices are always added at the end.
+        /// <para>The order of the list is consistent and new devices are always added at the end.</para>
         /// </remarks>
         IReadOnlyList<IKnownDevice> KnownDevices { get; }
 
@@ -36,8 +36,8 @@ namespace OpenMacroBoard.SDK
         /// Registers a new device listener for that context.
         /// </summary>
         /// <remarks>
-        /// Registered listeners can't be unsubscribed individually.
-        /// All listeners will unsubscribed when the context is disposed.
+        /// <para>Registered listeners can't be unsubscribed individually.
+        /// All listeners will unsubscribed when the context is disposed.</para>
         /// </remarks>
         /// <returns>Returns the original instance to allow for fluent API calls.</returns>
         IDeviceContext AddListener(IObservable<DeviceStateReport> deviceListener);
@@ -63,8 +63,8 @@ namespace OpenMacroBoard.SDK
         /// </summary>
         /// <typeparam name="TListener">A <see cref="IObservable{DeviceStateReport}"/> with a parameterless constructor.</typeparam>
         /// <remarks>
-        /// Registered listeners can't be unsubscribed individually.
-        /// All listeners will unsubscribed when the context is disposed.
+        /// <para>Registered listeners can't be unsubscribed individually.
+        /// All listeners will unsubscribed when the context is disposed.</para>
         /// </remarks>
         /// <returns>Returns the original instance to allow for fluent API calls.</returns>
         IDeviceContext AddListener<TListener>()

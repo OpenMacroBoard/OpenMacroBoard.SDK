@@ -114,6 +114,7 @@ namespace OpenMacroBoard.SocketIO.Internals
 
             endWriteEventLoop.Dispose();
             endReadEventLoop.Dispose();
+            shutdownSource.Dispose();
         }
 
         private void SetConnectionStateAndRaiseEvent(bool connectionState)
@@ -341,9 +342,11 @@ namespace OpenMacroBoard.SocketIO.Internals
                     catch (EndOfStreamException)
                     {
                         // other end dropped connection
-
                         // force creating a new client
+
+#pragma warning disable S3966 // Objects should not be disposed more than once
                         tcpClient?.Dispose();
+#pragma warning restore S3966
                     }
                 }
             }

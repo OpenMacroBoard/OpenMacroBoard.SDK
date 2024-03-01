@@ -6,13 +6,16 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 
+#pragma warning disable AV1505 // Namespace should match with assembly name
+#pragma warning disable AV1710 // Member name includes the name of its containing type
+
 namespace BeaconLib
 {
     /// <summary>
     /// Counterpart of the beacon, searches for beacons
     /// </summary>
     /// <remarks>
-    /// The beacon list event will not be raised on your main thread!
+    /// <para>The beacon list event will not be raised on your main thread!</para>
     /// </remarks>
     internal sealed class Probe : IDisposable
     {

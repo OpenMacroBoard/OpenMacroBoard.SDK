@@ -105,9 +105,12 @@ namespace OpenMacroBoard.SocketIO
             var waitAllBlock = new ManualResetEventSlim(false);
 
             // Set reset event when all client connections are closed.
-            _ = Task.WhenAll(clientConnections).ContinueWith(t => waitAllBlock.Set());
+#pragma warning disable AV2235 // Call to Task.ContinueWith should be replaced with an await expression
+            _ = Task.WhenAll(clientConnections).ContinueWith(_ => waitAllBlock.Set());
+#pragma warning restore AV2235
 
             waitAllBlock.Wait();
+            shutdownTokenSource.Dispose();
         }
 
         private async Task HandleIncomingConnectionsAsync()
