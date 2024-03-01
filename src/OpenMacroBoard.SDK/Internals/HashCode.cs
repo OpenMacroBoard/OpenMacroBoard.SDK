@@ -1,4 +1,4 @@
-#pragma warning disable RCS1181, CA1305, S3877, SA1515, IDE0011, RCS1003, SA1311, SA1308, CA2231, IDE0005, IDE0022, SA1636, SA1600, SA1503, SA1202, SA1101, SA1132, SA1309, SA1520, SA1108, SA1203, SA1028, SA1512, AV1551, DOC901, AV1505, AV1522, AV1710, S1133
+#pragma warning disable
 
 // SOURCE: https://github.com/dotnet/corefx/blob/master/src/Common/src/CoreLib/System/HashCode.cs
 
@@ -416,7 +416,6 @@ namespace System
             return (int)hash;
         }
 
-#pragma warning disable 0809
         // Obsolete member 'memberA' overrides non-obsolete member 'memberB'. 
         // Disallowing GetHashCode and Equals is by design
 
@@ -437,9 +436,6 @@ namespace System
         [Obsolete("HashCode is a mutable struct and should not be compared with other HashCodes.", error: true)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override bool Equals(object obj) => throw new NotSupportedException("Equality not supported");
-#pragma warning restore 0809
     }
 }
 #endif
-
-#pragma warning restore RCS1181, CA1305, S3877, SA1515, IDE0011, RCS1003, SA1311, SA1308, CA2231, IDE0005, IDE0022, SA1636, SA1600, SA1503, SA1202, SA1101, SA1132, SA1309, SA1520, SA1108, SA1203, SA1028, SA1512
