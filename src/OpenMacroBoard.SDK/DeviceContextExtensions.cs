@@ -14,12 +14,30 @@ namespace OpenMacroBoard.SDK
     public static class DeviceContextExtensions
     {
         /// <summary>
+        /// Wait for and open the first detected <see cref="IMacroBoard"/> in this context.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// If there are multiple devices connected it's undefined which one you will get.
+        /// If you want to specify a filter to get a specific device use
+        /// <see cref="OpenAsync(IDeviceContext, Func{IDeviceReference, bool}, CancellationToken)"/>.
+        /// </para>
+        /// </remarks>
+        public static Task<IMacroBoard> OpenAsync(
+            this IDeviceContext context,
+            CancellationToken cancellationToken = default
+        )
+        {
+            return context.OpenAsync(_ => true, cancellationToken);
+        }
+
+        /// <summary>
         /// Wait for and open the first matching <see cref="IMacroBoard"/> in this context.
         /// </summary>
         public static async Task<IMacroBoard> OpenAsync(
             this IDeviceContext context,
             Func<IDeviceReference, bool> selector,
-            CancellationToken cancellationToken
+            CancellationToken cancellationToken = default
         )
         {
             return (await context.GetDeviceReferenceAsync(selector, cancellationToken)).Open();
@@ -31,7 +49,7 @@ namespace OpenMacroBoard.SDK
         public static async Task<IDeviceReference> GetDeviceReferenceAsync(
             this IDeviceContext context,
             Func<IDeviceReference, bool> selector,
-            CancellationToken cancellationToken
+            CancellationToken cancellationToken = default
         )
         {
             // check if there already is a matching device.
