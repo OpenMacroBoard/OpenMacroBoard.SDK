@@ -10,7 +10,7 @@
 
   <!-- nuget stuff -->
   <PropertyGroup>
-    <Version>5.0.0</Version>
+    <Version>6.0.0</Version>
     <Title>OpenMacroBoard.SDK.KeyBitmap.GDI+</Title>
     <Description>KeyBitmap factory extension methods for GDI+ (Windows only).</Description>
     <RepositoryUrl>https://github.com/OpenMacroBoard/OpenMacroBoard.SDK</RepositoryUrl>

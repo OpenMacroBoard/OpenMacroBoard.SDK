@@ -9,7 +9,7 @@
 
   <!-- nuget stuff -->
   <PropertyGroup>
-    <Version>5.0.0</Version>
+    <Version>6.0.0</Version>
     <Title>OpenMacroBoard.SocketIO</Title>
     <Description>An IP-based device provider for OpenMacroBoard. Can be used to implement and interact with virtual and remote devices.</Description>
     <RepositoryUrl>https://github.com/OpenMacroBoard/OpenMacroBoard.SDK</RepositoryUrl>
