@@ -99,12 +99,7 @@ namespace OpenMacroBoard.SDK
             var targetWidth = (int)Math.Round(Config.Scale * keyBitmap.Width);
             var targetHeight = (int)Math.Round(Config.Scale * keyBitmap.Height);
 
-            var smallerImage = Image.LoadPixelData<Bgr24>(
-                bitmapDataAccess.GetData(),
-                keyBitmap.Width,
-                keyBitmap.Height
-            );
-
+            var smallerImage = bitmapDataAccess.ToImage();
             smallerImage.Mutate(x => x.Resize(targetWidth, targetHeight));
 
             var offsetLeft = (int)Math.Round((keyBitmap.Width - targetWidth) * Config.OriginX);

@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using OpenMacroBoard.SDK;
 using System;
 using System.Collections.Generic;
@@ -186,7 +186,7 @@ namespace OpenMacroBoard.Tests
             }
         }
 
-        private class DoNothingDisposable : IDisposable
+        private sealed class DoNothingDisposable : IDisposable
         {
             public static IDisposable Instance { get; } = new DoNothingDisposable();
 

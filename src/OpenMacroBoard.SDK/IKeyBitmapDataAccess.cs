@@ -8,6 +8,16 @@ namespace OpenMacroBoard.SDK
     public interface IKeyBitmapDataAccess
     {
         /// <summary>
+        /// Gets the width of the bitmap.
+        /// </summary>
+        int Width { get; }
+
+        /// <summary>
+        /// Gets the height of the bitmap.
+        /// </summary>
+        int Height { get; }
+
+        /// <summary>
         /// Gets a value indicating whether the underlying byte array is null.
         /// </summary>
         bool IsEmpty { get; }

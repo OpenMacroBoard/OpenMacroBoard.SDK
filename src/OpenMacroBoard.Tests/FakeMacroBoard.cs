@@ -125,12 +125,7 @@ namespace OpenMacroBoard.Tests
             else
             {
                 // load given image
-                using var keyImage = Image.LoadPixelData<Bgr24>(
-                    dataAccess.GetData(),
-                    bitmapData.Width,
-                    bitmapData.Height
-                );
-
+                using var keyImage = dataAccess.ToImage();
                 ResizeAndApplyImage(keyId, keyImage);
             }
         }

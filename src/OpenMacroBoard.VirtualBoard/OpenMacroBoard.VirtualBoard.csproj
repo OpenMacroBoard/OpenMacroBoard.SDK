@@ -10,6 +10,7 @@
     <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
     <DebugType>none</DebugType>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <PublishSingleFile>true</PublishSingleFile>
   </PropertyGroup>
 
   <ItemGroup>

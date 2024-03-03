@@ -39,7 +39,7 @@ namespace OpenMacroBoard.Tests
         }
 
         [Fact]
-        public void ImageDataArrayLengthMissmatchThrowsException()
+        public void ImageDataArrayLengthMismatchThrowsException()
         {
             Action act_correctParams = () => _ = KeyBitmap.Create.FromBgr24Array(2, 2, new byte[12]);
             Action act_incorrectParams = () => _ = KeyBitmap.Create.FromBgr24Array(3, 3, new byte[5]);
@@ -122,11 +122,14 @@ namespace OpenMacroBoard.Tests
             var key2 = KeyBitmap.Create.FromBgr24Array(1, 1, key2Data);
             var key3 = KeyBitmap.Create.FromBgr24Array(1, 1, new byte[3]);
 
+
             var equalityMethods = new List<Func<KeyBitmap, KeyBitmap, bool>>()
             {
                 KeyBitmap.Equals,
                 (a,b) => a == b,
+                #pragma warning disable S1940 // Boolean checks should not be inverted
                 (a,b) => !(a != b),
+                #pragma warning restore S1940
                 (a,b) => a.Equals(b),
             };
 
@@ -140,7 +143,7 @@ namespace OpenMacroBoard.Tests
         }
 
         [Fact]
-        public void HashCodesDontMatchEasilyForDifferentObjects()
+        public void HashCodesDonNotMatchEasilyForDifferentObjects()
         {
             var key2Data = new byte[3] { 1, 2, 3 };
 

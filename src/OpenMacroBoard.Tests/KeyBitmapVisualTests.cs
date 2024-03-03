@@ -18,7 +18,7 @@ namespace OpenMacroBoard.Tests
 
         [Theory]
         [ClassData(typeof(DeviceGridKeyPositionDataProvider))]
-        public async Task FakeMacroboardSelfCheck(string deviceName, GridKeyLayout keys)
+        public async Task FakeMacroBoardSelfCheck(string deviceName, GridKeyLayout keys)
         {
             Verifier.Initialize();
 
@@ -185,7 +185,7 @@ namespace OpenMacroBoard.Tests
         }
 
         [Fact]
-        public async Task BitmapKeyChannelsWorkAsExpectedFor32bitExtentsions()
+        public async Task BitmapKeyChannelsWorkAsExpectedFor32bitExtensions()
         {
             Verifier.Initialize();
             Verifier.UseFileNameAsDirectory();
