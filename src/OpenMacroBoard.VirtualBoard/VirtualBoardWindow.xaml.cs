@@ -16,6 +16,8 @@ namespace OpenMacroBoard.VirtualBoard
     /// </summary>
     public partial class VirtualBoardWindow : Window
     {
+        private const int DefaultPortNumber = 27621;
+
         private readonly SocketIOMacroBoardHost server;
 
         /// <summary>
@@ -54,7 +56,7 @@ namespace OpenMacroBoard.VirtualBoard
             }
 
             var deviceName = settings.DeviceName ?? $"Virtual Board - {settings.KeysX}x{settings.KeysY}";
-            var port = settings.Port ?? 27621;
+            var port = settings.Port ?? DefaultPortNumber;
 
             var keyPositions = new GridKeyLayout(
                 settings.KeysX,

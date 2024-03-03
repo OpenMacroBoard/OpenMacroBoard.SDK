@@ -122,7 +122,6 @@ namespace OpenMacroBoard.Tests
             var key2 = KeyBitmap.Create.FromBgr24Array(1, 1, key2Data);
             var key3 = KeyBitmap.Create.FromBgr24Array(1, 1, new byte[3]);
 
-
             var equalityMethods = new List<Func<KeyBitmap, KeyBitmap, bool>>()
             {
                 KeyBitmap.Equals,
