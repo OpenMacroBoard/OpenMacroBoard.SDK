@@ -33,7 +33,7 @@ namespace OpenMacroBoard.SDK
         /// this value might be an estimate or even wrong. It's not even guaranteed that
         /// <see cref="CountX"/> times <see cref="CountY"/> will be equal to Count
         /// but all implementations should make sure that the product is at least
-        /// not greater than Count  and <see cref="CountX"/> is at least 1.</para>
+        /// not greater than Count and <see cref="CountX"/> is at least 1.</para>
         /// </remarks>
         int CountX { get; }
 
