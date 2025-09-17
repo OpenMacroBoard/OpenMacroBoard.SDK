@@ -70,7 +70,7 @@ namespace OpenMacroBoard.Tests
 
         public void Dispose()
         {
-            VerifyNotDisposed();
+            ObjectDisposedException.ThrowIf(disposed, this);
 
             disposed = true;
 
@@ -82,7 +82,7 @@ namespace OpenMacroBoard.Tests
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="percent"/> is grater than 100%.</exception>
         public void SetBrightness(byte percent)
         {
-            VerifyNotDisposed();
+            ObjectDisposedException.ThrowIf(disposed, this);
 
             if (!isConnected)
             {
@@ -99,7 +99,7 @@ namespace OpenMacroBoard.Tests
 
         public void SetKeyBitmap(int keyId, KeyBitmap bitmapData)
         {
-            VerifyNotDisposed();
+            ObjectDisposedException.ThrowIf(disposed, this);
 
             if (!isConnected)
             {
@@ -142,7 +142,7 @@ namespace OpenMacroBoard.Tests
 
         public void ShowLogo()
         {
-            VerifyNotDisposed();
+            ObjectDisposedException.ThrowIf(disposed, this);
 
             if (!isConnected)
             {
@@ -217,14 +217,6 @@ namespace OpenMacroBoard.Tests
             totalImage.Mutate(x => x.DrawImage(logoImg, new Point(leftOffset, topOffset), 1));
 
             return totalImage;
-        }
-
-        private void VerifyNotDisposed()
-        {
-            if (disposed)
-            {
-                throw new ObjectDisposedException(GetType().FullName);
-            }
         }
 
         private void ResizeAndApplyImage(int keyId, Image<Bgr24> image)

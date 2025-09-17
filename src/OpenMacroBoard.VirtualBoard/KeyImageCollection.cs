@@ -2,14 +2,9 @@ using System.Windows.Media.Imaging;
 
 namespace OpenMacroBoard.VirtualBoard
 {
-    internal class KeyImageCollection
+    internal sealed class KeyImageCollection(int cnt)
     {
-        private readonly BitmapSource[] keyImages;
-
-        public KeyImageCollection(int cnt)
-        {
-            keyImages = new BitmapSource[cnt];
-        }
+        private readonly BitmapSource[] keyImages = new BitmapSource[cnt];
 
         public int Count
             => keyImages.Length;

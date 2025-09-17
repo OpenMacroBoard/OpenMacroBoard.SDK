@@ -99,7 +99,11 @@ namespace OpenMacroBoard.SDK
             }
             finally
             {
+#if NET8_0_OR_GREATER
+                await registration.DisposeAsync();
+#else
                 registration.Dispose();
+#endif
                 subscription.Dispose();
             }
 
@@ -110,9 +114,9 @@ namespace OpenMacroBoard.SDK
                 // We don't document that exception because it shouldn't happen,
                 // and we don't expect the consumer to handle this exception type.
 
-#               pragma warning disable RCS1140 // Add exception to documentation comment.
+#pragma warning disable RCS1140 // Add exception to documentation comment.
                 throw new InvalidOperationException("Couldn't locate device with matching criteria. This is a bug, please file an issue.");
-#               pragma warning restore RCS1140
+#pragma warning restore RCS1140
             }
 
             return foundDevice;

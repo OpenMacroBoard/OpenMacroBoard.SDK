@@ -1,4 +1,4 @@
-using FluentAssertions;
+using AwesomeAssertions;
 using OpenMacroBoard.SDK;
 using System;
 using System.Collections.Generic;

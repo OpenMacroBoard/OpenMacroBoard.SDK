@@ -1,4 +1,4 @@
-using FluentAssertions;
+using AwesomeAssertions;
 using OpenMacroBoard.SDK;
 using System;
 using System.Collections.Generic;
@@ -137,7 +137,7 @@ namespace OpenMacroBoard.Tests
             }
         }
 
-        private class FakeDeviceReference : IDeviceReference
+        private sealed class FakeDeviceReference : IDeviceReference
         {
             public string DeviceName { get; set; }
             public IKeyLayout Keys { get; }
@@ -148,7 +148,7 @@ namespace OpenMacroBoard.Tests
             }
         }
 
-        private class FakeDeviceStateListener :
+        private sealed class FakeDeviceStateListener :
             IObservable<DeviceStateReport>,
             IObserver<DeviceStateReport>
         {

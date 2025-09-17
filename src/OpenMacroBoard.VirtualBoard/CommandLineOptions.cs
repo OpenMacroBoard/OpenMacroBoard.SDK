@@ -2,7 +2,7 @@ using CommandLine;
 
 namespace OpenMacroBoard.VirtualBoard
 {
-    internal class CommandLineOptions
+    internal sealed class CommandLineOptions
     {
         [Option("binding", Required = false, Default = "127.0.0.1", HelpText = "Defines a binding IP Address. Use 0.0.0.0 to listen on all connections. Default will only listen locally.")]
         public string? BindingIpAddress { get; set; }
