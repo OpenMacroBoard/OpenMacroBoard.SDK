@@ -153,12 +153,8 @@ namespace OpenMacroBoard.SocketIO.Internals
                     {
                         // (Re-)connect
 
-                        if (tcpClient != null)
-                        {
-                            tcpClient.Dispose();
-                            tcpClient = null;
-                        }
-
+                        tcpClient?.Dispose();
+                        tcpClient = null;
                         tcpClient = await TcpClientBinaryIO.ConnectAsync(ipEndPoint);
 
                         SetConnectionStateAndRaiseEvent(tcpClient?.Client?.Connected == true);
