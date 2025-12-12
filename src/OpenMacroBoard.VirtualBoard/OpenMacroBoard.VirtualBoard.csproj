@@ -29,7 +29,7 @@
 
   <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.9.1" />
-    <PackageReference Include="System.Reactive" Version="6.0.2" />
+    <PackageReference Include="System.Reactive" Version="6.1.0" />
   </ItemGroup>
 
   <ItemGroup>

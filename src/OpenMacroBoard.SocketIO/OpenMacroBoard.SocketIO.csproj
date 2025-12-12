@@ -20,7 +20,7 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-    <PackageReference Include="System.Reactive" Version="6.0.2" />
+    <PackageReference Include="System.Reactive" Version="6.1.0" />
     <PackageReference Include="Overby.Extensions.AsyncBinaryReaderWriter" Version="1.0.39" />
     <ProjectReference Include="..\OpenMacroBoard.SDK\OpenMacroBoard.SDK.csproj" />
     <None Include="icon.png" Pack="true" PackagePath="" />
