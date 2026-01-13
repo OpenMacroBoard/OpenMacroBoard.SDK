@@ -40,6 +40,9 @@ namespace OpenMacroBoard.VirtualBoard
                 .GetExecutingAssembly()
                 .GetManifestResourceStream("OpenMacroBoard.VirtualBoard.OpenMacroBoard-Logo.png");
 
+            if (logoStream == null)
+                throw new ArgumentNullException();
+
             using var logo = Image.Load(logoStream);
             nakedBoard.DrawFullScreenBitmap(logo);
 
