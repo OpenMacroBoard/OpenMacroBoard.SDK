@@ -21,8 +21,9 @@ namespace OpenMacroBoard.SocketIO.Internals
 
         private readonly AutoResetEvent writeTrigger = new(false);
 
-        private readonly object brightnessSync = new();
-        private readonly object keyBitmapSync = new();
+        private readonly Lock brightnessSync = new();
+        private readonly Lock keyBitmapSync = new();
+
         private readonly bool[] keyBitmapSendRequested;
         private readonly KeyBitmap[] keyBitmaps;
 

@@ -6,8 +6,8 @@ namespace OpenMacroBoard.SDK.Internals
     internal sealed class DeviceContextInternal : IDeviceContext
     {
         private readonly MergedDeviceListener mergedDeviceListener = new();
-        private readonly List<IDisposable> disposeWithContext = new();
-        private readonly List<KnownDeviceInternal> knownDevices = new();
+        private readonly List<IDisposable> disposeWithContext = [];
+        private readonly List<KnownDeviceInternal> knownDevices = [];
 
         public DeviceContextInternal()
         {

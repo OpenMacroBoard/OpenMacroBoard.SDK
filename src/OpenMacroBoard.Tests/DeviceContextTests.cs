@@ -152,7 +152,7 @@ namespace OpenMacroBoard.Tests
             IObservable<DeviceStateReport>,
             IObserver<DeviceStateReport>
         {
-            private static readonly List<IObserver<DeviceStateReport>> subscribedObservers = new();
+            private static readonly List<IObserver<DeviceStateReport>> subscribedObservers = [];
 
 
             public void OnCompleted()

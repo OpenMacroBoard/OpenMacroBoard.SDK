@@ -15,7 +15,7 @@ namespace OpenMacroBoard.Tests
             byte green = 200;
             byte blue = 0;
 
-            var expectation = KeyBitmap.Create.FromBgr24Array(1, 1, new byte[] { blue, green, red });
+            var expectation = KeyBitmap.Create.FromBgr24Array(1, 1, [blue, green, red]);
             var key = KeyBitmap.Create.FromRgb(red, green, blue);
 
             key.Should().Be(expectation);
@@ -25,7 +25,7 @@ namespace OpenMacroBoard.Tests
         public void RgbFactoryShouldCreateANullDataElementForBlack()
         {
             var expectation = KeyBitmap.Create.Empty(1, 1);
-            var wrongResult = KeyBitmap.Create.FromBgr24Array(1, 1, new byte[] { 0, 0, 0 });
+            var wrongResult = KeyBitmap.Create.FromBgr24Array(1, 1, [0, 0, 0]);
 
             var key = KeyBitmap.Create.FromRgb(0, 0, 0);
             key.Should().Be(expectation);
@@ -35,11 +35,11 @@ namespace OpenMacroBoard.Tests
         [Fact]
         public void PixelFormatIsRgbLeftToRightAndTopToBottom()
         {
-            var expectation = KeyBitmap.Create.FromBgr24Array(2, 2, new byte[2 * 2 * 3]
-            {
+            var expectation = KeyBitmap.Create.FromBgr24Array(2, 2,
+            [
                 000, 001, 002,  010, 011, 012,
                 020, 021, 022,  030, 031, 032,
-            });
+            ]);
 
             var topLeft = new Bgr24(2, 1, 0);
             var topRight = new Bgr24(12, 11, 10);

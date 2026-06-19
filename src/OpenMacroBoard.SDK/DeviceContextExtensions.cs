@@ -99,11 +99,7 @@ namespace OpenMacroBoard.SDK
             }
             finally
             {
-#if NET8_0_OR_GREATER
                 await registration.DisposeAsync();
-#else
-                registration.Dispose();
-#endif
                 subscription.Dispose();
             }
 

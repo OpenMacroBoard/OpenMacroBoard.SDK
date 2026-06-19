@@ -7,7 +7,7 @@ namespace OpenMacroBoard.SDK
     /// </summary>
     public class DisconnectReplayAdapter : MacroBoardAdapter
     {
-        private readonly Dictionary<int, KeyBitmap> mostRecentKeyBitmaps = new();
+        private readonly Dictionary<int, KeyBitmap> mostRecentKeyBitmaps = [];
         private byte? mostRecentBrightness = null;
 
         /// <summary>

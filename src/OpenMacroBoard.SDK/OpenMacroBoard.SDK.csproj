@@ -1,14 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net462;net8.0</TargetFrameworks>
-    <LangVersion>9.0</LangVersion>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>default</LangVersion>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <!-- nuget stuff -->
   <PropertyGroup>
-    <Version>7.0.0</Version>
+    <Version>10.0.0</Version>
     <Title>OpenMacroBoard.SDK</Title>
     <Description>Abstraction for macro boards (with LCD keys)</Description>
     <RepositoryUrl>https://github.com/OpenMacroBoard/OpenMacroBoard.SDK</RepositoryUrl>
@@ -18,16 +18,13 @@
   <Import Project="..\..\..\analyzers.targets" />
 
   <ItemGroup>
-    <PackageReference Include="SixLabors.ImageSharp" Version="2.1.13" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="" />
     <None Include="icon.png" Pack="true" PackagePath="" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' != 'net8.0'">
-    <PackageReference Include="System.Memory" Version="4.6.3" />
-  </ItemGroup>
-
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net8.0'">
-    <DefineConstants>$(DefineConstants);SUPPORTS_HASHCODE</DefineConstants>
-  </PropertyGroup>
 
 </Project>

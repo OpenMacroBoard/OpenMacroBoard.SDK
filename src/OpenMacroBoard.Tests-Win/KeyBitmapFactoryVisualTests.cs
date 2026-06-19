@@ -1,21 +1,15 @@
 using OpenMacroBoard.Meta.TestUtils;
 using OpenMacroBoard.SDK;
 using System.Drawing;
-using System.Runtime.Versioning;
-using System.Threading.Tasks;
-using VerifyXunit;
-using Xunit;
 
 namespace OpenMacroBoard.Tests
 {
-    [UsesVerify]
     public class KeyBitmapFactoryVisualTests
     {
         public ExtendedVerifySettings Verifier { get; } = DefaultVerifySettings.Build();
 
         [Fact]
-        [SupportedOSPlatform("windows")]
-        public async Task GDI_arc_is_drawn_correctly()
+        public async Task GDIArcIsDrawnCorrectly()
         {
             Verifier.Initialize();
             Verifier.UseFileNameAsDirectory();

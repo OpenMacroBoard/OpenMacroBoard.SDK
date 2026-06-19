@@ -5,6 +5,7 @@ using OpenMacroBoard.SocketIO.Internals;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Threading;
 
 namespace OpenMacroBoard.SocketIO
 {
@@ -15,9 +16,10 @@ namespace OpenMacroBoard.SocketIO
         IDisposable,
         IObservable<DeviceStateReport>
     {
-        private readonly object subscriptionSync = new();
+        private readonly Lock subscriptionSync = new();
+
         private readonly Probe probe;
-        private readonly List<ListenerSubscriptionHandler> subscriptions = new();
+        private readonly List<ListenerSubscriptionHandler> subscriptions = [];
 
         private bool disposed = false;
 

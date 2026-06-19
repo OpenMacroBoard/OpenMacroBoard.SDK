@@ -1,4 +1,4 @@
-﻿using OpenMacroBoard.SDK;
+using OpenMacroBoard.SDK;
 using SixLabors.ImageSharp;
 using System;
 using System.Reflection;
@@ -39,6 +39,8 @@ namespace OpenMacroBoard.VirtualBoard
             using var logoStream = Assembly
                 .GetExecutingAssembly()
                 .GetManifestResourceStream("OpenMacroBoard.VirtualBoard.OpenMacroBoard-Logo.png");
+
+            ArgumentNullException.ThrowIfNull(logoStream);
 
             using var logo = Image.Load(logoStream);
             nakedBoard.DrawFullScreenBitmap(logo);

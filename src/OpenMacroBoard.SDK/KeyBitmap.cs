@@ -38,7 +38,7 @@ namespace OpenMacroBoard.SDK
         /// <remarks>
         /// <para>If you need a black bitmap (for example to clear keys) use this property for better performance (in theory ^^)</para>
         /// </remarks>
-        public static KeyBitmap Black { get; } = new(1, 1, Array.Empty<byte>());
+        public static KeyBitmap Black { get; } = new(1, 1, []);
 
         /// <summary>
         /// Gets the width of the bitmap.

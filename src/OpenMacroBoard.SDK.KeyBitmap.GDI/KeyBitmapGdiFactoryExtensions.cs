@@ -1,10 +1,6 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Drawing.Imaging;
-
-#if NET5_0_OR_GREATER
-using System.Runtime.Versioning;
-#endif
 
 #pragma warning disable AV1505 // Namespace should match with assembly name
 
@@ -29,9 +25,6 @@ namespace OpenMacroBoard.SDK
         /// <exception cref="ArgumentNullException">
         /// Is thrown if <paramref name="graphicsAction"/> is null.
         /// </exception>
-#if NET5_0_OR_GREATER
-        [SupportedOSPlatform("windows")]
-#endif
         public static KeyBitmap FromGraphics(
             this IKeyBitmapFactory keyFactory,
             int width,
@@ -66,9 +59,6 @@ namespace OpenMacroBoard.SDK
         /// Is thrown if the pixel format is not supported. Currently the only two allowed pixel formats
         /// are <see cref="PixelFormat.Format32bppArgb"/> and <see cref="PixelFormat.Format24bppRgb"/>.
         /// </exception>
-#if NET5_0_OR_GREATER
-        [SupportedOSPlatform("windows")]
-#endif
         public static KeyBitmap FromBitmap(this IKeyBitmapFactory keyFactory, Bitmap bitmap)
         {
             if (bitmap is null)
@@ -136,9 +126,6 @@ namespace OpenMacroBoard.SDK
             }
         }
 
-#if NET5_0_OR_GREATER
-        [SupportedOSPlatform("windows")]
-#endif
         private static Bitmap CreateKeyBitmap(int width, int height)
         {
             return new Bitmap(width, height, PixelFormat.Format24bppRgb);

@@ -12,14 +12,10 @@ namespace BeaconLib
         {
             try
             {
-#if NET5_0_OR_GREATER
                 if (OperatingSystem.IsWindows())
                 {
                     client.AllowNatTraversal(true);
                 }
-#else
-                client.AllowNatTraversal(true);
-#endif
             }
             catch (Exception ex)
             {

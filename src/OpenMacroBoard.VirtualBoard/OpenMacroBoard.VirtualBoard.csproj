@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <Version>6.0.0</Version>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <Version>10.0.0</Version>
+    <TargetFramework>net10.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>OmbIcon.ico</ApplicationIcon>

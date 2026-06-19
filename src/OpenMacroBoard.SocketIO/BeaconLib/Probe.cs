@@ -28,7 +28,7 @@ namespace BeaconLib
         private readonly EventWaitHandle waitHandle = new(false, EventResetMode.AutoReset);
         private readonly UdpClient udp = new();
 
-        private IEnumerable<BeaconLocation> currentBeacons = Enumerable.Empty<BeaconLocation>();
+        private IEnumerable<BeaconLocation> currentBeacons = [];
 
         private bool running = true;
 
@@ -162,7 +162,7 @@ namespace BeaconLib
         {
             var newBeacons = currentBeacons
                 .Where(x => !x.Equals(newBeacon))
-                .Concat(new[] { newBeacon })
+                .Concat([newBeacon])
                 .OrderBy(x => x.Data)
                 .ThenBy(x => x.Address, IPEndPointComparer.Instance)
                 .ToList();

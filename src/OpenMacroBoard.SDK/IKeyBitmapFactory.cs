@@ -8,7 +8,5 @@ namespace OpenMacroBoard.SDK
     /// It is used to implement factory extensions
     /// <see cref="KeyBitmap.Create"/></para>
     /// </remarks>
-    public interface IKeyBitmapFactory
-    {
-    }
+    public interface IKeyBitmapFactory;
 }

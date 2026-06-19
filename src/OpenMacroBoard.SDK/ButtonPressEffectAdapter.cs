@@ -15,8 +15,8 @@ namespace OpenMacroBoard.SDK
     /// </remarks>
     public class ButtonPressEffectAdapter : MacroBoardAdapter
     {
-        private readonly Dictionary<int, KeyBitmap> mostRecentKeyBitmaps = new();
-        private readonly Dictionary<int, bool> keyPressedState = new();
+        private readonly Dictionary<int, KeyBitmap> mostRecentKeyBitmaps = [];
+        private readonly Dictionary<int, bool> keyPressedState = [];
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ButtonPressEffectAdapter"/> class.

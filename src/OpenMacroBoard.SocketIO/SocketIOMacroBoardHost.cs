@@ -23,8 +23,8 @@ namespace OpenMacroBoard.SocketIO
 
         private readonly ManualResetEventSlim handleIncomingConnectionsEnded = new(false);
 
-        private readonly object listLock = new();
-        private readonly List<Task> clientConnections = new();
+        private readonly Lock listLock = new();
+        private readonly List<Task> clientConnections = [];
         private readonly IMacroBoard macroBoard;
 
         /// <summary>

@@ -2,14 +2,16 @@ using OpenMacroBoard.SDK;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Threading;
 
 namespace OpenMacroBoard.SocketIO.Internals
 {
     internal sealed class ListenerSubscriptionHandler : IDisposable
     {
-        private readonly object sync = new();
+        private readonly Lock sync = new();
+
         private readonly IObserver<DeviceStateReport> observer;
-        private readonly Dictionary<IPEndPoint, CurrentDeviceState> knownDevices = new();
+        private readonly Dictionary<IPEndPoint, CurrentDeviceState> knownDevices = [];
 
         public ListenerSubscriptionHandler(IObserver<DeviceStateReport> observer)
         {

@@ -6,12 +6,10 @@ using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using System.Threading.Tasks;
-using VerifyXunit;
 using Xunit;
 
 namespace OpenMacroBoard.Tests
 {
-    [UsesVerify]
     public class KeyBitmapVisualTests
     {
         public ExtendedVerifySettings Verifier { get; } = DefaultVerifySettings.Build();

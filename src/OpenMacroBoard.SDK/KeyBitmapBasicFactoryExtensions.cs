@@ -193,7 +193,7 @@ namespace OpenMacroBoard.SDK
                 throw new ArgumentOutOfRangeException(nameof(height));
             }
 
-            return new KeyBitmap(width, height, Array.Empty<byte>());
+            return new KeyBitmap(width, height, []);
         }
 
         /// <summary>

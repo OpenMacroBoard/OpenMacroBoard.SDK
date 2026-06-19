@@ -1,6 +1,7 @@
 using OpenMacroBoard.SDK.Internals;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace OpenMacroBoard.SDK
 {
@@ -9,9 +10,9 @@ namespace OpenMacroBoard.SDK
     /// </summary>
     public abstract class DeviceListenerBase : IObservable<DeviceStateReport>
     {
-        private readonly object sync = new();
+        private readonly Lock sync = new();
 
-        private readonly List<Subscription> subscriptions = new();
+        private readonly List<Subscription> subscriptions = [];
         private readonly List<KnownDeviceInternal> knownDevices;
 
         /// <summary>
@@ -19,7 +20,7 @@ namespace OpenMacroBoard.SDK
         /// </summary>
         protected DeviceListenerBase()
         {
-            knownDevices = new();
+            knownDevices = [];
             KnownDevices = knownDevices.AsReadOnly();
         }
 
@@ -87,7 +88,7 @@ namespace OpenMacroBoard.SDK
             /// Contains the state the subscriber knows about.
             /// This is used to calculate new updates.
             /// </summary>
-            private readonly List<bool> subscriberState = new();
+            private readonly List<bool> subscriberState = [];
 
             public Subscription(DeviceListenerBase parent, IObserver<DeviceStateReport> observer)
             {
