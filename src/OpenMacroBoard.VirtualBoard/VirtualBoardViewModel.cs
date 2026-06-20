@@ -16,8 +16,6 @@ namespace OpenMacroBoard.VirtualBoard
         private readonly Dispatcher dispatcher;
         private readonly bool[] currentKeyState;
 
-        private bool isConnected = true;
-
         /// <summary>
         /// Constructs a new view model for a virtual macro board.
         /// </summary>
@@ -50,18 +48,18 @@ namespace OpenMacroBoard.VirtualBoard
         /// <inheritdoc/>
         public bool IsConnected
         {
-            get => isConnected;
+            get;
             set
             {
-                if (value == isConnected)
+                if (value == field)
                 {
                     return;
                 }
 
-                isConnected = value;
+                field = value;
                 ConnectionStateChanged?.Invoke(this, new ConnectionEventArgs(value));
             }
-        }
+        } = true;
 
         /// <inheritdoc/>
         public void SetBrightness(byte percent)
@@ -76,13 +74,10 @@ namespace OpenMacroBoard.VirtualBoard
 
             var wb = new WriteableBitmap(bitmapData.Width, bitmapData.Height, 96, 96, PixelFormats.Bgr24, null);
 
-            if (!srcData.IsEmpty)
-            {
-                var data = srcData.GetData().ToArray();
-                var sourceStride = bitmapData.Width * 3;
+            var data = srcData.ToImage().ToBgr24PixelArray();
+            var sourceStride = bitmapData.Width * 3;
 
-                wb.WritePixels(new Int32Rect(0, 0, bitmapData.Width, bitmapData.Height), data, sourceStride, 0);
-            }
+            wb.WritePixels(new Int32Rect(0, 0, bitmapData.Width, bitmapData.Height), data, sourceStride, 0);
 
             wb.Freeze();
 

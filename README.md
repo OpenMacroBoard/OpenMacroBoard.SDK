@@ -18,7 +18,7 @@ In this example we use
 
 - [`OpenMacroBoard.SocketIO`](https://www.nuget.org/packages/OpenMacroBoard.SocketIO/) to support the `VirtualMacroBoard`
 - [`StreamDeckSharp`](https://www.nuget.org/packages/StreamDeckSharp/) to support the [Elgato Stream Deck family](https://www.elgato.com/de/de/s/welcome-to-stream-deck)  
-  <sub>***Note**: Neither OpenMacroBoard nor StreamDeckSharp are made or endorsed by Elgato</sub>
+  <sub>_**Note**: Neither OpenMacroBoard nor StreamDeckSharp are made or endorsed by Elgato_</sub>
 
 Once you added the NuGet packages copy-paste the following lines:
 
@@ -64,7 +64,10 @@ static byte GetRandomByte()
 }
 ```
 
-## Providers and supported devices 
+Here is what the example looks like after pressing some keys:
+![](https://raw.githubusercontent.com/OpenMacroBoard/StreamDeckSharp/refs/heads/main/doc/images/rainbow_example.png)
+
+## Providers and supported devices
 
 Providers are libraries that manage the communication to the macro boards.
 This abstraction is needed to allow third parties to implement devices without changes to the core functionality.

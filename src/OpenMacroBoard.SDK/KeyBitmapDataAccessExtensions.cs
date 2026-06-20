@@ -18,7 +18,11 @@ namespace OpenMacroBoard.SDK
         /// </remarks>
         public static Image<Bgr24> ToImage(this IKeyBitmapDataAccess dataAccess)
         {
-            return Image.LoadPixelData<Bgr24>(dataAccess.GetData(), dataAccess.Width, dataAccess.Height);
+            return Image.LoadPixelData<Bgr24>(
+                dataAccess.GetData().ToArray(),
+                dataAccess.Width,
+                dataAccess.Height
+            );
         }
     }
 }

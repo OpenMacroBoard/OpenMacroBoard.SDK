@@ -259,6 +259,8 @@ namespace OpenMacroBoard.SocketIO.Internals
                             if (keyBitmapSendRequested[i])
                             {
                                 var sendingBitmap = keyBitmaps[i];
+
+                                // FIX: get rid of array copy.
                                 var data = ((IKeyBitmapDataAccess)sendingBitmap).GetData().ToArray();
 
                                 await tcpClient.Writer.WriteAsync((byte)PackageType.SetKeyImage);

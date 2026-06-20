@@ -18,13 +18,8 @@ namespace OpenMacroBoard.SDK
         int Height { get; }
 
         /// <summary>
-        /// Gets a value indicating whether the underlying byte array is null.
+        /// Gets the underlying image data.
         /// </summary>
-        bool IsEmpty { get; }
-
-        /// <summary>
-        /// Gets the underlying image data in unaligned Bgr24 format (stride = width * 3).
-        /// </summary>
-        ReadOnlySpan<byte> GetData();
+        ReadOnlyMemory<byte> GetData();
     }
 }

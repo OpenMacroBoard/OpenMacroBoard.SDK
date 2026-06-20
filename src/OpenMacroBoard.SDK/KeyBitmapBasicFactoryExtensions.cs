@@ -35,15 +35,8 @@ namespace OpenMacroBoard.SDK
             ReadOnlySpan<byte> bitmapDataBgr24
         )
         {
-            if (width < 1)
-            {
-                throw new ArgumentOutOfRangeException(nameof(width));
-            }
-
-            if (height < 1)
-            {
-                throw new ArgumentOutOfRangeException(nameof(height));
-            }
+            ArgumentOutOfRangeException.ThrowIfLessThan(width, 1);
+            ArgumentOutOfRangeException.ThrowIfLessThan(height, 1);
 
             var expectedLength = width * height * 3;
 
@@ -79,15 +72,8 @@ namespace OpenMacroBoard.SDK
             ReadOnlySpan<byte> bitmapDataBgra32
         )
         {
-            if (width < 1)
-            {
-                throw new ArgumentOutOfRangeException(nameof(width));
-            }
-
-            if (height < 1)
-            {
-                throw new ArgumentOutOfRangeException(nameof(height));
-            }
+            ArgumentOutOfRangeException.ThrowIfLessThan(width, 1);
+            ArgumentOutOfRangeException.ThrowIfLessThan(height, 1);
 
             var pixelCount = width * height;
             var expectedLength = pixelCount * 4;
@@ -97,7 +83,7 @@ namespace OpenMacroBoard.SDK
                 throw new ArgumentException($"{nameof(bitmapDataBgra32)}.Length does not match it's expected size ({nameof(width)} x {nameof(height)} x 4)", nameof(bitmapDataBgra32));
             }
 
-            var data = new byte[expectedLength];
+            var data = new byte[pixelCount * 3];
 
             for (int i = 0; i < pixelCount; i++)
             {
@@ -134,15 +120,8 @@ namespace OpenMacroBoard.SDK
             ReadOnlySpan<byte> bitmapDataRgba32
         )
         {
-            if (width < 1)
-            {
-                throw new ArgumentOutOfRangeException(nameof(width));
-            }
-
-            if (height < 1)
-            {
-                throw new ArgumentOutOfRangeException(nameof(height));
-            }
+            ArgumentOutOfRangeException.ThrowIfLessThan(width, 1);
+            ArgumentOutOfRangeException.ThrowIfLessThan(height, 1);
 
             var pixelCount = width * height;
             var expectedLength = pixelCount * 4;
@@ -152,7 +131,7 @@ namespace OpenMacroBoard.SDK
                 throw new ArgumentException($"{nameof(bitmapDataRgba32)}.Length does not match it's expected size ({nameof(width)} x {nameof(height)} x 4)", nameof(bitmapDataRgba32));
             }
 
-            var data = new byte[expectedLength];
+            var data = new byte[pixelCount * 3];
 
             for (int i = 0; i < pixelCount; i++)
             {
@@ -166,34 +145,6 @@ namespace OpenMacroBoard.SDK
             }
 
             return new KeyBitmap(width, height, data);
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="KeyBitmap"/> object.
-        /// </summary>
-        /// <param name="keyFactory">The builder that is used to create the <see cref="KeyBitmap"/></param>
-        /// <param name="width">width of the bitmap</param>
-        /// <param name="height">height of the bitmap</param>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// Either <paramref name="width"/> or <paramref name="height"/> are smaller than one.
-        /// </exception>
-        public static KeyBitmap Empty(
-            this IKeyBitmapFactory keyFactory,
-            int width,
-            int height
-        )
-        {
-            if (width < 1)
-            {
-                throw new ArgumentOutOfRangeException(nameof(width));
-            }
-
-            if (height < 1)
-            {
-                throw new ArgumentOutOfRangeException(nameof(height));
-            }
-
-            return new KeyBitmap(width, height, []);
         }
 
         /// <summary>

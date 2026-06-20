@@ -15,7 +15,6 @@ namespace OpenMacroBoard.Tests
         private byte brightness = 100;
         private bool isLogoShown = false;
         private bool disposed = false;
-        private bool isConnected = true;
 
         public FakeMacroBoard(GridKeyLayout keyPosition)
         {
@@ -36,10 +35,10 @@ namespace OpenMacroBoard.Tests
 
         public bool IsConnected
         {
-            get => isConnected;
+            get;
             set
             {
-                if (value == isConnected)
+                if (value == field)
                 {
                     return;
                 }
@@ -48,20 +47,20 @@ namespace OpenMacroBoard.Tests
                 // because method calls might not work when the state
                 // is set to "disconnected"
 
-                if (!isConnected)
+                if (!field)
                 {
-                    isConnected = true;
+                    field = true;
                     ShowLogo();
                 }
                 else
                 {
                     this.ClearKeys();
-                    isConnected = false;
+                    field = false;
                 }
 
-                ConnectionStateChanged?.Invoke(this, new ConnectionEventArgs(isConnected));
+                ConnectionStateChanged?.Invoke(this, new ConnectionEventArgs(field));
             }
-        }
+        } = true;
 
         public Image<Bgra32> BoardImage { get; }
 
@@ -84,7 +83,7 @@ namespace OpenMacroBoard.Tests
         {
             ObjectDisposedException.ThrowIf(disposed, this);
 
-            if (!isConnected)
+            if (!IsConnected)
             {
                 return;
             }
@@ -101,7 +100,7 @@ namespace OpenMacroBoard.Tests
         {
             ObjectDisposedException.ThrowIf(disposed, this);
 
-            if (!isConnected)
+            if (!IsConnected)
             {
                 return;
             }
@@ -117,22 +116,14 @@ namespace OpenMacroBoard.Tests
 
             var dataAccess = (IKeyBitmapDataAccess)bitmapData;
 
-            if (dataAccess.IsEmpty)
-            {
-                using var blackImage = new Image<Bgr24>(keyPosition.KeySize, keyPosition.KeySize);
-                ResizeAndApplyImage(keyId, blackImage);
-            }
-            else
-            {
-                // load given image
-                using var keyImage = dataAccess.ToImage();
-                ResizeAndApplyImage(keyId, keyImage);
-            }
+            // load given image
+            using var keyImage = dataAccess.ToImage();
+            ResizeAndApplyImage(keyId, keyImage);
         }
 
         public void TriggerKeyEvent(int keyId, bool down)
         {
-            if (!isConnected)
+            if (!IsConnected)
             {
                 return;
             }
@@ -144,7 +135,7 @@ namespace OpenMacroBoard.Tests
         {
             ObjectDisposedException.ThrowIf(disposed, this);
 
-            if (!isConnected)
+            if (!IsConnected)
             {
                 return;
             }
@@ -161,9 +152,9 @@ namespace OpenMacroBoard.Tests
         {
             var builder = new StringBuilder();
 
-            builder.Append("IsConnected:   ").Append(isConnected).AppendLine();
+            builder.Append("IsConnected:   ").Append(IsConnected).AppendLine();
 
-            if (isConnected)
+            if (IsConnected)
             {
                 builder
                     .Append("Brightness:    ").Append(brightness).AppendLine()

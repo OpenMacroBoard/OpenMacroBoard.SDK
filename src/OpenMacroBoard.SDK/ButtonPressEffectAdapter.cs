@@ -91,11 +91,6 @@ namespace OpenMacroBoard.SDK
         {
             var bitmapDataAccess = (IKeyBitmapDataAccess)keyBitmap;
 
-            if (bitmapDataAccess.IsEmpty)
-            {
-                return KeyBitmap.Black;
-            }
-
             var targetWidth = (int)Math.Round(Config.Scale * keyBitmap.Width);
             var targetHeight = (int)Math.Round(Config.Scale * keyBitmap.Height);
 
