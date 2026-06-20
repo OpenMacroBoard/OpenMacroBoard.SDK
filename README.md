@@ -12,13 +12,13 @@ The concrete device implementations (device providers) are in different librarie
 
 ## Quick Start
 
-Create a new console project in Visual Studio (.NET 10+), add the NuGet package [`OpenMacroBoard.SDK`](https://www.nuget.org/packages/OpenMacroBoard.SDK/) and at least one device provider.
+Create a new console project in Visual Studio (.NET 10+), add [`OpenMacroBoard.SDK`](https://www.nuget.org/packages/OpenMacroBoard.SDK/) as a reference and at least one device provider.
 
 In this example we use
 
 - [`OpenMacroBoard.SocketIO`](https://www.nuget.org/packages/OpenMacroBoard.SocketIO/) to support the `VirtualMacroBoard`
 - [`StreamDeckSharp`](https://www.nuget.org/packages/StreamDeckSharp/) to support the [Elgato Stream Deck family](https://www.elgato.com/de/de/s/welcome-to-stream-deck)  
-  <sub>***Note**: Neither OpenMacroBoard nor StreamDeckSharp are made or endorsed by Elgato\_</sub>
+  <sub>***Note**: Neither OpenMacroBoard nor StreamDeckSharp are made or endorsed by Elgato</sub>
 
 Once you added the NuGet packages copy-paste the following lines:
 
@@ -105,9 +105,15 @@ If you want me to implement it, you can donate hardware (or the money so I can b
 
 You can find a lot of examples in our [example collection](https://github.com/OpenMacroBoard/OpenMacroBoard.ExampleCollection)
 
-Here are a few impressions
 
-![Lasershow on StreamDeck](assets/images/lasershow.png)
+### Fullscreen images
+<img src="https://raw.githubusercontent.com/OpenMacroBoard/openmacroboard.github.io/refs/heads/main/assets/images/lasershow.png" width="500" />
 
+### Play games
+Play games on a macro board, for example minesweeper (also part of the example projects)
+<img src="https://raw.githubusercontent.com/OpenMacroBoard/StreamDeckSharp/main/doc/images/minesweeper.jpg" width="500" />
+
+### Videos
 [![Demo video of the example](https://i.imgur.com/8tlkaIg.png)](http://www.youtube.com/watch?v=tNwUG0sPmKw)  
 _\*The glitches you can see are already fixed._
+
