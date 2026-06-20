@@ -9,63 +9,103 @@ using System.Threading;
 #pragma warning disable AV1505 // Namespace should match with assembly name
 #pragma warning disable AV1710 // Member name includes the name of its containing type
 
-namespace BeaconLib
+namespace BeaconLib;
+
+/// <summary>
+/// Counterpart of the beacon, searches for beacons
+/// </summary>
+/// <remarks>
+/// <para>The beacon list event will not be raised on your main thread!</para>
+/// </remarks>
+internal sealed class Probe : IDisposable
 {
     /// <summary>
-    /// Counterpart of the beacon, searches for beacons
+    /// Remove beacons older than this
     /// </summary>
-    /// <remarks>
-    /// <para>The beacon list event will not be raised on your main thread!</para>
-    /// </remarks>
-    internal sealed class Probe : IDisposable
+    private static readonly TimeSpan BeaconTimeout = TimeSpan.FromSeconds(5);
+
+    private readonly Thread thread;
+    private readonly EventWaitHandle waitHandle = new(false, EventResetMode.AutoReset);
+    private readonly UdpClient udp = new();
+
+    private IEnumerable<BeaconLocation> currentBeacons = [];
+
+    private bool running = true;
+
+    public Probe(string beaconType, IPAddress bindIpAddress)
     {
-        /// <summary>
-        /// Remove beacons older than this
-        /// </summary>
-        private static readonly TimeSpan BeaconTimeout = TimeSpan.FromSeconds(5);
+        udp.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
 
-        private readonly Thread thread;
-        private readonly EventWaitHandle waitHandle = new(false, EventResetMode.AutoReset);
-        private readonly UdpClient udp = new();
+        BeaconType = beaconType;
+        thread = new Thread(BackgroundLoop) { IsBackground = true };
 
-        private IEnumerable<BeaconLocation> currentBeacons = [];
+        udp.Client.Bind(new IPEndPoint(bindIpAddress, 0));
+        udp.EnableNatTraversal();
+        udp.BeginReceive(ResponseReceived, null);
+    }
 
-        private bool running = true;
+    public event Action<IEnumerable<BeaconLocation>>? BeaconsUpdated;
 
-        public Probe(string beaconType, IPAddress bindIpAddress)
+    public string BeaconType { get; }
+
+    public void Start()
+    {
+        thread.Start();
+    }
+
+    public void Stop()
+    {
+        running = false;
+        waitHandle.Set();
+        thread.Join();
+    }
+
+    public void Dispose()
+    {
+        try
         {
-            udp.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
+            Stop();
+            udp.Dispose();
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex);
+        }
+    }
 
-            BeaconType = beaconType;
-            thread = new Thread(BackgroundLoop) { IsBackground = true };
+    private void ResponseReceived(IAsyncResult ar)
+    {
+        var remote = new IPEndPoint(IPAddress.Any, 0);
+        byte[] bytes;
 
-            udp.Client.Bind(new IPEndPoint(bindIpAddress, 0));
-            udp.EnableNatTraversal();
-            udp.BeginReceive(ResponseReceived, null);
+        try
+        {
+            bytes = udp.EndReceive(ar, ref remote);
+        }
+        catch (ObjectDisposedException)
+        {
+            // ignore
+            return;
         }
 
-        public event Action<IEnumerable<BeaconLocation>>? BeaconsUpdated;
+        var typeBytes = Beacon.Encode(BeaconType).ToList();
+        Debug.WriteLine(string.Join(", ", typeBytes.Select(x => (char)x)));
 
-        public string BeaconType { get; }
-
-        public void Start()
-        {
-            thread.Start();
-        }
-
-        public void Stop()
-        {
-            running = false;
-            waitHandle.Set();
-            thread.Join();
-        }
-
-        public void Dispose()
+        if (Beacon.HasPrefix(bytes, typeBytes))
         {
             try
             {
-                Stop();
-                udp.Dispose();
+                var portBytes = bytes.Skip(typeBytes.Count).Take(2).ToArray();
+                var port = (ushort)IPAddress.NetworkToHostOrder((short)BitConverter.ToUInt16(portBytes, 0));
+                var payload = Beacon.Decode(bytes.Skip(typeBytes.Count + 2));
+
+                NewBeacon(
+                    new BeaconLocation(
+                        new IPEndPoint(remote!.Address, port),
+                        payload,
+                        DateTimeOffset.UtcNow
+                    )
+                );
             }
             catch (Exception ex)
             {
@@ -73,102 +113,61 @@ namespace BeaconLib
             }
         }
 
-        private void ResponseReceived(IAsyncResult ar)
-        {
-            var remote = new IPEndPoint(IPAddress.Any, 0);
-            byte[] bytes;
+        udp.BeginReceive(ResponseReceived, null);
+    }
 
+    private void BackgroundLoop()
+    {
+        while (running)
+        {
             try
             {
-                bytes = udp.EndReceive(ar, ref remote);
+                BroadcastProbe();
             }
-            catch (ObjectDisposedException)
+            catch (Exception ex)
             {
-                // ignore
-                return;
+                Debug.WriteLine(ex);
             }
 
-            var typeBytes = Beacon.Encode(BeaconType).ToList();
-            Debug.WriteLine(string.Join(", ", typeBytes.Select(x => (char)x)));
-
-            if (Beacon.HasPrefix(bytes, typeBytes))
-            {
-                try
-                {
-                    var portBytes = bytes.Skip(typeBytes.Count).Take(2).ToArray();
-                    var port = (ushort)IPAddress.NetworkToHostOrder((short)BitConverter.ToUInt16(portBytes, 0));
-                    var payload = Beacon.Decode(bytes.Skip(typeBytes.Count + 2));
-
-                    NewBeacon(
-                        new BeaconLocation(
-                            new IPEndPoint(remote!.Address, port),
-                            payload,
-                            DateTimeOffset.UtcNow
-                        )
-                    );
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex);
-                }
-            }
-
-            udp.BeginReceive(ResponseReceived, null);
+            waitHandle.WaitOne(2000);
+            PruneBeacons();
         }
+    }
 
-        private void BackgroundLoop()
+    private void BroadcastProbe()
+    {
+        var probe = Beacon.Encode(BeaconType).ToArray();
+        udp.Send(probe, probe.Length, new IPEndPoint(IPAddress.Broadcast, Beacon.DiscoveryPort));
+    }
+
+    private void PruneBeacons()
+    {
+        var cutOff = DateTimeOffset.UtcNow - BeaconTimeout;
+        var oldBeacons = currentBeacons.ToList();
+
+        var newBeacons = oldBeacons
+            .Where(x => x.LastAdvertised >= cutOff)
+            .ToList();
+
+        if (oldBeacons.SequenceEqual(newBeacons))
         {
-            while (running)
-            {
-                try
-                {
-                    BroadcastProbe();
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex);
-                }
-
-                waitHandle.WaitOne(2000);
-                PruneBeacons();
-            }
+            return;
         }
 
-        private void BroadcastProbe()
-        {
-            var probe = Beacon.Encode(BeaconType).ToArray();
-            udp.Send(probe, probe.Length, new IPEndPoint(IPAddress.Broadcast, Beacon.DiscoveryPort));
-        }
+        BeaconsUpdated?.Invoke(newBeacons);
+        currentBeacons = newBeacons;
+    }
 
-        private void PruneBeacons()
-        {
-            var cutOff = DateTimeOffset.UtcNow - BeaconTimeout;
-            var oldBeacons = currentBeacons.ToList();
+    private void NewBeacon(BeaconLocation newBeacon)
+    {
+        var newBeacons = currentBeacons
+            .Where(x => !x.Equals(newBeacon))
+            .Concat([newBeacon])
+            .OrderBy(x => x.Data)
+            .ThenBy(x => x.Address, IPEndPointComparer.Instance)
+            .ToList();
 
-            var newBeacons = oldBeacons
-                .Where(x => x.LastAdvertised >= cutOff)
-                .ToList();
-
-            if (oldBeacons.SequenceEqual(newBeacons))
-            {
-                return;
-            }
-
-            BeaconsUpdated?.Invoke(newBeacons);
-            currentBeacons = newBeacons;
-        }
-
-        private void NewBeacon(BeaconLocation newBeacon)
-        {
-            var newBeacons = currentBeacons
-                .Where(x => !x.Equals(newBeacon))
-                .Concat([newBeacon])
-                .OrderBy(x => x.Data)
-                .ThenBy(x => x.Address, IPEndPointComparer.Instance)
-                .ToList();
-
-            BeaconsUpdated?.Invoke(newBeacons);
-            currentBeacons = newBeacons;
-        }
+        BeaconsUpdated?.Invoke(newBeacons);
+        currentBeacons = newBeacons;
     }
 }

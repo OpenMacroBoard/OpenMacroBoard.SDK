@@ -3,49 +3,48 @@ using SixLabors.ImageSharp;
 using System;
 using System.Reflection;
 
-namespace OpenMacroBoard.VirtualBoard
+namespace OpenMacroBoard.VirtualBoard;
+
+internal sealed class DecoratedVirtualBoard : MacroBoardAdapter
 {
-    internal sealed class DecoratedVirtualBoard : MacroBoardAdapter
+    private readonly VirtualBoardViewModel nakedBoard;
+
+    private bool isLogoShown = false;
+
+    public DecoratedVirtualBoard(VirtualBoardViewModel virtualBoard)
+        : base(virtualBoard)
     {
-        private readonly VirtualBoardViewModel nakedBoard;
+        nakedBoard = virtualBoard ?? throw new ArgumentNullException(nameof(virtualBoard));
+        ShowLogo();
+    }
 
-        private bool isLogoShown = false;
-
-        public DecoratedVirtualBoard(VirtualBoardViewModel virtualBoard)
-            : base(virtualBoard)
+    public override void SetKeyBitmap(int keyId, KeyBitmap bitmapData)
+    {
+        if (isLogoShown)
         {
-            nakedBoard = virtualBoard ?? throw new ArgumentNullException(nameof(virtualBoard));
-            ShowLogo();
+            nakedBoard.ClearKeys();
+            isLogoShown = false;
         }
 
-        public override void SetKeyBitmap(int keyId, KeyBitmap bitmapData)
-        {
-            if (isLogoShown)
-            {
-                nakedBoard.ClearKeys();
-                isLogoShown = false;
-            }
+        nakedBoard.SetKeyBitmap(keyId, bitmapData);
+    }
 
-            nakedBoard.SetKeyBitmap(keyId, bitmapData);
+    public override void ShowLogo()
+    {
+        if (isLogoShown)
+        {
+            return;
         }
 
-        public override void ShowLogo()
-        {
-            if (isLogoShown)
-            {
-                return;
-            }
+        using var logoStream = Assembly
+            .GetExecutingAssembly()
+            .GetManifestResourceStream("OpenMacroBoard.VirtualBoard.OpenMacroBoard-Logo.png");
 
-            using var logoStream = Assembly
-                .GetExecutingAssembly()
-                .GetManifestResourceStream("OpenMacroBoard.VirtualBoard.OpenMacroBoard-Logo.png");
+        ArgumentNullException.ThrowIfNull(logoStream);
 
-            ArgumentNullException.ThrowIfNull(logoStream);
+        using var logo = Image.Load(logoStream);
+        nakedBoard.DrawFullScreenBitmap(logo);
 
-            using var logo = Image.Load(logoStream);
-            nakedBoard.DrawFullScreenBitmap(logo);
-
-            isLogoShown = true;
-        }
+        isLogoShown = true;
     }
 }

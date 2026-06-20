@@ -4,23 +4,22 @@ using System.Net.Sockets;
 
 #pragma warning disable AV1505 // Namespace should match with assembly name
 
-namespace BeaconLib
+namespace BeaconLib;
+
+internal static class UdpClientNatTraversalExtensions
 {
-    internal static class UdpClientNatTraversalExtensions
+    public static void EnableNatTraversal(this UdpClient client)
     {
-        public static void EnableNatTraversal(this UdpClient client)
+        try
         {
-            try
+            if (OperatingSystem.IsWindows())
             {
-                if (OperatingSystem.IsWindows())
-                {
-                    client.AllowNatTraversal(true);
-                }
+                client.AllowNatTraversal(true);
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Error switching on NAT traversal: " + ex.Message);
-            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine("Error switching on NAT traversal: " + ex.Message);
         }
     }
 }

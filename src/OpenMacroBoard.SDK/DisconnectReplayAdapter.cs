@@ -1,53 +1,52 @@
 using System.Collections.Generic;
 
-namespace OpenMacroBoard.SDK
+namespace OpenMacroBoard.SDK;
+
+/// <summary>
+/// A <see cref="IMacroBoard"/> adapter that replays brightness and key bitmaps if a device is disconnected.
+/// </summary>
+public class DisconnectReplayAdapter : MacroBoardAdapter
 {
+    private readonly Dictionary<int, KeyBitmap> mostRecentKeyBitmaps = [];
+    private byte? mostRecentBrightness = null;
+
     /// <summary>
-    /// A <see cref="IMacroBoard"/> adapter that replays brightness and key bitmaps if a device is disconnected.
+    /// Initializes a new instance of the <see cref="DisconnectReplayAdapter"/> class.
     /// </summary>
-    public class DisconnectReplayAdapter : MacroBoardAdapter
+    public DisconnectReplayAdapter(IMacroBoard macroBoard)
+        : base(macroBoard)
     {
-        private readonly Dictionary<int, KeyBitmap> mostRecentKeyBitmaps = [];
-        private byte? mostRecentBrightness = null;
+        ConnectionStateChanged += ReplayEventsForConnectionStateChange;
+    }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DisconnectReplayAdapter"/> class.
-        /// </summary>
-        public DisconnectReplayAdapter(IMacroBoard macroBoard)
-            : base(macroBoard)
-        {
-            ConnectionStateChanged += ReplayEventsForConnectionStateChange;
-        }
+    /// <inheritdoc/>
+    public override void SetBrightness(byte percent)
+    {
+        mostRecentBrightness = percent;
+        base.SetBrightness(percent);
+    }
 
-        /// <inheritdoc/>
-        public override void SetBrightness(byte percent)
-        {
-            mostRecentBrightness = percent;
-            base.SetBrightness(percent);
-        }
+    /// <inheritdoc/>
+    public override void SetKeyBitmap(int keyId, KeyBitmap bitmapData)
+    {
+        mostRecentKeyBitmaps[keyId] = bitmapData;
+        base.SetKeyBitmap(keyId, bitmapData);
+    }
 
-        /// <inheritdoc/>
-        public override void SetKeyBitmap(int keyId, KeyBitmap bitmapData)
+    private void ReplayEventsForConnectionStateChange(object sender, ConnectionEventArgs e)
+    {
+        if (e.NewConnectionState)
         {
-            mostRecentKeyBitmaps[keyId] = bitmapData;
-            base.SetKeyBitmap(keyId, bitmapData);
-        }
+            // devices connected again: replay last known values
 
-        private void ReplayEventsForConnectionStateChange(object sender, ConnectionEventArgs e)
-        {
-            if (e.NewConnectionState)
+            if (mostRecentBrightness is not null)
             {
-                // devices connected again: replay last known values
+                base.SetBrightness(mostRecentBrightness.Value);
+            }
 
-                if (mostRecentBrightness is not null)
-                {
-                    base.SetBrightness(mostRecentBrightness.Value);
-                }
-
-                foreach (var bmp in mostRecentKeyBitmaps)
-                {
-                    base.SetKeyBitmap(bmp.Key, bmp.Value);
-                }
+            foreach (var bmp in mostRecentKeyBitmaps)
+            {
+                base.SetKeyBitmap(bmp.Key, bmp.Value);
             }
         }
     }

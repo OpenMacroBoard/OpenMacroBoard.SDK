@@ -1,19 +1,18 @@
 using OpenMacroBoard.SDK.Internals;
 
-namespace OpenMacroBoard.SDK
+namespace OpenMacroBoard.SDK;
+
+/// <summary>
+/// A collection of <see cref="IDeviceContext"/> released methods.
+/// </summary>
+public static class DeviceContext
 {
     /// <summary>
-    /// A collection of <see cref="IDeviceContext"/> released methods.
+    /// Creates a new device context (without any listeners).
     /// </summary>
-    public static class DeviceContext
+    /// <returns>A new device context.</returns>
+    public static IDeviceContext Create()
     {
-        /// <summary>
-        /// Creates a new device context (without any listeners).
-        /// </summary>
-        /// <returns>A new device context.</returns>
-        public static IDeviceContext Create()
-        {
-            return new DeviceContextInternal();
-        }
+        return new DeviceContextInternal();
     }
 }
