@@ -15,7 +15,9 @@ public class DeviceStateReport
     /// <param name="newDevice">Info about if the device is new or not.</param>
     public DeviceStateReport(IDeviceReference deviceReference, bool connected, bool newDevice)
     {
-        DeviceReference = deviceReference ?? throw new ArgumentNullException(nameof(deviceReference));
+        ArgumentNullException.ThrowIfNull(deviceReference);
+
+        DeviceReference = deviceReference;
         Connected = connected;
         NewDevice = newDevice;
     }

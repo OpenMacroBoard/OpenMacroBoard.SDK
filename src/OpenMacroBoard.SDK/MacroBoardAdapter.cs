@@ -31,7 +31,9 @@ public abstract class MacroBoardAdapter : IMacroBoard
     /// <param name="leaveOpen">When true, the underlying macroBoard will not be disposed with this instance.</param>
     protected MacroBoardAdapter(IMacroBoard macroBoard, bool leaveOpen)
     {
-        this.macroBoard = macroBoard ?? throw new ArgumentNullException(nameof(macroBoard));
+        ArgumentNullException.ThrowIfNull(macroBoard);
+
+        this.macroBoard = macroBoard;
         this.leaveOpen = leaveOpen;
 
         macroBoard.ConnectionStateChanged += OnConnectionStateChanged;
@@ -100,7 +102,7 @@ public abstract class MacroBoardAdapter : IMacroBoard
     /// </summary>
     /// <param name="sender">The sender of the original event.</param>
     /// <param name="e">The event arguments.</param>
-    protected virtual void OnKeyStateChanged(object sender, KeyEventArgs e)
+    protected virtual void OnKeyStateChanged(object? sender, KeyEventArgs e)
     {
         KeyStateChanged?.Invoke(this, e);
     }
@@ -110,7 +112,7 @@ public abstract class MacroBoardAdapter : IMacroBoard
     /// </summary>
     /// <param name="sender">The sender of the original event.</param>
     /// <param name="e">The event arguments.</param>
-    protected virtual void OnConnectionStateChanged(object sender, ConnectionEventArgs e)
+    protected virtual void OnConnectionStateChanged(object? sender, ConnectionEventArgs e)
     {
         ConnectionStateChanged?.Invoke(this, e);
     }

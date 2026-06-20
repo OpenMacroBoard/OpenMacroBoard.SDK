@@ -13,7 +13,9 @@ internal class DeviceStateObserver : IObserver<DeviceStateReport>
 
     public DeviceStateObserver(Action<DeviceStateReport> eventHandler)
     {
-        this.eventHandler = eventHandler ?? throw new ArgumentNullException(nameof(eventHandler));
+        ArgumentNullException.ThrowIfNull(eventHandler);
+
+        this.eventHandler = eventHandler;
     }
 
     public void OnCompleted()

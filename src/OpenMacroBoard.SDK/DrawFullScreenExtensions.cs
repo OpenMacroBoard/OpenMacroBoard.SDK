@@ -25,17 +25,10 @@ public static class DrawFullScreenExtensions
         ResizeMode resizeMode = ResizeMode.BoxPad
     )
     {
-        if (board is null)
-        {
-            throw new ArgumentNullException(nameof(board));
-        }
+        ArgumentNullException.ThrowIfNull(board);
+        ArgumentNullException.ThrowIfNull(image);
 
-        if (image is null)
-        {
-            throw new ArgumentNullException(nameof(image));
-        }
-
-        byte[] imgData = null;
+        byte[] imgData;
 
         using (var ctx = ResizeToFullStreamDeckImage(image, board.Keys.Area.Size, resizeMode))
         {

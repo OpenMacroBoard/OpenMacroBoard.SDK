@@ -92,8 +92,11 @@ public abstract class DeviceListenerBase : IObservable<DeviceStateReport>
 
         public Subscription(DeviceListenerBase parent, IObserver<DeviceStateReport> observer)
         {
-            this.parent = parent ?? throw new ArgumentNullException(nameof(parent));
-            this.observer = observer ?? throw new ArgumentNullException(nameof(observer));
+            ArgumentNullException.ThrowIfNull(parent);
+            ArgumentNullException.ThrowIfNull(observer);
+
+            this.parent = parent;
+            this.observer = observer;
         }
 
         public void SendUpdates()

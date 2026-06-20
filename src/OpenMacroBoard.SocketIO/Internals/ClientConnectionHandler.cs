@@ -23,8 +23,11 @@ internal sealed class ClientConnectionHandler : IDisposable
         CancellationToken cancellationToken
     )
     {
-        this.board = board ?? throw new ArgumentNullException(nameof(board));
-        this.client = client ?? throw new ArgumentNullException(nameof(client));
+        ArgumentNullException.ThrowIfNull(board);
+        ArgumentNullException.ThrowIfNull(client);
+
+        this.board = board;
+        this.client = client;
         this.cancellationToken = cancellationToken;
 
         this.board.KeyStateChanged += Board_KeyStateChanged;

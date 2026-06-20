@@ -29,9 +29,13 @@ public sealed class SocketIODeviceReference : IDeviceReference, IEquatable<Socke
         GridKeyLayout keyLayout
     )
     {
-        DeviceName = deviceName ?? throw new ArgumentNullException(nameof(deviceName));
-        IPEndPoint = ipEndPoint ?? throw new ArgumentNullException(nameof(ipEndPoint));
-        this.keyLayout = keyLayout ?? throw new ArgumentNullException(nameof(keyLayout));
+        ArgumentNullException.ThrowIfNull(deviceName);
+        ArgumentNullException.ThrowIfNull(ipEndPoint);
+        ArgumentNullException.ThrowIfNull(keyLayout);
+
+        DeviceName = deviceName;
+        IPEndPoint = ipEndPoint;
+        this.keyLayout = keyLayout;
     }
 
     /// <inheritdoc />

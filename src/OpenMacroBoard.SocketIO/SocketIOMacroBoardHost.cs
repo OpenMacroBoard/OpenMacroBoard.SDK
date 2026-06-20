@@ -41,8 +41,10 @@ public sealed class SocketIOMacroBoardHost : IDisposable
         ushort port = 0
     )
     {
-        _ = deviceName ?? throw new ArgumentNullException(nameof(deviceName));
-        this.macroBoard = macroBoard ?? throw new ArgumentNullException(nameof(macroBoard));
+        ArgumentNullException.ThrowIfNull(deviceName);
+        ArgumentNullException.ThrowIfNull(macroBoard);
+
+        this.macroBoard = macroBoard;
 
         shutdownTokenSource = new CancellationTokenSource();
         shutdownToken = shutdownTokenSource.Token;

@@ -13,8 +13,12 @@ internal sealed class TcpClientBinaryIO : IDisposable
 
     public TcpClientBinaryIO(TcpClient client)
     {
-        Client = client ?? throw new ArgumentNullException(nameof(client));
+        ArgumentNullException.ThrowIfNull(client);
+
+        Client = client;
+
         var stream = client.GetStream();
+
         Reader = new(stream, Encoding.UTF8, true);
         Writer = new(stream, Encoding.UTF8, true);
     }

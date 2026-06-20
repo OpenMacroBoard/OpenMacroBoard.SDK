@@ -85,7 +85,7 @@ public readonly partial struct OmbColor : IEquatable<OmbColor>
     }
 
     /// <inheritdoc />
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         return obj is OmbColor other && Equals(other);
     }

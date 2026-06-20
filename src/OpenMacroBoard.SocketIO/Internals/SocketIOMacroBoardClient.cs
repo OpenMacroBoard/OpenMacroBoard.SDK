@@ -38,8 +38,11 @@ internal sealed class SocketIOMacroBoardClient : IMacroBoard
         GridKeyLayout keys
     )
     {
-        this.ipEndPoint = ipEndPoint ?? throw new ArgumentNullException(nameof(ipEndPoint));
-        Keys = keys ?? throw new ArgumentNullException(nameof(keys));
+        ArgumentNullException.ThrowIfNull(ipEndPoint);
+        ArgumentNullException.ThrowIfNull(keys);
+
+        this.ipEndPoint = ipEndPoint;
+        Keys = keys;
 
         keyBitmapSendRequested = new bool[keys.Count];
         keyBitmaps = new KeyBitmap[keys.Count];
@@ -327,7 +330,7 @@ internal sealed class SocketIOMacroBoardClient : IMacroBoard
 
                     while (!shutdownToken.IsCancellationRequested)
                     {
-                        var packageType = (PackageType)await tcpClient!.Reader.ReadByteAsync(shutdownToken);
+                        var packageType = (PackageType)await tcpClient.Reader.ReadByteAsync(shutdownToken);
 
                         if (packageType == PackageType.KeyStateChange)
                         {

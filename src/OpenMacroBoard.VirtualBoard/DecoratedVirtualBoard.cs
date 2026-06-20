@@ -14,7 +14,9 @@ internal sealed class DecoratedVirtualBoard : MacroBoardAdapter
     public DecoratedVirtualBoard(VirtualBoardViewModel virtualBoard)
         : base(virtualBoard)
     {
-        nakedBoard = virtualBoard ?? throw new ArgumentNullException(nameof(virtualBoard));
+        ArgumentNullException.ThrowIfNull(virtualBoard);
+
+        nakedBoard = virtualBoard;
         ShowLogo();
     }
 

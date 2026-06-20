@@ -22,7 +22,9 @@ internal sealed class VirtualBoardViewModel : INotifyPropertyChanged, IMacroBoar
     /// <param name="keyLayout"></param>
     public VirtualBoardViewModel(GridKeyLayout keyLayout)
     {
-        Keys = keyLayout ?? throw new ArgumentNullException(nameof(keyLayout));
+        ArgumentNullException.ThrowIfNull(keyLayout);
+
+        Keys = keyLayout;
         KeyImages = new KeyImageCollection(Keys.Count);
         currentKeyState = new bool[Keys.Count];
 

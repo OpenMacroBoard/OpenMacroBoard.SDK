@@ -18,7 +18,8 @@ public sealed class FakeMacroBoard : IMacroBoard
 
     public FakeMacroBoard(GridKeyLayout keyPosition)
     {
-        this.keyPosition = keyPosition ?? throw new ArgumentNullException(nameof(keyPosition));
+        ArgumentNullException.ThrowIfNull(keyPosition);
+        this.keyPosition = keyPosition;
 
         BoardImage = new Image<Bgra32>(
             keyPosition.Area.Width + 2 * keyPosition.GapSize,

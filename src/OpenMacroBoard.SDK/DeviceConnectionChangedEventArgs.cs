@@ -14,7 +14,9 @@ public class DeviceConnectionChangedEventArgs : EventArgs
     /// <param name="connected">The current connection state.</param>
     public DeviceConnectionChangedEventArgs(IDeviceReference deviceReference, bool connected)
     {
-        DeviceReference = deviceReference ?? throw new ArgumentNullException(nameof(deviceReference));
+        ArgumentNullException.ThrowIfNull(deviceReference);
+
+        DeviceReference = deviceReference;
         Connected = connected;
     }
 

@@ -6,7 +6,9 @@ internal sealed class KnownDeviceInternal : IKnownDevice
 {
     public KnownDeviceInternal(IDeviceReference deviceReference, bool connected)
     {
-        DeviceReference = deviceReference ?? throw new ArgumentNullException(nameof(deviceReference));
+        ArgumentNullException.ThrowIfNull(deviceReference);
+
+        DeviceReference = deviceReference;
         Connected = connected;
     }
 
@@ -20,7 +22,7 @@ internal sealed class KnownDeviceInternal : IKnownDevice
         set => DeviceReference.DeviceName = value;
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         return DeviceReference.Equals(obj);
     }

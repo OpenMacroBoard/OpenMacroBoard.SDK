@@ -32,10 +32,7 @@ public static class KeyBitmapGdiFactoryExtensions
         Action<Graphics> graphicsAction
     )
     {
-        if (graphicsAction is null)
-        {
-            throw new ArgumentNullException(nameof(graphicsAction));
-        }
+        ArgumentNullException.ThrowIfNull(graphicsAction);
 
         using var bmp = CreateKeyBitmap(width, height);
 
@@ -61,10 +58,7 @@ public static class KeyBitmapGdiFactoryExtensions
     /// </exception>
     public static KeyBitmap FromBitmap(this IKeyBitmapFactory keyFactory, Bitmap bitmap)
     {
-        if (bitmap is null)
-        {
-            throw new ArgumentNullException(nameof(bitmap));
-        }
+        ArgumentNullException.ThrowIfNull(bitmap);
 
         var w = bitmap.Width;
         var h = bitmap.Height;

@@ -215,10 +215,7 @@ public static class KeyBitmapBasicFactoryExtensions
     /// <exception cref="NotSupportedException">The pixel format of the image is not supported.</exception>
     public static KeyBitmap FromImageSharpImage(this IKeyBitmapFactory keyFactory, Image image)
     {
-        if (image is null)
-        {
-            throw new ArgumentNullException(nameof(image));
-        }
+        ArgumentNullException.ThrowIfNull(image);
 
         using var ctx = image.WithBgr24();
         var pixelData = ctx.Item.ToBgr24PixelArray();

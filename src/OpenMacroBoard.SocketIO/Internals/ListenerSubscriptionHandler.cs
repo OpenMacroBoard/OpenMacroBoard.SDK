@@ -15,7 +15,8 @@ internal sealed class ListenerSubscriptionHandler : IDisposable
 
     public ListenerSubscriptionHandler(IObserver<DeviceStateReport> observer)
     {
-        this.observer = observer ?? throw new ArgumentNullException(nameof(observer));
+        ArgumentNullException.ThrowIfNull(observer);
+        this.observer = observer;
     }
 
     public bool Disposed { get; private set; }
@@ -103,7 +104,8 @@ internal sealed class ListenerSubscriptionHandler : IDisposable
     {
         public CurrentDeviceState(SocketIODeviceReference deviceReference)
         {
-            DeviceReference = deviceReference ?? throw new ArgumentNullException(nameof(deviceReference));
+            ArgumentNullException.ThrowIfNull(deviceReference);
+            DeviceReference = deviceReference;
         }
 
         public SocketIODeviceReference DeviceReference { get; }

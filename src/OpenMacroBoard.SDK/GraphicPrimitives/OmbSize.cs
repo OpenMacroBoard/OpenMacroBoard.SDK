@@ -141,7 +141,7 @@ public readonly struct OmbSize : IEquatable<OmbSize>
     }
 
     /// <inheritdoc/>
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         return obj is OmbSize other && Equals(other);
     }

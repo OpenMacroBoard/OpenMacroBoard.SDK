@@ -13,10 +13,7 @@ public static class SetKeyExtensions
     /// <exception cref="ArgumentNullException">The provided board is null.</exception>
     public static void SetKeyBitmap(this IMacroBoard board, KeyBitmap bitmap)
     {
-        if (board is null)
-        {
-            throw new ArgumentNullException(nameof(board));
-        }
+        ArgumentNullException.ThrowIfNull(board);
 
         for (var i = 0; i < board.Keys.Count; i++)
         {
@@ -30,11 +27,7 @@ public static class SetKeyExtensions
     /// <exception cref="ArgumentNullException">The provided board is null.</exception>
     public static void ClearKey(this IMacroBoard board, int keyId)
     {
-        if (board is null)
-        {
-            throw new ArgumentNullException(nameof(board));
-        }
-
+        ArgumentNullException.ThrowIfNull(board);
         board.SetKeyBitmap(keyId, KeyBitmap.Black);
     }
 
@@ -43,6 +36,7 @@ public static class SetKeyExtensions
     /// </summary>
     public static void ClearKeys(this IMacroBoard board)
     {
+        ArgumentNullException.ThrowIfNull(board);
         board.SetKeyBitmap(KeyBitmap.Black);
     }
 }

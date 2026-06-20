@@ -16,11 +16,7 @@ public static class MacroBoardFeatureExtensions
     /// <exception cref="ArgumentNullException">The provided board is null.</exception>
     public static IMacroBoard WithButtonPressEffect(this IMacroBoard macroBoard, ButtonPressEffectConfig config = null)
     {
-        if (macroBoard is null)
-        {
-            throw new ArgumentNullException(nameof(macroBoard));
-        }
-
+        ArgumentNullException.ThrowIfNull(macroBoard);
         return new ButtonPressEffectAdapter(macroBoard, config);
     }
 
@@ -36,11 +32,7 @@ public static class MacroBoardFeatureExtensions
     /// <exception cref="ArgumentNullException">The provided board is null.</exception>
     public static IMacroBoard WithDisconnectReplay(this IMacroBoard macroBoard)
     {
-        if (macroBoard is null)
-        {
-            throw new ArgumentNullException(nameof(macroBoard));
-        }
-
+        ArgumentNullException.ThrowIfNull(macroBoard);
         return new DisconnectReplayAdapter(macroBoard);
     }
 }

@@ -32,7 +32,7 @@ public class ButtonPressEffectAdapter : MacroBoardAdapter
     /// </summary>
     /// <param name="macroBoard">The board that is wrapped with the button press effect.</param>
     /// <param name="config">The configuration that should be used. If null the default configuration will be used.</param>
-    public ButtonPressEffectAdapter(IMacroBoard macroBoard, ButtonPressEffectConfig config)
+    public ButtonPressEffectAdapter(IMacroBoard macroBoard, ButtonPressEffectConfig? config)
         : base(macroBoard)
     {
         KeyStateChanged += SoftwareButtonFeature_KeyStateChanged;
@@ -51,7 +51,7 @@ public class ButtonPressEffectAdapter : MacroBoardAdapter
         UpdateKeyBitmap(keyId);
     }
 
-    private void SoftwareButtonFeature_KeyStateChanged(object sender, KeyEventArgs e)
+    private void SoftwareButtonFeature_KeyStateChanged(object? sender, KeyEventArgs e)
     {
         keyPressedState[e.Key] = e.IsDown;
         UpdateKeyBitmap(e.Key);
@@ -77,7 +77,7 @@ public class ButtonPressEffectAdapter : MacroBoardAdapter
         return false;
     }
 
-    private KeyBitmap GetBitmapForKey(int keyId)
+    private KeyBitmap? GetBitmapForKey(int keyId)
     {
         if (!mostRecentKeyBitmaps.TryGetValue(keyId, out var bitmap))
         {
