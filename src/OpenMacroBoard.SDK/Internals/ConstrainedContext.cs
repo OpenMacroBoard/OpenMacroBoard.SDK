@@ -17,7 +17,7 @@ internal static class ConstrainedContext
     /// <typeparam name="TOutput">Output type.</typeparam>
     public static ConditionalDisposable<TOutput> For<TInput, TOutput>(
         TInput item,
-        Func<TInput, TOutput> borrow,
+        Func<TInput, TOutput?> borrow,
         Func<TInput, TOutput> ownedCopy
     )
         where TInput : class, IDisposable

@@ -2,8 +2,6 @@ using System;
 using System.Collections.Immutable;
 using System.Diagnostics;
 
-#nullable enable
-
 namespace OpenMacroBoard.SDK;
 
 /// <summary>

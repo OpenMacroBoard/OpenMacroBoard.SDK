@@ -101,7 +101,7 @@ internal sealed class Probe : IDisposable
 
                 NewBeacon(
                     new BeaconLocation(
-                        new IPEndPoint(remote.Address, port),
+                        new IPEndPoint(remote!.Address, port),
                         payload,
                         DateTimeOffset.UtcNow
                     )

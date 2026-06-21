@@ -49,10 +49,10 @@ public abstract class MacroBoardAdapter : IMacroBoard
     }
 
     /// <inheritdoc/>
-    public event EventHandler<KeyEventArgs> KeyStateChanged;
+    public event EventHandler<KeyEventArgs>? KeyStateChanged;
 
     /// <inheritdoc/>
-    public event EventHandler<ConnectionEventArgs> ConnectionStateChanged;
+    public event EventHandler<ConnectionEventArgs>? ConnectionStateChanged;
 
     /// <inheritdoc/>
     public virtual IKeyLayout Keys => macroBoard.Keys;

@@ -330,7 +330,7 @@ internal sealed class SocketIOMacroBoardClient : IMacroBoard
 
                     while (!shutdownToken.IsCancellationRequested)
                     {
-                        var packageType = (PackageType)await tcpClient.Reader.ReadByteAsync(shutdownToken);
+                        var packageType = (PackageType)await tcpClient!.Reader.ReadByteAsync(shutdownToken);
 
                         if (packageType == PackageType.KeyStateChange)
                         {

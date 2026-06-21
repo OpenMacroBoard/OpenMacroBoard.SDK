@@ -179,7 +179,7 @@ public readonly struct OmbRectangle : IEquatable<OmbRectangle>
     }
 
     /// <inheritdoc />
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         return obj is OmbRectangle other && Equals(other);
     }

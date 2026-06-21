@@ -33,7 +33,7 @@ public class DisconnectReplayAdapter : MacroBoardAdapter
         base.SetKeyBitmap(keyId, bitmapData);
     }
 
-    private void ReplayEventsForConnectionStateChange(object sender, ConnectionEventArgs e)
+    private void ReplayEventsForConnectionStateChange(object? sender, ConnectionEventArgs e)
     {
         if (e.NewConnectionState)
         {

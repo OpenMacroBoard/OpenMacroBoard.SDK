@@ -14,7 +14,7 @@ public static class MacroBoardFeatureExtensions
     /// <param name="config">The configuration that should be used. The config is stored by reference, so later changes are also possible.</param>
     /// <returns>Returns a new board that implements the button press effect.</returns>
     /// <exception cref="ArgumentNullException">The provided board is null.</exception>
-    public static IMacroBoard WithButtonPressEffect(this IMacroBoard macroBoard, ButtonPressEffectConfig config = null)
+    public static IMacroBoard WithButtonPressEffect(this IMacroBoard macroBoard, ButtonPressEffectConfig? config = null)
     {
         ArgumentNullException.ThrowIfNull(macroBoard);
         return new ButtonPressEffectAdapter(macroBoard, config);
